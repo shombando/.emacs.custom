@@ -1,0 +1,300 @@
+(setq user-emacs-directory "~/.emacs/.custom/")
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(setq package-enable-at-startup nil)
+
+(straight-use-package 'use-package)
+
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(setq visible-bell 1)
+(global-visual-line-mode 1)
+(global-linum-mode 1)
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
+(use-package dired
+  :straight nil
+  :after evil-collection
+    :commands (dired dired-jump)
+    :custom ((dired-listing-switches "-agho --group-directories-first"))
+    :config
+    (evil-collection-define-key 'normal 'dired-mode-map
+      "h" 'dired-single-up-directory
+      "l" 'dired-single-buffer))
+
+(use-package dired-single
+  :straight t)
+(require 'dired-single)
+
+(use-package no-littering
+  :straight t
+  :init
+  (setq auto-save-file-name-transforms
+	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
+  
+(use-package doom-modeline
+  :straight t
+  :init (doom-modeline-mode 1))
+
+(use-package simpleclip
+  :straight t
+  :after evil-collection
+  :bind (:map evil-insert-state-map
+	      ("C-S-x" . 'simpleclip-cut)
+	      ("C-S-c" . 'simpleclip-copy)
+	      ("C-S-v" . 'simpleclip-paste))) 
+
+(use-package undo-fu
+  :straight t
+  :after evil-collection
+  :defer t
+  :bind (:map evil-insert-state-map
+	      ("C-z" . undo-fu-only-undo)
+	      ("C-S-z" . undo-fu-only-redo)
+	 :map evil-normal-state-map
+	      ("C-z" . undo-fu-only-undo)
+	      ("C-S-z" . undo-fu-only-redo)))
+
+(setq-default ispell-program-name "aspell")
+
+(use-package which-key
+  :straight t
+  :config
+  (which-key-mode)
+  :init
+  (setq which-key-idle-delay 0.1))
+
+(use-package magit
+  :straight t
+  :defer t
+  :bind
+  ("C-x g" . magit-status))
+
+(use-package evil
+  :straight t
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  :config
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :straight t
+  :config
+  (evil-collection-init))
+
+(use-package evil-leader
+  :straight t
+  :config
+  (global-evil-leader-mode)
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader-mode))
+
+(use-package doom-themes
+  :straight t
+  :init (load-theme 'doom-one t))
+
+(use-package vertico
+  :straight t
+  :init
+  (vertico-mode)
+  (setq vertico-cycle t)
+  :bind (:map vertico-map
+	      ("C-j" . vertico-next)
+	      ("C-k" . vertico-previous)))
+
+(use-package orderless
+  :straight t
+  :custom (completion-styles '(orderless)))
+(orderless-define-completion-style orderless+initialism
+  (orderless-matching-styles '(orderless-initialism
+                               orderless-literal
+                               orderless-regexp)))
+(setq completion-category-overrides
+      '((command (styles orderless+initialism))
+        (symbol (styles orderless+initialism))
+        (variable (styles orderless+initialism))
+	(file (styles . (partial-completion
+			 orderless+initialism)))))
+
+(use-package savehist
+  :straight t
+  :init
+  (savehist-mode))
+
+(use-package marginalia
+  :after vertico
+  :straight t
+  :custom
+  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+  :init
+  (marginalia-mode))
+
+(use-package consult
+  :straight t
+  :after vertico)
+
+(use-package fancy-dabbrev
+  :straight t
+  :after consult
+  :init
+  (global-fancy-dabbrev-mode))
+
+(use-package corfu
+  :straight t
+  :after fancy-dabbrev
+  :custom
+  (corfu-cycle t)
+  (corfu-auto t)
+  (corfu-auto-delay 0.1)
+  :bind (:map evil-insert-state-map
+	      ("C-j" . corfu-next)
+	      ("C-k" . corfu-previous)
+	      ("<tab>" . fancy-dabbrev-expand-or-indent))
+  :init
+  (corfu-global-mode))
+
+(use-package embark
+  :straight t
+  :bind
+  (("C-'" . embark-act))
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  ;; https://github.com/oantolin/embark/wiki/Additional-Configuration#use-which-key-like-a-key-menu-prompt
+  (defun embark-which-key-indicator ()
+    "An embark indicator that displays keymaps using which-key.
+The which-key help message will show the type and value of the
+current target followed by an ellipsis if there are further
+targets."
+    (lambda (&optional keymap targets prefix)
+      (if (null keymap)
+	  (which-key--hide-popup-ignore-command)
+	(which-key--show-keymap
+	 (if (eq (plist-get (car targets) :type) 'embark-become)
+	     "Become"
+	   (format "Act on %s '%s'%s"
+		   (plist-get (car targets) :type)
+		   (embark--truncate-target (plist-get (car targets) :target))
+		   (if (cdr targets) "…" "")))
+	 (if prefix
+	     (pcase (lookup-key keymap prefix 'accept-default)
+	       ((and (pred keymapp) km) km)
+	       (_ (key-binding prefix 'accept-default)))
+	   keymap)
+	 nil nil t (lambda (binding)
+		     (not (string-suffix-p "-argument" (cdr binding))))))))
+
+  (setq embark-indicators
+	'(embark-which-key-indicator
+	  embark-highlight-indicator
+	  embark-isearch-highlight-indicator))
+
+  (defun embark-hide-which-key-indicator (fn &rest args)
+    "Hide the which-key indicator immediately when using the completing-read prompter."
+    (which-key--hide-popup-ignore-command)
+    (let ((embark-indicators
+	   (remq #'embark-which-key-indicator embark-indicators)))
+      (apply fn args)))
+
+  (advice-add #'embark-completing-read-prompter
+	      :around #'embark-hide-which-key-indicator))
+
+(use-package ace-window
+  :straight t
+  :init
+  (global-set-key (kbd "M-q") 'ace-window)
+  (setq aw-dispatch-always t))
+  ;; :custom-face
+  ;;   '(aw-leading-char-face
+  ;;     :foreground "white" :background "red"
+  ;;     :weight bold :height 5 :box (:line-width 10 :color "red")))
+
+(use-package rainbow-delimiters
+  :straight t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+;;https://config.daviwil.com/emacs#system-settings
+(setq sb/is-termux
+      (string-suffix-p "Android" (string-trim (shell-command-to-string "uname -a"))))
+
+(unless sb/is-termux
+  (scroll-bar-mode -1)
+  (set-fringe-mode '(15 . 10))
+  
+  (use-package org-bars
+    :after org
+    :straight (org-bars :type git :host github :repo "tonyaldon/org-bars")
+    :init
+    (defun org-no-ellipsis-in-headlines ()
+      "Remove use of ellipsis in headlines."
+      (remove-from-invisibility-spec '(outline . t))
+      (add-to-invisibility-spec 'outline))
+    (add-hook 'org-mode-hook #'org-bars-mode)
+    (add-hook 'org-mode-hook 'org-no-ellipsis-in-headlines))
+
+  (use-package all-the-icons-dired
+    :straight t
+    :hook (dired-mode . all-the-icons-dired-mode))
+
+  (use-package vertico-posframe
+    :after vertico
+    :straight t
+    :init
+    (vertico-posframe-mode 1)))
+
+(setq org-support-shift-select t)
+(setq org-log-done 'time)
+
+(global-set-key (kbd "C-s") 'save-buffer)
+(global-set-key (kbd "C-S-p") 'execute-extended-command)
+(global-set-key (kbd "C-<tab>") #'consult-buffer)
+(global-set-key (kbd "C-f") #'consult-ripgrep)
+(global-set-key (kbd "C-i") #'consult-imenu)
+(global-set-key (kbd "C-z") #'undo-fu-only-undo)
+(global-set-key (kbd "C-S-z") #'undo-fu-only-redo)
+
+(evil-leader/set-key
+  "." 'find-file
+  "," 'consult-buffer
+  "'" 'execute-extended-command
+
+  "e" '("eval" . (keymap))
+  "eb" '("buffer" . eval-buffer)
+  "er" '("region" . eval-region)
+
+  "g" '("magit" . (keymap))
+  "gc" '("commit" . magit-commit)
+  "gf" '("fetch" . magit-fetch)
+  "gg" '("status" . magit-status)
+
+  "q" '("quit" . (keymap))  
+  "qb" '("buffer" . kill-this-buffer)
+  "qq" '("save&quit" . save-buffers-kill-terminal)
+
+  "h" '("help" . (keymap))
+  "hf" '("function" . describe-function)
+  "hk" '("key" . describe-key)
+  "hv" '("variable" . describe-variable)
+
+  "w" '("window" . (keymap))
+  "wa" '("ace-window" . ace-window)
+  "wd" '("delete" . delete-window)
+  "wo" '("delete other" . delete-other-windows))
+
+(setq user-full-name "Shom Bandopadhaya"
+      user-mail-address "shom@bandopadhaya.com")
+
