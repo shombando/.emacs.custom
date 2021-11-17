@@ -216,7 +216,7 @@ targets."
 (use-package ace-window
   :straight t
   :init
-  (global-set-key (kbd "M-q") 'ace-window)
+  (global-set-key (kbd "M-q") 'aw-show-dispatch-help)
   (setq aw-dispatch-always t))
   ;; :custom-face
   ;;   '(aw-leading-char-face
@@ -291,9 +291,9 @@ targets."
   "hv" '("variable" . describe-variable)
 
   "w" '("window" . (keymap))
-  "wa" '("ace-window" . ace-window)
   "wd" '("delete" . delete-window)
-  "wo" '("delete other" . delete-other-windows))
+  "wo" '("delete other" . delete-other-windows)
+  "ww" '("ace-window" . aw-show-dispatch-help))
 
 (setq user-full-name "Shom Bandopadhaya"
       user-mail-address "shom@bandopadhaya.com")
