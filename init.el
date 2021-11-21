@@ -20,6 +20,11 @@
 (setq visible-bell 1)
 (global-visual-line-mode 1)
 (global-linum-mode 1)
+(column-number-mode t)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+(global-auto-revert-mode 1)
+
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
