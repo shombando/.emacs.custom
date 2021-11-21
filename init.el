@@ -314,6 +314,4 @@ targets."
   "wo" '("delete other" . delete-other-windows)
   "ww" '("ace-window" . aw-show-dispatch-help))
 
-(setq user-full-name "Shom Bandopadhaya"
-      user-mail-address "shom@bandopadhaya.com")
-
+(load (concat user-emacs-directory "userConfig.el"))
