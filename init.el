@@ -233,8 +233,22 @@ targets."
 
 (unless sb/is-termux
   (scroll-bar-mode -1)
-  (set-fringe-mode '(15 . 10))
-  
+  (set-fringe-mode '(20 . 10))
+
+  (use-package git-gutter-fringe
+    :straight t
+    :init
+    (require 'git-gutter-fringe)
+    (global-git-gutter-mode t)
+    :config
+    (setq git-gutter:update-interval 2
+	  git-gutter:modified-sign "&"
+	  git-gutter:added-sign "+"
+	  git-gutter:deleted-sign "-")
+    (set-face-foreground 'git-gutter-fr:modified "LightGoldenrod")
+    (set-face-foreground 'git-gutter-fr:added    "LightGreen")
+    (set-face-foreground 'git-gutter-fr:deleted  "LightCoral"))
+
   (use-package org-bars
     :after org
     :straight (org-bars :type git :host github :repo "tonyaldon/org-bars")
