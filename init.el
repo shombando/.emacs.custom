@@ -280,6 +280,8 @@ targets."
 
 (global-set-key (kbd "C-s") 'save-buffer)
 (global-set-key (kbd "M-a") 'other-window)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C-S-p") 'execute-extended-command)
 (global-set-key (kbd "C-<tab>") #'consult-buffer)
 (global-set-key (kbd "C-f") #'consult-ripgrep)
