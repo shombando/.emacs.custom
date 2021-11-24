@@ -168,9 +168,25 @@
   :bind (:map evil-insert-state-map
 	      ("C-j" . corfu-next)
 	      ("C-k" . corfu-previous)
-	      ("<tab>" . fancy-dabbrev-expand-or-indent))
+	      ("<tab>" . fancy-dabbrev-expand-or-indent)
+	      :map corfu-map
+	      ("<tab>" . corfu-next)
+	      ("<backtab>" . corfu-previous))
   :init
   (corfu-global-mode))
+
+(use-package cape
+  :straight t
+  :after corfu
+  :bind (:map evil-insert-state-map
+	      ("M-'" . completion-at-point))
+  :init
+  (setq completion-at-point-functions
+              (list (cape-merge-capfs
+		     #'cape-file-capf
+		     #'cape-dabbrev-capf
+		     #'cape-ispell-capf
+		     #'cape-keyword-capf))))
 
 (use-package embark
   :straight t
