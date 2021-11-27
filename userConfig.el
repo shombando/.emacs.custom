@@ -8,7 +8,7 @@
 
 (use-package org-books
   :straight t
-  :config (setq org-books-file "~/org/roam/personal/books.org"))
+  :config (setq org-books-file "~/org/personal/books.org"))
 
 
 (use-package ox-hugo
