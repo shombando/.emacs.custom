@@ -140,6 +140,12 @@
   :init
   (savehist-mode))
 
+(use-package recentf
+  :straight t
+  :init
+  (recentf-mode t)
+  (run-at-time nil 600 'recentf-save-list))
+
 (use-package marginalia
   :after vertico
   :straight t
