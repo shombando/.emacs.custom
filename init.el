@@ -1,4 +1,7 @@
 (setq user-emacs-directory "~/.emacs/.custom/")
+
+(setq byte-compile-warnings nil)
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
