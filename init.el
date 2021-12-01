@@ -92,9 +92,11 @@
 
 (use-package evil
   :straight t
+  :bind (("<escape>" . keyboard-escape-quit))
   :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
+  (setq evil-want-integration t
+	evil-want-keybinding nil
+	evil-undo-system 'undo-fu)
   :config
   (evil-mode 1))
 
