@@ -41,3 +41,6 @@ See `org-capture-templates' for more information."
 		   (file+olp "~/dev/shom.dev/content.org" "Content")
 		   (function org-hugo-new-subtree-post-capture-template)
 		   :prepend t))))
+
+(use-package yaml-mode
+  :straight t)
