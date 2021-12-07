@@ -59,10 +59,9 @@
 (use-package simpleclip
   :straight t
   :after evil-collection
-  :bind (:map evil-insert-state-map
-	      ("C-S-x" . 'simpleclip-cut)
-	      ("C-S-c" . 'simpleclip-copy)
-	      ("C-S-v" . 'simpleclip-paste))) 
+  :bind (("C-S-x" . 'simpleclip-cut)
+	 ("C-S-c" . 'simpleclip-copy)
+	 ("C-S-v" . 'simpleclip-paste))) 
 
 (use-package undo-fu
   :straight t
@@ -86,9 +85,7 @@
 
 (use-package magit
   :straight t
-  :defer t
-  :bind
-  ("C-x g" . magit-status))
+  :defer t)
 
 (use-package evil
   :straight t
@@ -306,6 +303,8 @@ targets."
 (setq org-log-done 'time)
 
 (global-set-key (kbd "C-s") 'save-buffer)
+(global-set-key (kbd "C-S-s") 'write-file)
+(global-set-key (kbd "C-a") 'mark-whole-buffer)
 (global-set-key (kbd "M-a") 'other-window)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-=") 'text-scale-increase)
