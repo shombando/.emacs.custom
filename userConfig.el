@@ -52,6 +52,7 @@ See `org-capture-templates' for more information."
 
   (setq mu4e-change-filenames-when-moving t ; avoid sync conflicts
 	mu4e-update-interval (* 10 60) ; check mail 10 minutes
+	mu4e-compose-format-flowed t ; re-flow mail so it's not hard wrapped
 	mu4e-get-mail-command "mbsync -a"
 	mu4e-maildir "~/mail/proton")
 
