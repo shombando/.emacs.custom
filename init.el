@@ -190,7 +190,7 @@
 	      ("M-'" . completion-at-point))
   :init
   (setq completion-at-point-functions
-              (list (cape-merge-capfs
+              (list (cape-super-capf
 		     #'cape-file-capf
 		     #'cape-dabbrev-capf
 		     #'cape-ispell-capf
