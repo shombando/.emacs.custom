@@ -73,4 +73,18 @@ See `org-capture-templates' for more information."
 	  auth-sources '("~/.authinfo") ;need to use gpg version but only local smtp stored for now
 	  smtpmail-smtp-server "127.0.0.1"
 	  smtpmail-smtp-service 1025
-	  smtpmail-stream-type  'ssl)))
+	  smtpmail-stream-type  'ssl))
+
+  (use-package org-msg
+    :straight t
+    :after mu4e
+    :config
+    (setq mail-user-agent 'mu4e-user-agent)
+    (require 'org-msg)
+    (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
+	  org-msg-startup "hidestars indent inlineimages"
+	  org-msg-default-alternatives '((new		. (text html))
+					 (reply-to-html	. (text html))
+					 (reply-to-text	. (text)))
+	  org-msg-convert-citation t)
+    (org-msg-mode)))
