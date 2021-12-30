@@ -318,7 +318,7 @@ targets."
 (evil-leader/set-key
   "." 'find-file
   "," 'consult-buffer
-  "'" 'execute-extended-command
+  "SPC" 'execute-extended-command
 
   "e" '("eval" . (keymap))
   "eb" '("buffer" . eval-buffer)
