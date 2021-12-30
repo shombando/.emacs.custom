@@ -1,5 +1,8 @@
+;directory_begin
 (setq user-emacs-directory "~/.emacs/.custom/")
+;directory_end
 
+;setup_begin
 (setq byte-compile-warnings nil)
 
 (defvar bootstrap-version)
@@ -17,13 +20,16 @@
 (setq package-enable-at-startup nil)
 
 (straight-use-package 'use-package)
+;setup_end
 
+;visual_begin
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (setq visible-bell 1)
 (global-visual-line-mode 1)
 (global-linum-mode 1)
 (column-number-mode t)
+;visual_end
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode 1)
@@ -255,6 +261,10 @@ targets."
 (use-package rainbow-delimiters
   :straight t
   :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package org-transclusion
+  :after org
+  :straight t)
 
 ;;https://config.daviwil.com/emacs#system-settings
 (setq sb/is-termux

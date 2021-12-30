@@ -1,0 +1,22 @@
+This is my custom config based on my [[https://shom.dev/posts/20211121_emacs-custom-configuration/][Emacs journey]]. I wanted to create a literate config but did not want slow down startup with tangling, so currently I'm trying to get "the best of both worlds" via =org-transclusion=.
+
+* Startup
+I would like to have the option to have several Emacs "distributions" or configurations that are independent of each other. This allows for experimentation without breaking things (git helps with the actual config but this allows for the packages to be independent). I'm using Chemacs2 but that's outside the scope of the config, for now.
+
+** User Emacs Directory
+I've chosen to keep my custom config and all related packages, etc. in this specific location so that's the first thing in the config.
+#+transclude: [[./init.el::;directory_begin]] :lines 2- :src emacs-lisp :end "directory_end"
+
+** Package Management
+I'm using =straight.el= as a package manager with the =use-package= syntax. Straight is bootstrapped, this ensures that a clean install of Emacs can get up and running without any manual intervention just by cloning this repo.
+#+transclude: [[./init.el::;setup_begin]] :lines 2- :src emacs-lisp :end "setup_end"
+
+** Visual elements
+The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'll be customizing my keymaps they're going to be mostly superfluous and take up real-estate. There are a few other preferences relative to how things are displayed here, the rest of the visuals are configured by the theme.
+#+transclude: [[./init.el::;visual_begin]] :lines 2- :src emacs-lisp :end "visual_end"
+
+** Early Init
+I'm not proficient in understanding the underpinnings of early init type optimizations so I'm borrowing from [[https://github.com/hlissner/doom-emacs/][Doom]] and [[https://systemcrafters.net][System Crafters]]. here.
+#+transclude: [[./early-init.el]]  :src emacs-lisp
+
+#  LocalWords:  config repo
