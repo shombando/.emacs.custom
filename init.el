@@ -264,7 +264,9 @@ targets."
 
 (use-package org-transclusion
   :after org
-  :straight t)
+  :straight t
+  :init
+  (setq org-transclusion-remember-transclusions t))
 
 ;;https://config.daviwil.com/emacs#system-settings
 (setq sb/is-termux
