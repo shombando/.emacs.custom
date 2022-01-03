@@ -31,12 +31,19 @@
 (column-number-mode t)
 ;visual_end
 
+;built-in_begin
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode 1)
+;built-in_end
+
+;spellcheck_begin
+(setq-default ispell-program-name "aspell")
 
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+;spellcheck_end
 
+;dired_begin
 (use-package dired
   :straight nil
   :after evil-collection
@@ -46,18 +53,24 @@
     (evil-collection-define-key 'normal 'dired-mode-map
     "h" '(lambda () (interactive) (find-alternate-file ".."))
     "l" 'dired-find-alternate-file))
+;dired_end
 
+;no-littering_begin
 (use-package no-littering
   :straight t
   :init
   (setq auto-save-file-name-transforms
 	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
-  
+;no-littering_end
+
+;modeline_begin
 (use-package doom-modeline
   :straight t
   :init (doom-modeline-mode 1))
+;modeline_end
 
+;cua_begin
 (use-package simpleclip
   :straight t
   :after evil-collection
@@ -75,20 +88,22 @@
 	 :map evil-normal-state-map
 	      ("C-z" . undo-fu-only-undo)
 	      ("C-S-z" . undo-fu-only-redo)))
+;cua_end
 
-(setq-default ispell-program-name "aspell")
-
+;which-key_begin
 (use-package which-key
   :straight t
   :config
   (which-key-mode)
   :init
   (setq which-key-idle-delay 0.1))
+;which-key_end
 
 (use-package magit
   :straight t
   :defer t)
 
+;evil_begin
 (use-package evil
   :straight t
   :bind (("<escape>" . keyboard-escape-quit))
@@ -111,11 +126,28 @@
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
   (evil-leader-mode))
+;evil_end
 
+;theme_begin
 (use-package doom-themes
   :straight t
   :init (load-theme 'doom-one t))
+;theme_end
 
+;history_begin
+(use-package savehist
+  :straight t
+  :init
+  (savehist-mode))
+
+(use-package recentf
+  :straight t
+  :init
+  (recentf-mode t)
+  (run-at-time nil 600 'recentf-save-list))
+;history_end
+
+;completions_begin
 (use-package vertico
   :straight t
   :init
@@ -138,17 +170,6 @@
         (variable (styles orderless+initialism))
 	(file (styles . (partial-completion
 			 orderless+initialism)))))
-
-(use-package savehist
-  :straight t
-  :init
-  (savehist-mode))
-
-(use-package recentf
-  :straight t
-  :init
-  (recentf-mode t)
-  (run-at-time nil 600 'recentf-save-list))
 
 (use-package marginalia
   :after vertico
@@ -197,6 +218,7 @@
 		     #'cape-dabbrev-capf
 		     #'cape-ispell-capf
 		     #'cape-keyword-capf))))
+;completions_end
 
 (use-package embark
   :straight t
@@ -323,6 +345,7 @@ targets."
 (global-set-key (kbd "C-z") #'undo-fu-only-undo)
 (global-set-key (kbd "C-S-z") #'undo-fu-only-redo)
 
+;evil-leader_begin
 (evil-leader/set-key
   "." 'find-file
   "," 'consult-buffer
@@ -350,5 +373,6 @@ targets."
   "wd" '("delete" . delete-window)
   "wo" '("delete other" . delete-other-windows)
   "ww" '("ace-window" . aw-show-dispatch-help))
+;evil-leader_end
 
 (load (concat user-emacs-directory "userConfig.el"))

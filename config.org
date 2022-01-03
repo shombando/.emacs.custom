@@ -15,8 +15,60 @@ I'm using =straight.el= as a package manager with the =use-package= syntax. Stra
 The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'll be customizing my keymaps they're going to be mostly superfluous and take up real-estate. There are a few other preferences relative to how things are displayed here, the rest of the visuals are configured by the theme.
 #+transclude: [[./init.el::;visual_begin]] :lines 2- :src emacs-lisp :end "visual_end"
 
+The modeline is another important visual element to show important information about the buffer and modes. Doom's modeline is a significant visual upgrade to the default.
+#+transclude: [[./init.el::;modeline_begin]] :lines 2- :src emacs-lisp :end "modeline_end"
+
 ** Early Init
 I'm not proficient in understanding the underpinnings of early init type optimizations so I'm borrowing from [[https://github.com/hlissner/doom-emacs/][Doom]] and [[https://systemcrafters.net][System Crafters]]. here.
 #+transclude: [[./early-init.el]]  :src emacs-lisp
+
+* Emacs Behavior
+A lot the configuration revolves around packages but there are some built-in settings and behavior within Emacs that also need to be tweaked.
+
+** Spellcheck
+Spellchecking while typing is useful and I want to use it everywhere but in programming modes only comments should be spell checked not the whole buffer.
+#+transclude: [[./init.el::;spellcheck_begin]] :lines 2- :src emacs-lisp :end "spellcheck_end"
+
+** Dired
+The built-in file explorer (directory editor, dired) doesn't need to be installed but can be configured using use-package to keep the form consistent. In order for  Emacs to not spawn a new buffer for each directory and to make it more evil friendly I'm using ~*find-alternate-file~.
+#+transclude: [[./init.el::;dired_begin]] :lines 2- :src emacs-lisp :end "dired_end"
+
+** No-littering
+I don't want Emacs to put backup files in the file's directory and mess with git ignore at each repo so this package collects those and also all custom file and puts them all in defined locations.
+#+transclude: [[./init.el::;no-littering_begin]] :lines 2- :src emacs-lisp :end "no-littering_end"
+
+** Misc
+Because it's easier to type one letter than a word, let's replace the common yes/no prompt with y/n. Also, if the underlying file changes, the buffer should update (revert) automatically.
+#+transclude: [[./init.el::;built-in_begin]] :lines 2- :src emacs-lisp :end "built-in_end"
+
+* Packages
+The rest of the functionality is provided by packages, all of which is managed by straight.
+
+** Theme
+Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring the default =doom-one= theme but I also use the =doom-nord= theme.
+#+transclude: [[./init.el::;theme_begin]] :lines 2- :src emacs-lisp :end "theme_end"
+
+** Muscle memory shortcuts
+There are some shortcuts that I have lots of muscle memory with and also work in other applications that I find convenient to use in Emacs. I also use the evil-mode keys when in normal mode, based on whatever is most convenient.
+#+transclude: [[./init.el::;cua_begin]] :lines 2- :src emacs-lisp :end "cua_end"
+
+** Keybindings
+For all the keys I don't have muscle memory for, there's =which-key=. It progressively shows the keybindings that are available in that mode.
+#+transclude: [[./init.el::;which-key_begin]] :lines 2- :src emacs-lisp :end "which-key_end"
+
+** Evil-Mode
+Extensible VI Layer (evil) mode for Emacs provides vi editing modes and keybindings. =evil-collection= provides all the keybindings in different modes so they don't have to be configured individually. Since the individual bindings (minor-modes?) are not loaded until the package is used, it's not bloating the in use configuration.
+#+transclude: [[./init.el::;evil_begin]] :lines 2- :src emacs-lisp :end "evil_end"
+
+However, there are some keybindings I want to have available everywhere and use the =evil-leader= to configure those.
+#+transclude: [[./init.el::;evil-leader_begin]] :lines 2- :src emacs-lisp :end ";evil-leader_end"
+
+** History
+These packages give Emacs memory so the frequent and recent things are near the top when the completion related packages get used.
+#+transclude: [[./init.el::;history_begin]] :lines 2- :src emacs-lisp :end ";history_end"
+
+** Completions
+All the things that help with completion in various contexts are in this section, they deserve elaboration (at a later time).
+#+transclude: [[./init.el::;completions_begin]] :lines 2- :src emacs-lisp :end ";completions_end"
 
 #  LocalWords:  config repo
