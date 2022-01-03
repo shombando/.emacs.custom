@@ -40,16 +40,12 @@
 (use-package dired
   :straight nil
   :after evil-collection
-    :commands (dired dired-jump)
-    :custom ((dired-listing-switches "-agho --group-directories-first"))
-    :config
+  :commands (dired dired-jump)
+  :custom ((dired-listing-switches "-agho --group-directories-first"))
+  :config
     (evil-collection-define-key 'normal 'dired-mode-map
-      "h" 'dired-single-up-directory
-      "l" 'dired-single-buffer))
-
-(use-package dired-single
-  :straight t)
-(require 'dired-single)
+    "h" '(lambda () (interactive) (find-alternate-file ".."))
+    "l" 'dired-find-alternate-file))
 
 (use-package no-littering
   :straight t
