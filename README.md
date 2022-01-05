@@ -1,35 +1,37 @@
 
 # Table of Contents
 
-1.  [Startup](#orge356d6f)
-    1.  [User Emacs Directory](#orge3187af)
-    2.  [Package Management](#org19d1bde)
-    3.  [Visual elements](#org5de3cd7)
-    4.  [Early Init](#org03e9fd2)
-2.  [Emacs Behavior](#orgda8e5f3)
-    1.  [Spellcheck](#org8991229)
-    2.  [Dired](#org9b5f140)
-    3.  [No-littering](#org4089e5c)
-    4.  [Misc](#orgcf37b62)
-3.  [Packages](#org7b7833b)
-    1.  [Theme](#orgec704dd)
-    2.  [Muscle memory shortcuts](#org1c4070f)
-    3.  [Keybindings](#org4d3e132)
-    4.  [Evil-Mode](#org5a3e6aa)
-    5.  [History](#orgbf31bd1)
-    6.  [Completions](#orgfac51bb)
+1.  [Startup](#org8d9cd2d)
+    1.  [User Emacs Directory](#org1e207ba)
+    2.  [Package Management](#orgcc9feab)
+    3.  [Visual elements](#orgec5d905)
+    4.  [Early Init](#org3f5e076)
+2.  [Emacs Behavior](#org8208f95)
+    1.  [Spellcheck](#org1e3006a)
+    2.  [Dired](#org57d37c1)
+    3.  [No-littering](#orgf49361a)
+    4.  [Misc](#orga17c5e2)
+3.  [Packages](#org49d2687)
+    1.  [Configuration Documentation/Annotation](#orgfe792d4)
+    2.  [Theme](#org429abf6)
+    3.  [Muscle memory shortcuts](#orgb6bf705)
+    4.  [Keybindings](#org9f759f2)
+    5.  [Evil-Mode](#orgd8dc974)
+    6.  [History](#orgcfa1252)
+    7.  [Completions](#org2b5adce)
+4.  [Exporting Readme markdown](#orge317b84)
 
 This is my custom config based on my [Emacs journey](https://shom.dev/posts/20211121_emacs-custom-configuration/). I wanted to create a literate config but did not want slow down startup with tangling, so currently I'm trying to get "the best of both worlds" via `org-transclusion`. The file `config.org` in this repo contains the "source" and `org-transclusion` directives and is rendered out to `README.md` (markdown is better supported for auto-rendering by more forges currently). I'll eventually automate this process, likely through a git-hook. However, the rendered output is never guaranteed to include all of my config, just the sections that have been manually commented, `init.el` and includes will remain the source of truth. 
 
 
-<a id="orge356d6f"></a>
+<a id="org8d9cd2d"></a>
 
 # Startup
 
 I would like to have the option to have several Emacs "distributions" or configurations that are independent of each other. This allows for experimentation without breaking things (git helps with the actual config but this allows for the packages to be independent). I'm using Chemacs2 but that's outside the scope of the config, for now.
 
 
-<a id="orge3187af"></a>
+<a id="org1e207ba"></a>
 
 ## User Emacs Directory
 
@@ -38,7 +40,7 @@ I've chosen to keep my custom config and all related packages, etc. in this spec
     (setq user-emacs-directory "~/.emacs/.custom/")
 
 
-<a id="org19d1bde"></a>
+<a id="orgcc9feab"></a>
 
 ## Package Management
 
@@ -63,7 +65,7 @@ I'm using `straight.el` as a package manager with the `use-package` syntax. Stra
     (straight-use-package 'use-package)
 
 
-<a id="org5de3cd7"></a>
+<a id="orgec5d905"></a>
 
 ## Visual elements
 
@@ -83,7 +85,7 @@ The modeline is another important visual element to show important information a
       :init (doom-modeline-mode 1))
 
 
-<a id="org03e9fd2"></a>
+<a id="org3f5e076"></a>
 
 ## Early Init
 
@@ -109,14 +111,14 @@ I'm not proficient in understanding the underpinnings of early init type optimiz
           native-comp-deferred-compilation nil)
 
 
-<a id="orgda8e5f3"></a>
+<a id="org8208f95"></a>
 
 # Emacs Behavior
 
 A lot the configuration revolves around packages but there are some built-in settings and behavior within Emacs that also need to be tweaked.
 
 
-<a id="org8991229"></a>
+<a id="org1e3006a"></a>
 
 ## Spellcheck
 
@@ -128,7 +130,7 @@ Spellchecking while typing is useful and I want to use it everywhere but in prog
     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 
-<a id="org9b5f140"></a>
+<a id="org57d37c1"></a>
 
 ## Dired
 
@@ -145,7 +147,7 @@ The built-in file explorer (directory editor, dired) doesn't need to be installe
         "l" 'dired-find-alternate-file))
 
 
-<a id="org4089e5c"></a>
+<a id="orgf49361a"></a>
 
 ## No-littering
 
@@ -159,7 +161,7 @@ I don't want Emacs to put backup files in the file's directory and mess with git
       (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
 
-<a id="orgcf37b62"></a>
+<a id="orga17c5e2"></a>
 
 ## Misc
 
@@ -169,14 +171,29 @@ Because it's easier to type one letter than a word, let's replace the common yes
     (global-auto-revert-mode 1)
 
 
-<a id="org7b7833b"></a>
+<a id="org49d2687"></a>
 
 # Packages
 
 The rest of the functionality is provided by packages, all of which is managed by straight.
 
 
-<a id="orgec704dd"></a>
+<a id="orgfe792d4"></a>
+
+## Configuration Documentation/Annotation
+
+As mentioned in the intro, this whole configuration documentation/annotation/"inverse literate" config is made possible by [org-transclusion](https://github.com/nobiot/org-transclusion). The goal of the package is to provide the ability to include text snippets from other text documents without having to copy-paste it and get materials out of sync. With the added support to include code snippets wrapped in begin/end<sub>src</sub> block, it's perfect for "inverse literate" config. Not having to tangle your code makes startup faster and the org file doesn't need to talk about every line/block you have in your config only what you want to highlight.
+
+An important option to set is `org-transclusion-remember-transclusions` so that just the buffer contains the transcluded text and it's not actually saved out to the file on disk. *This is the way* to preserve the pointer/link.
+
+    (use-package org-transclusion
+      :after org
+      :straight t
+      :init
+      (setq org-transclusion-remember-transclusions t))
+
+
+<a id="org429abf6"></a>
 
 ## Theme
 
@@ -187,7 +204,7 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
       :init (load-theme 'doom-one t))
 
 
-<a id="org1c4070f"></a>
+<a id="orgb6bf705"></a>
 
 ## Muscle memory shortcuts
 
@@ -212,7 +229,7 @@ There are some shortcuts that I have lots of muscle memory with and also work in
     	      ("C-S-z" . undo-fu-only-redo)))
 
 
-<a id="org4d3e132"></a>
+<a id="org9f759f2"></a>
 
 ## Keybindings
 
@@ -226,7 +243,7 @@ For all the keys I don't have muscle memory for, there's `which-key`. It progres
       (setq which-key-idle-delay 0.1))
 
 
-<a id="org5a3e6aa"></a>
+<a id="orgd8dc974"></a>
 
 ## Evil-Mode
 
@@ -286,7 +303,7 @@ However, there are some keybindings I want to have available everywhere and use 
       "ww" '("ace-window" . aw-show-dispatch-help))
 
 
-<a id="orgbf31bd1"></a>
+<a id="orgcfa1252"></a>
 
 ## History
 
@@ -304,7 +321,7 @@ These packages give Emacs memory so the frequent and recent things are near the 
       (run-at-time nil 600 'recentf-save-list))
 
 
-<a id="orgfac51bb"></a>
+<a id="org2b5adce"></a>
 
 ## Completions
 
@@ -380,4 +397,22 @@ All the things that help with completion in various contexts are in this section
     		     #'cape-dabbrev-capf
     		     #'cape-ispell-capf
     		     #'cape-keyword-capf))))
+
+
+<a id="orge317b84"></a>
+
+# Exporting Readme markdown
+
+Since I want to keep the org original with the transclusion blocks and Markdown is supported better by more forges, I want to export this config file as a README.md automatically each time I save.
+
+    (if (file-exists-p "./README.md")
+        (delete-file "./README.md"))
+    (message "Turn transclusion On!")
+    (org-transclusion-add-all)
+    (message "Export")
+    (org-md-export-to-markdown)
+    (message "Transclusion Off!")
+    (org-transclusion-deactivate)
+    (message "Reverting buffer to avoid issues with org-babel")
+    (interactive) (revert-buffer t t)
 

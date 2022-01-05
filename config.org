@@ -1,3 +1,6 @@
+# -*- after-save-hook: org-babel-execute-buffer -*-
+#+EXPORT_FILE_NAME: README.md
+
 This is my custom config based on my [[https://shom.dev/posts/20211121_emacs-custom-configuration/][Emacs journey]]. I wanted to create a literate config but did not want slow down startup with tangling, so currently I'm trying to get "the best of both worlds" via =org-transclusion=. The file =config.org= in this repo contains the "source" and =org-transclusion= directives and is rendered out to =README.md= (markdown is better supported for auto-rendering by more forges currently). I'll eventually automate this process, likely through a git-hook. However, the rendered output is never guaranteed to include all of my config, just the sections that have been manually commented, =init.el= and includes will remain the source of truth. 
 
 * Startup
@@ -76,5 +79,22 @@ These packages give Emacs memory so the frequent and recent things are near the 
 ** Completions
 All the things that help with completion in various contexts are in this section, they deserve elaboration (at a later time).
 #+transclude: [[./init.el::;completions_begin]] :lines 2- :src emacs-lisp :end ";completions_end"
+
+* Exporting Readme markdown
+Since I want to keep the org original with the transclusion blocks and Markdown is supported better by more forges, I want to export this config file as a README.md automatically each time I save.
+
+#+NAME: generate_readme
+#+begin_src emacs-lisp :results output silent
+  (if (file-exists-p "./README.md")
+      (delete-file "./README.md"))
+  (message "Turn transclusion On!")
+  (org-transclusion-add-all)
+  (message "Export")
+  (org-md-export-to-markdown)
+  (message "Transclusion Off!")
+  (org-transclusion-deactivate)
+  (message "Reverting buffer to avoid issues with org-babel")
+  (interactive) (revert-buffer t t)
+#+end_src
 
 #  LocalWords:  config repo
