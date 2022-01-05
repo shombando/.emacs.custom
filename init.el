@@ -280,11 +280,13 @@ targets."
   :straight t
   :hook (prog-mode . rainbow-delimiters-mode))
 
+;org-transclusion_begin
 (use-package org-transclusion
   :after org
   :straight t
   :init
   (setq org-transclusion-remember-transclusions t))
+;org-transclusion_end
 
 ;;https://config.daviwil.com/emacs#system-settings
 (setq sb/is-termux

@@ -44,6 +44,12 @@ Because it's easier to type one letter than a word, let's replace the common yes
 * Packages
 The rest of the functionality is provided by packages, all of which is managed by straight.
 
+** Configuration Documentation/Annotation
+As mentioned in the intro, this whole configuration documentation/annotation/"inverse literate" config is made possible by [[https://github.com/nobiot/org-transclusion][org-transclusion]]. The goal of the package is to provide the ability to include text snippets from other text documents without having to copy-paste it and get materials out of sync. With the added support to include code snippets wrapped in begin/end_src block, it's perfect for "inverse literate" config. Not having to tangle your code makes startup faster and the org file doesn't need to talk about every line/block you have in your config only what you want to highlight.
+
+An important option to set is ~org-transclusion-remember-transclusions~ so that just the buffer contains the transcluded text and it's not actually saved out to the file on disk. /This is the way/ to preserve the pointer/link.
+#+transclude: [[./init.el::;org-transclusion_begin]] :lines 2- :src emacs-lisp :end "org-transclusion_end"
+
 ** Theme
 Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring the default =doom-one= theme but I also use the =doom-nord= theme.
 #+transclude: [[./init.el::;theme_begin]] :lines 2- :src emacs-lisp :end "theme_end"
