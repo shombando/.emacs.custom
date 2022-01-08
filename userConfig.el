@@ -88,3 +88,40 @@ See `org-capture-templates' for more information."
 					 (reply-to-text	. (text)))
 	  org-msg-convert-citation t)
     (org-msg-mode)))
+
+(with-eval-after-load 'doom-modeline
+  ;; Mostly using @daviwil's config
+  (defun dw/set-tab-bar-faces ()
+    (let ((color (face-attribute 'doom-modeline-bar :background nil t)))
+      (set-face-attribute 'tab-bar-tab t :foreground nil :background nil :weight 'semi-bold :underline `(:color ,color) :inherit nil)
+      (set-face-attribute 'tab-bar nil :font "Fira Mono Bold" :height 0.9 :underline `(:color ,color) :foreground nil :inherit 'mode-line)))
+
+  (setq tab-bar-close-button-show nil
+	tab-bar-format '(dw/set-tab-bar-faces
+			 tab-bar-format-menu-bar
+			 tab-bar-format-history
+			 tab-bar-format-tabs-groups
+			 tab-bar-separator
+			 tab-bar-format-align-right
+			 tab-bar-format-global))
+
+  ;; remove battery from doom-modeline
+  (doom-modeline-def-modeline 'default
+    '(bar window-number modals matches buffer-info remote-host buffer-position word-count parrot selection-info)
+    '(objed-state grip debug repl lsp minor-modes input-method indent-info buffer-encoding major-mode process vcs checker))
+  (doom-modeline-set-modeline 'default t)
+  (add-to-list 'global-mode-string '("" doom-modeline--battery-status))
+  (add-to-list 'global-mode-string '("" tracking-mode-line-buffers))
+
+  (display-time-mode 1)
+  (display-battery-mode 1)
+
+  (setq tab-bar-separator " | ")
+
+  ;; Redefine tab-bar-format-menu-bar since there's no option for changing the menu text, taken from karthinks.com
+  (defun tab-bar-format-menu-bar ()
+    "Produce the Menu button for the tab bar that shows the menu bar."
+    `((menu-bar menu-item (propertize " ξ " 'face 'tab-bar-tab-inactive)
+		tab-bar-menu-bar :help "Menu Bar")))
+
+  (tab-bar-mode t))
