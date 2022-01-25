@@ -1,37 +1,37 @@
 
 # Table of Contents
 
-1.  [Startup](#org8d9cd2d)
-    1.  [User Emacs Directory](#org1e207ba)
-    2.  [Package Management](#orgcc9feab)
-    3.  [Visual elements](#orgec5d905)
-    4.  [Early Init](#org3f5e076)
-2.  [Emacs Behavior](#org8208f95)
-    1.  [Spellcheck](#org1e3006a)
-    2.  [Dired](#org57d37c1)
-    3.  [No-littering](#orgf49361a)
-    4.  [Misc](#orga17c5e2)
-3.  [Packages](#org49d2687)
-    1.  [Configuration Documentation/Annotation](#orgfe792d4)
-    2.  [Theme](#org429abf6)
-    3.  [Muscle memory shortcuts](#orgb6bf705)
-    4.  [Keybindings](#org9f759f2)
-    5.  [Evil-Mode](#orgd8dc974)
-    6.  [History](#orgcfa1252)
-    7.  [Completions](#org2b5adce)
-4.  [Exporting Readme markdown](#orge317b84)
+1.  [Startup](#org1339a38)
+    1.  [User Emacs Directory](#orgaf2dec3)
+    2.  [Package Management](#orgb9858d0)
+    3.  [Visual elements](#orgf390860)
+    4.  [Early Init](#org41b4805)
+2.  [Emacs Behavior](#org8ad5052)
+    1.  [Spellcheck](#org38e69bc)
+    2.  [Dired](#org0288181)
+    3.  [No-littering](#org4e5c520)
+    4.  [Misc](#org7f1fac3)
+3.  [Packages](#org0a8469c)
+    1.  [Configuration Documentation/Annotation](#org3e7ecef)
+    2.  [Theme](#org780338e)
+    3.  [Muscle memory shortcuts](#org82e66a6)
+    4.  [Keybindings](#org6f21476)
+    5.  [Evil-Mode](#orgc86fa05)
+    6.  [History](#org8c596f6)
+    7.  [Completions](#org22e4c4b)
+4.  [Exporting Readme markdown](#org0b40a27)
 
 This is my custom config based on my [Emacs journey](https://shom.dev/posts/20211121_emacs-custom-configuration/). I wanted to create a literate config but did not want slow down startup with tangling, so currently I'm trying to get "the best of both worlds" via `org-transclusion`. The file `config.org` in this repo contains the "source" and `org-transclusion` directives and is rendered out to `README.md` (markdown is better supported for auto-rendering by more forges currently). I'll eventually automate this process, likely through a git-hook. However, the rendered output is never guaranteed to include all of my config, just the sections that have been manually commented, `init.el` and includes will remain the source of truth. 
 
 
-<a id="org8d9cd2d"></a>
+<a id="org1339a38"></a>
 
 # Startup
 
 I would like to have the option to have several Emacs "distributions" or configurations that are independent of each other. This allows for experimentation without breaking things (git helps with the actual config but this allows for the packages to be independent). I'm using Chemacs2 but that's outside the scope of the config, for now.
 
 
-<a id="org1e207ba"></a>
+<a id="orgaf2dec3"></a>
 
 ## User Emacs Directory
 
@@ -40,7 +40,7 @@ I've chosen to keep my custom config and all related packages, etc. in this spec
     (setq user-emacs-directory "~/.emacs/.custom/")
 
 
-<a id="orgcc9feab"></a>
+<a id="orgb9858d0"></a>
 
 ## Package Management
 
@@ -65,7 +65,7 @@ I'm using `straight.el` as a package manager with the `use-package` syntax. Stra
     (straight-use-package 'use-package)
 
 
-<a id="orgec5d905"></a>
+<a id="orgf390860"></a>
 
 ## Visual elements
 
@@ -77,6 +77,8 @@ The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'
     (global-visual-line-mode 1)
     (global-linum-mode 1)
     (column-number-mode t)
+    (setq org-hide-emphasis-markers t)
+    (setq org-image-actual-width nil)
 
 The modeline is another important visual element to show important information about the buffer and modes. Doom's modeline is a significant visual upgrade to the default.
 
@@ -85,7 +87,7 @@ The modeline is another important visual element to show important information a
       :init (doom-modeline-mode 1))
 
 
-<a id="org3f5e076"></a>
+<a id="org41b4805"></a>
 
 ## Early Init
 
@@ -111,14 +113,14 @@ I'm not proficient in understanding the underpinnings of early init type optimiz
           native-comp-deferred-compilation nil)
 
 
-<a id="org8208f95"></a>
+<a id="org8ad5052"></a>
 
 # Emacs Behavior
 
 A lot the configuration revolves around packages but there are some built-in settings and behavior within Emacs that also need to be tweaked.
 
 
-<a id="org1e3006a"></a>
+<a id="org38e69bc"></a>
 
 ## Spellcheck
 
@@ -130,7 +132,7 @@ Spellchecking while typing is useful and I want to use it everywhere but in prog
     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 
-<a id="org57d37c1"></a>
+<a id="org0288181"></a>
 
 ## Dired
 
@@ -147,7 +149,7 @@ The built-in file explorer (directory editor, dired) doesn't need to be installe
         "l" 'dired-find-alternate-file))
 
 
-<a id="orgf49361a"></a>
+<a id="org4e5c520"></a>
 
 ## No-littering
 
@@ -161,7 +163,7 @@ I don't want Emacs to put backup files in the file's directory and mess with git
       (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
 
-<a id="orga17c5e2"></a>
+<a id="org7f1fac3"></a>
 
 ## Misc
 
@@ -171,14 +173,14 @@ Because it's easier to type one letter than a word, let's replace the common yes
     (global-auto-revert-mode 1)
 
 
-<a id="org49d2687"></a>
+<a id="org0a8469c"></a>
 
 # Packages
 
 The rest of the functionality is provided by packages, all of which is managed by straight.
 
 
-<a id="orgfe792d4"></a>
+<a id="org3e7ecef"></a>
 
 ## Configuration Documentation/Annotation
 
@@ -193,7 +195,7 @@ An important option to set is `org-transclusion-remember-transclusions` so that 
       (setq org-transclusion-remember-transclusions t))
 
 
-<a id="org429abf6"></a>
+<a id="org780338e"></a>
 
 ## Theme
 
@@ -204,7 +206,7 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
       :init (load-theme 'doom-one t))
 
 
-<a id="orgb6bf705"></a>
+<a id="org82e66a6"></a>
 
 ## Muscle memory shortcuts
 
@@ -229,7 +231,7 @@ There are some shortcuts that I have lots of muscle memory with and also work in
     	      ("C-S-z" . undo-fu-only-redo)))
 
 
-<a id="org9f759f2"></a>
+<a id="org6f21476"></a>
 
 ## Keybindings
 
@@ -243,7 +245,7 @@ For all the keys I don't have muscle memory for, there's `which-key`. It progres
       (setq which-key-idle-delay 0.1))
 
 
-<a id="orgd8dc974"></a>
+<a id="orgc86fa05"></a>
 
 ## Evil-Mode
 
@@ -303,7 +305,7 @@ However, there are some keybindings I want to have available everywhere and use 
       "ww" '("ace-window" . aw-show-dispatch-help))
 
 
-<a id="orgcfa1252"></a>
+<a id="org8c596f6"></a>
 
 ## History
 
@@ -321,11 +323,12 @@ These packages give Emacs memory so the frequent and recent things are near the 
       (run-at-time nil 600 'recentf-save-list))
 
 
-<a id="org2b5adce"></a>
+<a id="org22e4c4b"></a>
 
 ## Completions
 
 All the things that help with completion in various contexts are in this section, they deserve elaboration (at a later time).
+`Note`: The current completion strategy is very much a work in progress. However, vertico, corfu, cape, and friends seems to be the front-runners. 
 
     (use-package vertico
       :straight t
@@ -362,27 +365,25 @@ All the things that help with completion in various contexts are in this section
       :straight t
       :after vertico)
     
-    (use-package fancy-dabbrev
-      :straight t
-      :after consult
-      :init
-      (global-fancy-dabbrev-mode))
-    
     (use-package corfu
       :straight t
-      :after fancy-dabbrev
+      :after vertico
       :custom
-      (corfu-cycle t)
-      (corfu-auto t)
-      (corfu-auto-delay 0.1)
+      (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+      (corfu-auto t)                 ;; Enable auto completion
+      (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
+      (corfu-quit-no-match t)        ;; Automatically quit if there is no match
+      (corfu-preselect-first nil)    ;; Disable candidate preselection
+      (corfu-scroll-margin 5)        ;; Use scroll margin
+      (corfu-auto-delay 0.0)
       :bind (:map evil-insert-state-map
     	      ("C-j" . corfu-next)
     	      ("C-k" . corfu-previous)
-    	      ("<tab>" . fancy-dabbrev-expand-or-indent)
     	      :map corfu-map
     	      ("<tab>" . corfu-next)
     	      ("<backtab>" . corfu-previous))
       :init
+      (setq tab-always-indent 'complete)
       (corfu-global-mode))
     
     (use-package cape
@@ -391,15 +392,27 @@ All the things that help with completion in various contexts are in this section
       :bind (:map evil-insert-state-map
     	      ("M-'" . completion-at-point))
       :init
-      (setq completion-at-point-functions
+      (add-to-list 'completion-at-point-functions #'cape-file)
+      (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+      (add-to-list 'completion-at-point-functions #'cape-keyword)
+      (add-to-list 'completion-at-point-functions #'cape-ispell)
+      (setq-local completion-at-point-functions
     	      (list (cape-super-capf
-    		     #'cape-file-capf
-    		     #'cape-dabbrev-capf
-    		     #'cape-ispell-capf
-    		     #'cape-keyword-capf))))
+    		     #'cape-file
+    		     #'cape-dabbrev
+    		     #'cape-ispell
+    		     #'cape-keyword))))
+    
+    (use-package kind-icon
+      :straight t
+      :after corfu
+      :custom
+      (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+      :config
+      (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
-<a id="orge317b84"></a>
+<a id="org0b40a27"></a>
 
 # Exporting Readme markdown
 

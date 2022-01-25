@@ -29,6 +29,8 @@
 (global-visual-line-mode 1)
 (global-linum-mode 1)
 (column-number-mode t)
+(setq org-hide-emphasis-markers t)
+(setq org-image-actual-width nil)
 ;visual_end
 
 ;built-in_begin
@@ -183,27 +185,25 @@
   :straight t
   :after vertico)
 
-(use-package fancy-dabbrev
-  :straight t
-  :after consult
-  :init
-  (global-fancy-dabbrev-mode))
-
 (use-package corfu
   :straight t
-  :after fancy-dabbrev
+  :after vertico
   :custom
-  (corfu-cycle t)
-  (corfu-auto t)
-  (corfu-auto-delay 0.1)
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
+  (corfu-quit-no-match t)        ;; Automatically quit if there is no match
+  (corfu-preselect-first nil)    ;; Disable candidate preselection
+  (corfu-scroll-margin 5)        ;; Use scroll margin
+  (corfu-auto-delay 0.0)
   :bind (:map evil-insert-state-map
 	      ("C-j" . corfu-next)
 	      ("C-k" . corfu-previous)
-	      ("<tab>" . fancy-dabbrev-expand-or-indent)
 	      :map corfu-map
 	      ("<tab>" . corfu-next)
 	      ("<backtab>" . corfu-previous))
   :init
+  (setq tab-always-indent 'complete)
   (corfu-global-mode))
 
 (use-package cape
@@ -212,14 +212,27 @@
   :bind (:map evil-insert-state-map
 	      ("M-'" . completion-at-point))
   :init
-  (setq completion-at-point-functions
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-ispell)
+  (setq-local completion-at-point-functions
               (list (cape-super-capf
-		     #'cape-file-capf
-		     #'cape-dabbrev-capf
-		     #'cape-ispell-capf
-		     #'cape-keyword-capf))))
+		     #'cape-file
+		     #'cape-dabbrev
+		     #'cape-ispell
+		     #'cape-keyword))))
+
+(use-package kind-icon
+  :straight t
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 ;completions_end
 
+;embark_begin
 (use-package embark
   :straight t
   :bind
@@ -265,7 +278,9 @@ targets."
 
   (advice-add #'embark-completing-read-prompter
 	      :around #'embark-hide-which-key-indicator))
+;embark_end
 
+;window_begin
 (use-package ace-window
   :straight t
   :init
@@ -275,6 +290,7 @@ targets."
   ;;   '(aw-leading-char-face
   ;;     :foreground "white" :background "red"
   ;;     :weight bold :height 5 :box (:line-width 10 :color "red")))
+;window_end
 
 (use-package rainbow-delimiters
   :straight t

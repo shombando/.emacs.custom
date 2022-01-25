@@ -78,6 +78,7 @@ These packages give Emacs memory so the frequent and recent things are near the 
 
 ** Completions
 All the things that help with completion in various contexts are in this section, they deserve elaboration (at a later time).
+=Note=: The current completion strategy is very much a work in progress. However, vertico, corfu, cape, and friends seems to be the front-runners. 
 #+transclude: [[./init.el::;completions_begin]] :lines 2- :src emacs-lisp :end ";completions_end"
 
 * Exporting Readme markdown
