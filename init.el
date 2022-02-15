@@ -185,6 +185,12 @@
   :straight t
   :after vertico)
 
+(use-package consult-proj
+  :straight (consult-proj :type git :host github :repo "Qkessler/consult-proj")
+  :bind
+  (("C-c p f" . consult-proj)
+   ("C-c p o" . consult-proj-other-window)))
+
 (use-package corfu
   :straight t
   :after vertico
@@ -367,6 +373,7 @@ targets."
 (evil-leader/set-key
   "." 'find-file
   "," 'consult-buffer
+  ";" 'consult-proj
   "SPC" 'execute-extended-command
 
   "e" '("eval" . (keymap))
