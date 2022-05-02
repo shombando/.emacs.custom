@@ -134,6 +134,12 @@
 (use-package doom-themes
   :straight t
   :init (load-theme 'doom-one t))
+
+(use-package all-the-icons
+  :straight t
+  :config
+  (unless (require 'all-the-icons nil 'noerror)
+  (all-the-icons-install-fonts)))
 ;theme_end
 
 ;history_begin
