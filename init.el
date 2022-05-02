@@ -216,7 +216,7 @@
 	      ("<backtab>" . corfu-previous))
   :init
   (setq tab-always-indent 'complete)
-  (corfu-global-mode))
+  (global-corfu-mode))
 
 (use-package cape
   :straight t
