@@ -94,16 +94,18 @@ See `org-capture-templates' for more information."
   (defun dw/set-tab-bar-faces ()
     (let ((color (face-attribute 'doom-modeline-bar :background nil t)))
       (set-face-attribute 'tab-bar-tab t :foreground nil :background nil :weight 'semi-bold :underline `(:color ,color) :inherit nil)
-      (set-face-attribute 'tab-bar nil :font "Fira Mono Bold" :height 0.9 :underline `(:color ,color) :foreground nil :inherit 'mode-line)))
+      (set-face-attribute 'tab-bar nil :font "JetBrains Mono Bold" :height 0.95 :underline `(:color ,color) :foreground nil :inherit 'mode-line)))
 
   (setq tab-bar-close-button-show nil
 	tab-bar-format '(dw/set-tab-bar-faces
 			 tab-bar-format-menu-bar
 			 tab-bar-format-history
-			 tab-bar-format-tabs-groups
+			 tab-bar-format-tabs
 			 tab-bar-separator
+			 tab-bar-format-add-tab
 			 tab-bar-format-align-right
-			 tab-bar-format-global))
+			 tab-bar-format-global
+			 tab-bar-separator))
 
   ;; remove battery from doom-modeline
   (doom-modeline-def-modeline 'default
@@ -114,7 +116,7 @@ See `org-capture-templates' for more information."
   (add-to-list 'global-mode-string '("" tracking-mode-line-buffers))
 
   (display-time-mode 1)
-  (display-battery-mode 1)
+  ;; (display-battery-mode 1)
 
   (setq tab-bar-separator " | ")
 
