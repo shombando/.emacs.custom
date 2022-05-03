@@ -1,37 +1,37 @@
 
 # Table of Contents
 
-1.  [Startup](#org1339a38)
-    1.  [User Emacs Directory](#orgaf2dec3)
-    2.  [Package Management](#orgb9858d0)
-    3.  [Visual elements](#orgf390860)
-    4.  [Early Init](#org41b4805)
-2.  [Emacs Behavior](#org8ad5052)
-    1.  [Spellcheck](#org38e69bc)
-    2.  [Dired](#org0288181)
-    3.  [No-littering](#org4e5c520)
-    4.  [Misc](#org7f1fac3)
-3.  [Packages](#org0a8469c)
-    1.  [Configuration Documentation/Annotation](#org3e7ecef)
-    2.  [Theme](#org780338e)
-    3.  [Muscle memory shortcuts](#org82e66a6)
-    4.  [Keybindings](#org6f21476)
-    5.  [Evil-Mode](#orgc86fa05)
-    6.  [History](#org8c596f6)
-    7.  [Completions](#org22e4c4b)
-4.  [Exporting Readme markdown](#org0b40a27)
+1.  [Startup](#org70f9e16)
+    1.  [User Emacs Directory](#org29e8c0e)
+    2.  [Package Management](#orgbf012f4)
+    3.  [Visual elements](#orgd61f8d5)
+    4.  [Early Init](#org1571289)
+2.  [Emacs Behavior](#org5ecc5c3)
+    1.  [Spellcheck](#orgfea6695)
+    2.  [Dired](#orgd0687a8)
+    3.  [No-littering](#orgc7a5b5a)
+    4.  [Misc](#orgf1fe863)
+3.  [Packages](#org5745e94)
+    1.  [Configuration Documentation/Annotation](#org498ee83)
+    2.  [Theme](#orgb00d3cf)
+    3.  [Muscle memory shortcuts](#org433d1ca)
+    4.  [Keybindings](#org5201f12)
+    5.  [Evil-Mode](#org6ff03d3)
+    6.  [History](#org73bea46)
+    7.  [Completions](#org08ff1b4)
+4.  [Exporting Readme markdown](#org3c2dc6d)
 
 This is my custom config based on my [Emacs journey](https://shom.dev/posts/20211121_emacs-custom-configuration/). I wanted to create a literate config but did not want slow down startup with tangling, so currently I'm trying to get "the best of both worlds" via `org-transclusion`. The file `config.org` in this repo contains the "source" and `org-transclusion` directives and is rendered out to `README.md` (markdown is better supported for auto-rendering by more forges currently). I'll eventually automate this process, likely through a git-hook. However, the rendered output is never guaranteed to include all of my config, just the sections that have been manually commented, `init.el` and includes will remain the source of truth. 
 
 
-<a id="org1339a38"></a>
+<a id="org70f9e16"></a>
 
 # Startup
 
 I would like to have the option to have several Emacs "distributions" or configurations that are independent of each other. This allows for experimentation without breaking things (git helps with the actual config but this allows for the packages to be independent). I'm using Chemacs2 but that's outside the scope of the config, for now.
 
 
-<a id="orgaf2dec3"></a>
+<a id="org29e8c0e"></a>
 
 ## User Emacs Directory
 
@@ -40,7 +40,7 @@ I've chosen to keep my custom config and all related packages, etc. in this spec
     (setq user-emacs-directory "~/.emacs/.custom/")
 
 
-<a id="orgb9858d0"></a>
+<a id="orgbf012f4"></a>
 
 ## Package Management
 
@@ -65,7 +65,7 @@ I'm using `straight.el` as a package manager with the `use-package` syntax. Stra
     (straight-use-package 'use-package)
 
 
-<a id="orgf390860"></a>
+<a id="orgd61f8d5"></a>
 
 ## Visual elements
 
@@ -87,7 +87,7 @@ The modeline is another important visual element to show important information a
       :init (doom-modeline-mode 1))
 
 
-<a id="org41b4805"></a>
+<a id="org1571289"></a>
 
 ## Early Init
 
@@ -113,14 +113,14 @@ I'm not proficient in understanding the underpinnings of early init type optimiz
           native-comp-deferred-compilation nil)
 
 
-<a id="org8ad5052"></a>
+<a id="org5ecc5c3"></a>
 
 # Emacs Behavior
 
 A lot the configuration revolves around packages but there are some built-in settings and behavior within Emacs that also need to be tweaked.
 
 
-<a id="org38e69bc"></a>
+<a id="orgfea6695"></a>
 
 ## Spellcheck
 
@@ -132,7 +132,7 @@ Spellchecking while typing is useful and I want to use it everywhere but in prog
     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 
-<a id="org0288181"></a>
+<a id="orgd0687a8"></a>
 
 ## Dired
 
@@ -149,7 +149,7 @@ The built-in file explorer (directory editor, dired) doesn't need to be installe
         "l" 'dired-find-alternate-file))
 
 
-<a id="org4e5c520"></a>
+<a id="orgc7a5b5a"></a>
 
 ## No-littering
 
@@ -163,7 +163,7 @@ I don't want Emacs to put backup files in the file's directory and mess with git
       (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
 
-<a id="org7f1fac3"></a>
+<a id="orgf1fe863"></a>
 
 ## Misc
 
@@ -173,14 +173,14 @@ Because it's easier to type one letter than a word, let's replace the common yes
     (global-auto-revert-mode 1)
 
 
-<a id="org0a8469c"></a>
+<a id="org5745e94"></a>
 
 # Packages
 
 The rest of the functionality is provided by packages, all of which is managed by straight.
 
 
-<a id="org3e7ecef"></a>
+<a id="org498ee83"></a>
 
 ## Configuration Documentation/Annotation
 
@@ -195,7 +195,7 @@ An important option to set is `org-transclusion-remember-transclusions` so that 
       (setq org-transclusion-remember-transclusions t))
 
 
-<a id="org780338e"></a>
+<a id="orgb00d3cf"></a>
 
 ## Theme
 
@@ -204,9 +204,15 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
     (use-package doom-themes
       :straight t
       :init (load-theme 'doom-one t))
+    
+    (use-package all-the-icons
+      :straight t
+      :config
+      (unless (require 'all-the-icons nil 'noerror)
+      (all-the-icons-install-fonts)))
 
 
-<a id="org82e66a6"></a>
+<a id="org433d1ca"></a>
 
 ## Muscle memory shortcuts
 
@@ -231,7 +237,7 @@ There are some shortcuts that I have lots of muscle memory with and also work in
     	      ("C-S-z" . undo-fu-only-redo)))
 
 
-<a id="org6f21476"></a>
+<a id="org5201f12"></a>
 
 ## Keybindings
 
@@ -245,7 +251,7 @@ For all the keys I don't have muscle memory for, there's `which-key`. It progres
       (setq which-key-idle-delay 0.1))
 
 
-<a id="orgc86fa05"></a>
+<a id="org6ff03d3"></a>
 
 ## Evil-Mode
 
@@ -279,6 +285,7 @@ However, there are some keybindings I want to have available everywhere and use 
     (evil-leader/set-key
       "." 'find-file
       "," 'consult-buffer
+      ";" 'consult-proj
       "SPC" 'execute-extended-command
     
       "e" '("eval" . (keymap))
@@ -305,7 +312,7 @@ However, there are some keybindings I want to have available everywhere and use 
       "ww" '("ace-window" . aw-show-dispatch-help))
 
 
-<a id="org8c596f6"></a>
+<a id="org73bea46"></a>
 
 ## History
 
@@ -323,7 +330,7 @@ These packages give Emacs memory so the frequent and recent things are near the 
       (run-at-time nil 600 'recentf-save-list))
 
 
-<a id="org22e4c4b"></a>
+<a id="org08ff1b4"></a>
 
 ## Completions
 
@@ -365,6 +372,12 @@ All the things that help with completion in various contexts are in this section
       :straight t
       :after vertico)
     
+    (use-package consult-proj
+      :straight (consult-proj :type git :host github :repo "Qkessler/consult-proj")
+      :bind
+      (("C-c p f" . consult-proj)
+       ("C-c p o" . consult-proj-other-window)))
+    
     (use-package corfu
       :straight t
       :after vertico
@@ -375,7 +388,7 @@ All the things that help with completion in various contexts are in this section
       (corfu-quit-no-match t)        ;; Automatically quit if there is no match
       (corfu-preselect-first nil)    ;; Disable candidate preselection
       (corfu-scroll-margin 5)        ;; Use scroll margin
-      (corfu-auto-delay 0.0)
+      (corfu-auto-delay 0.3)
       :bind (:map evil-insert-state-map
     	      ("C-j" . corfu-next)
     	      ("C-k" . corfu-previous)
@@ -384,7 +397,7 @@ All the things that help with completion in various contexts are in this section
     	      ("<backtab>" . corfu-previous))
       :init
       (setq tab-always-indent 'complete)
-      (corfu-global-mode))
+      (global-corfu-mode))
     
     (use-package cape
       :straight t
@@ -412,7 +425,7 @@ All the things that help with completion in various contexts are in this section
       (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
-<a id="org0b40a27"></a>
+<a id="org3c2dc6d"></a>
 
 # Exporting Readme markdown
 
