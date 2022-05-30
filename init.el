@@ -140,6 +140,9 @@
   :config
   (unless (require 'all-the-icons nil 'noerror)
   (all-the-icons-install-fonts)))
+
+(set-frame-parameter (selected-frame) 'alpha 85)
+(setq default-frame-alist '((undecorated . t)))
 ;theme_end
 
 ;history_begin
