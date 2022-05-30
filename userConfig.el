@@ -25,9 +25,9 @@ See `org-capture-templates' for more information."
 	(mapconcat #'identity
 		   `(
 		     ,(concat "\n* DRAFT " title)
-		     ":PROPERTIES:"
-		     ,(concat ":EXPORT_FILE_NAME: " fname)
-		     ":EXPORT_HUGO_MENU:\n:END:"
+		     ":PROPERTIES:\n:EXPORT_FILE_NAME: index"
+		     ,(concat ":EXPORT_HUGO_BUNDLE: " fname)
+		     ":EXPORT_HUGO_IMAGES:\n:EXPORT_HUGO_MENU:\n:END:"
 		     "%?\n")          ;Place the cursor here finally
 		   "\n")))
 

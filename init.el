@@ -380,6 +380,7 @@ targets."
   "." 'find-file
   "," 'consult-buffer
   ";" 'consult-proj
+  "c" 'org-capture
   "SPC" 'execute-extended-command
 
   "e" '("eval" . (keymap))
