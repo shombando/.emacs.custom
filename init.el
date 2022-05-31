@@ -50,7 +50,7 @@
   :straight nil
   :after evil-collection
   :commands (dired dired-jump)
-  :custom ((dired-listing-switches "-agho --group-directories-first"))
+  :custom (dired-listing-switches "-agho --group-directories-first")
   :config
     (evil-collection-define-key 'normal 'dired-mode-map
     "h" '(lambda () (interactive) (find-alternate-file ".."))
@@ -139,8 +139,9 @@
   :straight t
   :config
   (unless (require 'all-the-icons nil 'noerror)
-  (all-the-icons-install-fonts)))
+    (all-the-icons-install-fonts)))
 
+(set-frame-font "JetBrains Mono" 16 nil t)
 (set-frame-parameter (selected-frame) 'alpha 85)
 (setq default-frame-alist '((undecorated . t)))
 ;theme_end
