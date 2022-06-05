@@ -1,6 +1,14 @@
 (setq user-full-name "Shom Bandopadhaya"
       user-mail-address "shom@bandopadhaya.com")
 
+(use-package yasnippet
+  :straight t
+  :config (setq yas-snippet-dirs '("/home/shom/.emacs/.custom/snippets"))
+  (add-to-list 'warning-suppress-types '(yasnippet backquote-change))
+  :init
+  (yas-global-mode 1)
+  (yas-reload-all))
+
 (use-package org
   :straight t
   :config (setq org-directory "~/org"
@@ -27,7 +35,8 @@ See `org-capture-templates' for more information."
 		     ,(concat "\n* DRAFT " title)
 		     ":PROPERTIES:\n:EXPORT_FILE_NAME: index"
 		     ,(concat ":EXPORT_HUGO_BUNDLE: " fname)
-		     ":EXPORT_HUGO_IMAGES:\n:EXPORT_HUGO_MENU:\n:END:"
+		     ,(concat ":EXPORT_HUGO_IMAGES: /posts/" fname "/image.jpg")
+		     ":EXPORT_HUGO_MENU:\n:END:"
 		     "%?\n")          ;Place the cursor here finally
 		   "\n")))
 
