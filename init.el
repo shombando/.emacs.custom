@@ -141,8 +141,8 @@
   (unless (require 'all-the-icons nil 'noerror)
     (all-the-icons-install-fonts)))
 
-(set-frame-font "JetBrains Mono" 16 nil t)
-(set-frame-parameter (selected-frame) 'alpha 85)
+(set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
+(set-frame-parameter (selected-frame) 'alpha 90)
 (setq default-frame-alist '((undecorated . t)))
 ;theme_end
 
