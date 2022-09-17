@@ -1,8 +1,8 @@
-;directory_begin
+;;directory_begin
 (setq user-emacs-directory "~/.emacs/.custom/")
-;directory_end
+;;directory_end
 
-;setup_begin
+;;setup_begin
 (setq byte-compile-warnings nil)
 
 (defvar bootstrap-version)
@@ -20,9 +20,9 @@
 (setq package-enable-at-startup nil)
 
 (straight-use-package 'use-package)
-;setup_end
+;;setup_end
 
-;visual_begin
+;;visual_begin
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (setq visible-bell 1)
@@ -31,24 +31,24 @@
 (column-number-mode t)
 (setq org-hide-emphasis-markers t)
 (setq org-image-actual-width nil)
-;visual_end
+;;visual_end
 
-;built-in_begin
+;;built-in_begin
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode 1)
 
 (setq-default indent-tabs-mode t)
 (setq-default tab-width 4)
-;built-in_end
+;;built-in_end
 
-;spellcheck_begin
+;;spellcheck_begin
 (setq-default ispell-program-name "aspell")
 
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-;spellcheck_end
+;;spellcheck_end
 
-;dired_begin
+;;dired_begin
 (use-package dired
   :straight nil
   :after evil-collection
@@ -58,24 +58,24 @@
     (evil-collection-define-key 'normal 'dired-mode-map
     "h" '(lambda () (interactive) (find-alternate-file ".."))
     "l" 'dired-find-alternate-file))
-;dired_end
+;;dired_end
 
-;no-littering_begin
+;;no-littering_begin
 (use-package no-littering
   :straight t
   :init
   (setq auto-save-file-name-transforms
 	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
-;no-littering_end
+;;no-littering_end
 
-;modeline_begin
+;;modeline_begin
 (use-package doom-modeline
   :straight t
   :init (doom-modeline-mode 1))
-;modeline_end
+;;modeline_end
 
-;cua_begin
+;;cua_begin
 (use-package simpleclip
   :straight t
   :after evil-collection
@@ -93,22 +93,22 @@
 	 :map evil-normal-state-map
 	      ("C-z" . undo-fu-only-undo)
 	      ("C-S-z" . undo-fu-only-redo)))
-;cua_end
+;;cua_end
 
-;which-key_begin
+;;which-key_begin
 (use-package which-key
   :straight t
   :config
   (which-key-mode)
   :init
   (setq which-key-idle-delay 0.1))
-;which-key_end
+;;which-key_end
 
 (use-package magit
   :straight t
   :defer t)
 
-;evil_begin
+;;evil_begin
 (use-package evil
   :straight t
   :bind (("<escape>" . keyboard-escape-quit))
@@ -131,9 +131,9 @@
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
   (evil-leader-mode))
-;evil_end
+;;evil_end
 
-;theme_begin
+;;theme_begin
 (use-package doom-themes
   :straight t
   :init (load-theme 'doom-one t))
@@ -147,9 +147,9 @@
 (set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
 (set-frame-parameter (selected-frame) 'alpha 90)
 (setq default-frame-alist '((undecorated . t)))
-;theme_end
+;;theme_end
 
-;history_begin
+;;history_begin
 (use-package savehist
   :straight t
   :init
@@ -160,9 +160,9 @@
   :init
   (recentf-mode t)
   (run-at-time nil 600 'recentf-save-list))
-;history_end
+;;history_end
 
-;completions_begin
+;;completions_begin
 (use-package vertico
   :straight t
   :init
@@ -250,9 +250,9 @@
 
   (setq tab-always-indent 'complete
 	tab-first-completion 'word-or-paren-or-punct)
-;completions_end
+;;completions_end
 
-;embark_begin
+;;embark_begin
 (use-package embark
   :straight t
   :bind
@@ -298,9 +298,9 @@ targets."
 
   (advice-add #'embark-completing-read-prompter
 	      :around #'embark-hide-which-key-indicator))
-;embark_end
+;;embark_end
 
-;window_begin
+;;window_begin
 (use-package ace-window
   :straight t
   :init
@@ -310,21 +310,21 @@ targets."
   ;;   '(aw-leading-char-face
   ;;     :foreground "white" :background "red"
   ;;     :weight bold :height 5 :box (:line-width 10 :color "red")))
-;window_end
+;;window_end
 
 (use-package rainbow-delimiters
   :straight t
   :hook (prog-mode . rainbow-delimiters-mode))
 
-;org-transclusion_begin
+;;org-transclusion_begin
 (use-package org-transclusion
   :after org
   :straight t
   :init
   (setq org-transclusion-remember-transclusions t))
-;org-transclusion_end
+;;org-transclusion_end
 
-;;https://config.daviwil.com/emacs#system-settings
+;;;https://config.daviwil.com/emacs#system-settings
 (setq sb/is-termux
       (string-suffix-p "Android" (string-trim (shell-command-to-string "uname -a"))))
 
@@ -383,7 +383,7 @@ targets."
 (global-set-key (kbd "C-z") #'undo-fu-only-undo)
 (global-set-key (kbd "C-S-z") #'undo-fu-only-redo)
 
-;evil-leader_begin
+;;evil-leader_begin
 (evil-leader/set-key
   "." 'find-file
   "," 'consult-buffer
@@ -413,6 +413,6 @@ targets."
   "wd" '("delete" . delete-window)
   "wo" '("delete other" . delete-other-windows)
   "ww" '("ace-window" . aw-show-dispatch-help))
-;evil-leader_end
+;;evil-leader_end
 
 (load (concat user-emacs-directory "userConfig.el"))
