@@ -20,6 +20,7 @@
 (setq package-enable-at-startup nil)
 
 (straight-use-package 'use-package)
+(straight-use-package 'org)
 ;;setup_end
 
 ;;visual_begin
@@ -144,6 +145,10 @@
   (unless (require 'all-the-icons nil 'noerror)
 	(all-the-icons-install-fonts)))
 
+(use-package rainbow-delimiters
+  :straight t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
 (set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
 (set-frame-parameter (selected-frame) 'alpha 90)
 (setq default-frame-alist '((undecorated . t)))
@@ -207,6 +212,7 @@
 (use-package corfu
   :straight t
   :after vertico
+  :after evil
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-auto t)                 ;; Enable auto completion
@@ -221,6 +227,7 @@
 			  :map corfu-map
 			  ("<tab>" . corfu-next)
 			  ("<backtab>" . corfu-previous))
+  :init
   (global-corfu-mode))
 
 (use-package cape
@@ -312,9 +319,6 @@ targets."
 ;;     :weight bold :height 5 :box (:line-width 10 :color "red")))
 ;;window_end
 
-(use-package rainbow-delimiters
-  :straight t
-  :hook (prog-mode . rainbow-delimiters-mode))
 
 ;;org-transclusion_begin
 (use-package org-transclusion
