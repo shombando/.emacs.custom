@@ -7,15 +7,15 @@
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+	   (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	  (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
+	(with-current-buffer
+		(url-retrieve-synchronously
+		 "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+		 'silent 'inhibit-cookies)
+	  (goto-char (point-max))
+	  (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 (setq package-enable-at-startup nil)
 
@@ -55,9 +55,9 @@
   :commands (dired dired-jump)
   :custom (dired-listing-switches "-agho --group-directories-first")
   :config
-    (evil-collection-define-key 'normal 'dired-mode-map
-    "h" '(lambda () (interactive) (find-alternate-file ".."))
-    "l" 'dired-find-alternate-file))
+  (evil-collection-define-key 'normal 'dired-mode-map
+	"h" '(lambda () (interactive) (find-alternate-file ".."))
+	"l" 'dired-find-alternate-file))
 ;;dired_end
 
 ;;no-littering_begin
@@ -65,7 +65,7 @@
   :straight t
   :init
   (setq auto-save-file-name-transforms
-	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+		`((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 ;;no-littering_end
 
@@ -80,19 +80,19 @@
   :straight t
   :after evil-collection
   :bind (("C-S-x" . 'simpleclip-cut)
-	 ("C-S-c" . 'simpleclip-copy)
-	 ("C-S-v" . 'simpleclip-paste))) 
+		 ("C-S-c" . 'simpleclip-copy)
+		 ("C-S-v" . 'simpleclip-paste))) 
 
 (use-package undo-fu
   :straight t
   :after evil-collection
   :defer t
   :bind (:map evil-insert-state-map
-	      ("C-z" . undo-fu-only-undo)
-	      ("C-S-z" . undo-fu-only-redo)
-	 :map evil-normal-state-map
-	      ("C-z" . undo-fu-only-undo)
-	      ("C-S-z" . undo-fu-only-redo)))
+			  ("C-z" . undo-fu-only-undo)
+			  ("C-S-z" . undo-fu-only-redo)
+			  :map evil-normal-state-map
+			  ("C-z" . undo-fu-only-undo)
+			  ("C-S-z" . undo-fu-only-redo)))
 ;;cua_end
 
 ;;which-key_begin
@@ -114,8 +114,8 @@
   :bind (("<escape>" . keyboard-escape-quit))
   :init
   (setq evil-want-integration t
-	evil-want-keybinding nil
-	evil-undo-system 'undo-fu)
+		evil-want-keybinding nil
+		evil-undo-system 'undo-fu)
   :config
   (evil-mode 1))
 
@@ -142,7 +142,7 @@
   :straight t
   :config
   (unless (require 'all-the-icons nil 'noerror)
-    (all-the-icons-install-fonts)))
+	(all-the-icons-install-fonts)))
 
 (set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
 (set-frame-parameter (selected-frame) 'alpha 90)
@@ -169,22 +169,22 @@
   (vertico-mode)
   (setq vertico-cycle t)
   :bind (:map vertico-map
-	      ("C-j" . vertico-next)
-	      ("C-k" . vertico-previous)))
+			  ("C-j" . vertico-next)
+			  ("C-k" . vertico-previous)))
 
 (use-package orderless
   :straight t
   :custom (completion-styles '(orderless)))
 (orderless-define-completion-style orderless+initialism
   (orderless-matching-styles '(orderless-initialism
-                               orderless-literal
-                               orderless-regexp)))
+							   orderless-literal
+							   orderless-regexp)))
 (setq completion-category-overrides
-      '((command (styles orderless+initialism))
-        (symbol (styles orderless+initialism))
-        (variable (styles orderless+initialism))
-	(file (styles . (partial-completion
-			 orderless+initialism)))))
+	  '((command (styles orderless+initialism))
+		(symbol (styles orderless+initialism))
+		(variable (styles orderless+initialism))
+		(file (styles . (partial-completion
+						 orderless+initialism)))))
 
 (use-package marginalia
   :after vertico
@@ -216,29 +216,29 @@
   (corfu-scroll-margin 5)        ;; Use scroll margin
   (corfu-auto-delay 0.3)
   :bind (:map evil-insert-state-map
-	      ("C-j" . corfu-next)
-	      ("C-k" . corfu-previous)
-	      :map corfu-map
-	      ("<tab>" . corfu-next)
-	      ("<backtab>" . corfu-previous))
+			  ("C-j" . corfu-next)
+			  ("C-k" . corfu-previous)
+			  :map corfu-map
+			  ("<tab>" . corfu-next)
+			  ("<backtab>" . corfu-previous))
   (global-corfu-mode))
 
 (use-package cape
   :straight t
   :after corfu
   :bind (:map evil-insert-state-map
-	      ("M-'" . completion-at-point))
+			  ("M-'" . completion-at-point))
   :init
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-ispell)
   (setq-local completion-at-point-functions
-              (list (cape-super-capf
-		     #'cape-file
-		     #'cape-dabbrev
-		     #'cape-ispell
-		     #'cape-keyword))))
+			  (list (cape-super-capf
+					 #'cape-file
+					 #'cape-dabbrev
+					 #'cape-ispell
+					 #'cape-keyword))))
 
 (use-package kind-icon
   :straight t
@@ -248,8 +248,8 @@
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-  (setq tab-always-indent 'complete
-	tab-first-completion 'word-or-paren-or-punct)
+(setq tab-always-indent 'complete
+	  tab-first-completion 'word-or-paren-or-punct)
 ;;completions_end
 
 ;;embark_begin
@@ -262,42 +262,42 @@
   :config
   ;; https://github.com/oantolin/embark/wiki/Additional-Configuration#use-which-key-like-a-key-menu-prompt
   (defun embark-which-key-indicator ()
-    "An embark indicator that displays keymaps using which-key.
+	"An embark indicator that displays keymaps using which-key.
 The which-key help message will show the type and value of the
 current target followed by an ellipsis if there are further
 targets."
-    (lambda (&optional keymap targets prefix)
-      (if (null keymap)
-	  (which-key--hide-popup-ignore-command)
-	(which-key--show-keymap
-	 (if (eq (plist-get (car targets) :type) 'embark-become)
-	     "Become"
-	   (format "Act on %s '%s'%s"
-		   (plist-get (car targets) :type)
-		   (embark--truncate-target (plist-get (car targets) :target))
-		   (if (cdr targets) "…" "")))
-	 (if prefix
-	     (pcase (lookup-key keymap prefix 'accept-default)
-	       ((and (pred keymapp) km) km)
-	       (_ (key-binding prefix 'accept-default)))
-	   keymap)
-	 nil nil t (lambda (binding)
-		     (not (string-suffix-p "-argument" (cdr binding))))))))
+	(lambda (&optional keymap targets prefix)
+	  (if (null keymap)
+		  (which-key--hide-popup-ignore-command)
+		(which-key--show-keymap
+		 (if (eq (plist-get (car targets) :type) 'embark-become)
+			 "Become"
+		   (format "Act on %s '%s'%s"
+				   (plist-get (car targets) :type)
+				   (embark--truncate-target (plist-get (car targets) :target))
+				   (if (cdr targets) "…" "")))
+		 (if prefix
+			 (pcase (lookup-key keymap prefix 'accept-default)
+			   ((and (pred keymapp) km) km)
+			   (_ (key-binding prefix 'accept-default)))
+		   keymap)
+		 nil nil t (lambda (binding)
+					 (not (string-suffix-p "-argument" (cdr binding))))))))
 
   (setq embark-indicators
-	'(embark-which-key-indicator
-	  embark-highlight-indicator
-	  embark-isearch-highlight-indicator))
+		'(embark-which-key-indicator
+		  embark-highlight-indicator
+		  embark-isearch-highlight-indicator))
 
   (defun embark-hide-which-key-indicator (fn &rest args)
-    "Hide the which-key indicator immediately when using the completing-read prompter."
-    (which-key--hide-popup-ignore-command)
-    (let ((embark-indicators
-	   (remq #'embark-which-key-indicator embark-indicators)))
-      (apply fn args)))
+	"Hide the which-key indicator immediately when using the completing-read prompter."
+	(which-key--hide-popup-ignore-command)
+	(let ((embark-indicators
+		   (remq #'embark-which-key-indicator embark-indicators)))
+	  (apply fn args)))
 
   (advice-add #'embark-completing-read-prompter
-	      :around #'embark-hide-which-key-indicator))
+			  :around #'embark-hide-which-key-indicator))
 ;;embark_end
 
 ;;window_begin
@@ -306,10 +306,10 @@ targets."
   :init
   (global-set-key (kbd "M-q") 'aw-show-dispatch-help)
   (setq aw-dispatch-always t))
-  ;; :custom-face
-  ;;   '(aw-leading-char-face
-  ;;     :foreground "white" :background "red"
-  ;;     :weight bold :height 5 :box (:line-width 10 :color "red")))
+;; :custom-face
+;;   '(aw-leading-char-face
+;;     :foreground "white" :background "red"
+;;     :weight bold :height 5 :box (:line-width 10 :color "red")))
 ;;window_end
 
 (use-package rainbow-delimiters
@@ -326,46 +326,46 @@ targets."
 
 ;;;https://config.daviwil.com/emacs#system-settings
 (setq sb/is-termux
-      (string-suffix-p "Android" (string-trim (shell-command-to-string "uname -a"))))
+	  (string-suffix-p "Android" (string-trim (shell-command-to-string "uname -a"))))
 
 (unless sb/is-termux
   (scroll-bar-mode -1)
   (set-fringe-mode '(20 . 10))
 
   (use-package git-gutter-fringe
-    :straight t
-    :init
-    (require 'git-gutter-fringe)
-    (global-git-gutter-mode t)
-    :config
-    (setq git-gutter:update-interval 2
-	  git-gutter:modified-sign "&"
-	  git-gutter:added-sign "+"
-	  git-gutter:deleted-sign "-")
-    (set-face-foreground 'git-gutter-fr:modified "LightGoldenrod")
-    (set-face-foreground 'git-gutter-fr:added    "LightGreen")
-    (set-face-foreground 'git-gutter-fr:deleted  "LightCoral"))
+	:straight t
+	:init
+	(require 'git-gutter-fringe)
+	(global-git-gutter-mode t)
+	:config
+	(setq git-gutter:update-interval 2
+		  git-gutter:modified-sign "&"
+		  git-gutter:added-sign "+"
+		  git-gutter:deleted-sign "-")
+	(set-face-foreground 'git-gutter-fr:modified "LightGoldenrod")
+	(set-face-foreground 'git-gutter-fr:added    "LightGreen")
+	(set-face-foreground 'git-gutter-fr:deleted  "LightCoral"))
 
   (use-package org-bars
-    :after org
-    :straight (org-bars :type git :host github :repo "tonyaldon/org-bars")
-    :init
-    (defun org-no-ellipsis-in-headlines ()
-      "Remove use of ellipsis in headlines."
-      (remove-from-invisibility-spec '(outline . t))
-      (add-to-invisibility-spec 'outline))
-    (add-hook 'org-mode-hook #'org-bars-mode)
-    (add-hook 'org-mode-hook 'org-no-ellipsis-in-headlines))
+	:after org
+	:straight (org-bars :type git :host github :repo "tonyaldon/org-bars")
+	:init
+	(defun org-no-ellipsis-in-headlines ()
+	  "Remove use of ellipsis in headlines."
+	  (remove-from-invisibility-spec '(outline . t))
+	  (add-to-invisibility-spec 'outline))
+	(add-hook 'org-mode-hook #'org-bars-mode)
+	(add-hook 'org-mode-hook 'org-no-ellipsis-in-headlines))
 
   (use-package all-the-icons-dired
-    :straight t
-    :hook (dired-mode . all-the-icons-dired-mode))
+	:straight t
+	:hook (dired-mode . all-the-icons-dired-mode))
 
   (use-package vertico-posframe
-    :after vertico
-    :straight t
-    :init
-    (vertico-posframe-mode 1)))
+	:after vertico
+	:straight t
+	:init
+	(vertico-posframe-mode 1)))
 
 (setq org-support-shift-select t)
 (setq org-log-done 'time)
