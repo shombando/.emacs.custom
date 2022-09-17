@@ -319,7 +319,7 @@ targets."
 ;;     :weight bold :height 5 :box (:line-width 10 :color "red")))
 ;;window_end
 
-;; usefulanchors_begin
+;;usefulanchors_begin
 ;; From @alphapapa's unpackaged repo https://github.com/alphapapa/unpackaged.el#export-to-html-with-useful-anchors
 (use-package ox
   :config
@@ -394,7 +394,7 @@ made unique when necessary."
                                                     0)))
                                     (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
       (let* ((title (org-element-property :raw-value datum))
-             (ref (replace-regexp-in-string "%20" "-" (url-hexify-string (substring-no-properties title))))
+             (ref (replace-regexp-in-string "%.." "-" (url-hexify-string (substring-no-properties title)))) ;replace all encoded characters with dashes
              (parent (org-element-property :parent datum)))
         (while (--any (equal ref (car it))
                       cache)

@@ -8,41 +8,53 @@ I would like to have the option to have several Emacs "distributions" or configu
 
 ** User Emacs Directory
 I've chosen to keep my custom config and all related packages, etc. in this specific location so that's the first thing in the config.
-#+transclude: [[./init.el::;directory_begin]] :lines 2- :src emacs-lisp :end "directory_end"
+#+transclude: [[./init.el::;;directory_begin]] :lines 2- :src emacs-lisp :end ";;directory_end"
+
+#+RESULTS:
+: ~/.emacs/.custom/
 
 ** Package Management
 I'm using =straight.el= as a package manager with the =use-package= syntax. Straight is bootstrapped, this ensures that a clean install of Emacs can get up and running without any manual intervention just by cloning this repo.
-#+transclude: [[./init.el::;setup_begin]] :lines 2- :src emacs-lisp :end "setup_end"
+#+transclude: [[./init.el::;;setup_begin]] :lines 2- :src emacs-lisp :end ";;setup_end"
+
+#+RESULTS:
+: t
 
 ** Visual elements
 The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'll be customizing my keymaps they're going to be mostly superfluous and take up real-estate. There are a few other preferences relative to how things are displayed here, the rest of the visuals are configured by the theme.
-#+transclude: [[./init.el::;visual_begin]] :lines 2- :src emacs-lisp :end "visual_end"
+#+transclude: [[./init.el::;;visual_begin]] :lines 2- :src emacs-lisp :end ";;visual_end"
+
+#+RESULTS:
 
 The modeline is another important visual element to show important information about the buffer and modes. Doom's modeline is a significant visual upgrade to the default.
-#+transclude: [[./init.el::;modeline_begin]] :lines 2- :src emacs-lisp :end "modeline_end"
+#+transclude: [[./init.el::;;modeline_begin]] :lines 2- :src emacs-lisp :end ";;modeline_end"
+
+#+RESULTS:
 
 ** Early Init
 I'm not proficient in understanding the underpinnings of early init type optimizations so I'm borrowing from [[https://github.com/hlissner/doom-emacs/][Doom]] and [[https://systemcrafters.net][System Crafters]]. here.
 #+transclude: [[./early-init.el]]  :src emacs-lisp
+
+#+RESULTS:
 
 * Emacs Behavior
 A lot the configuration revolves around packages but there are some built-in settings and behavior within Emacs that also need to be tweaked.
 
 ** Spellcheck
 Spellchecking while typing is useful and I want to use it everywhere but in programming modes only comments should be spell checked not the whole buffer.
-#+transclude: [[./init.el::;spellcheck_begin]] :lines 2- :src emacs-lisp :end "spellcheck_end"
+#+transclude: [[./init.el::;;spellcheck_begin]] :lines 2- :src emacs-lisp :end ";;spellcheck_end"
 
 ** Dired
 The built-in file explorer (directory editor, dired) doesn't need to be installed but can be configured using use-package to keep the form consistent. In order for  Emacs to not spawn a new buffer for each directory and to make it more evil friendly I'm using ~*find-alternate-file~.
-#+transclude: [[./init.el::;dired_begin]] :lines 2- :src emacs-lisp :end "dired_end"
+#+transclude: [[./init.el::;;dired_begin]] :lines 2- :src emacs-lisp :end ";;dired_end"
 
 ** No-littering
 I don't want Emacs to put backup files in the file's directory and mess with git ignore at each repo so this package collects those and also all custom file and puts them all in defined locations.
-#+transclude: [[./init.el::;no-littering_begin]] :lines 2- :src emacs-lisp :end "no-littering_end"
+#+transclude: [[./init.el::;;no-littering_begin]] :lines 2- :src emacs-lisp :end ";;no-littering_end"
 
 ** Misc
 Because it's easier to type one letter than a word, let's replace the common yes/no prompt with y/n. Also, if the underlying file changes, the buffer should update (revert) automatically.
-#+transclude: [[./init.el::;built-in_begin]] :lines 2- :src emacs-lisp :end "built-in_end"
+#+transclude: [[./init.el::;;built-in_begin]] :lines 2- :src emacs-lisp :end ";;built-in_end"
 
 * Packages
 The rest of the functionality is provided by packages, all of which is managed by straight.
@@ -51,40 +63,40 @@ The rest of the functionality is provided by packages, all of which is managed b
 As mentioned in the intro, this whole configuration documentation/annotation/"inverse literate" config is made possible by [[https://github.com/nobiot/org-transclusion][org-transclusion]]. The goal of the package is to provide the ability to include text snippets from other text documents without having to copy-paste it and get materials out of sync. With the added support to include code snippets wrapped in begin/end_src block, it's perfect for "inverse literate" config. Not having to tangle your code makes startup faster and the org file doesn't need to talk about every line/block you have in your config only what you want to highlight.
 
 An important option to set is ~org-transclusion-remember-transclusions~ so that just the buffer contains the transcluded text and it's not actually saved out to the file on disk. /This is the way/ to preserve the pointer/link.
-#+transclude: [[./init.el::;org-transclusion_begin]] :lines 2- :src emacs-lisp :end "org-transclusion_end"
+#+transclude: [[./init.el::;;org-transclusion_begin]] :lines 2- :src emacs-lisp :end ";;org-transclusion_end"
 
 ** Theme
 Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring the default =doom-one= theme but I also use the =doom-nord= theme.
-#+transclude: [[./init.el::;theme_begin]] :lines 2- :src emacs-lisp :end "theme_end"
+#+transclude: [[./init.el::;;theme_begin]] :lines 2- :src emacs-lisp :end ";;theme_end"
 
 ** Muscle memory shortcuts
 There are some shortcuts that I have lots of muscle memory with and also work in other applications that I find convenient to use in Emacs. I also use the evil-mode keys when in normal mode, based on whatever is most convenient.
-#+transclude: [[./init.el::;cua_begin]] :lines 2- :src emacs-lisp :end "cua_end"
+#+transclude: [[./init.el::;;cua_begin]] :lines 2- :src emacs-lisp :end ";;cua_end"
 
 ** Keybindings
 For all the keys I don't have muscle memory for, there's =which-key=. It progressively shows the keybindings that are available in that mode.
-#+transclude: [[./init.el::;which-key_begin]] :lines 2- :src emacs-lisp :end "which-key_end"
+#+transclude: [[./init.el::;;which-key_begin]] :lines 2- :src emacs-lisp :end ";;which-key_end"
 
 ** Evil-Mode
 Extensible VI Layer (evil) mode for Emacs provides vi editing modes and keybindings. =evil-collection= provides all the keybindings in different modes so they don't have to be configured individually. Since the individual bindings (minor-modes?) are not loaded until the package is used, it's not bloating the in use configuration.
-#+transclude: [[./init.el::;evil_begin]] :lines 2- :src emacs-lisp :end "evil_end"
+#+transclude: [[./init.el::;;evil_begin]] :lines 2- :src emacs-lisp :end ";;evil_end"
 
 However, there are some keybindings I want to have available everywhere and use the =evil-leader= to configure those.
-#+transclude: [[./init.el::;evil-leader_begin]] :lines 2- :src emacs-lisp :end ";evil-leader_end"
+#+transclude: [[./init.el::;;evil-leader_begin]] :lines 2- :src emacs-lisp :end ";;evil-leader_end"
 
 ** History
 These packages give Emacs memory so the frequent and recent things are near the top when the completion related packages get used.
-#+transclude: [[./init.el::;history_begin]] :lines 2- :src emacs-lisp :end ";history_end"
+#+transclude: [[./init.el::;;history_begin]] :lines 2- :src emacs-lisp :end ";;history_end"
 
 ** Completions
 All the things that help with completion in various contexts are in this section, they deserve elaboration (at a later time).
 =Note=: The current completion strategy is very much a work in progress. However, vertico, corfu, cape, and friends seems to be the front-runners. 
-#+transclude: [[./init.el::;completions_begin]] :lines 2- :src emacs-lisp :end ";completions_end"
+#+transclude: [[./init.el::;;completions_begin]] :lines 2- :src emacs-lisp :end ";;completions_end"
 
 * Repo meta
 ** Useful anchors
 By default =org-export= regenerates ids for all the headings which creates noise in the git commit history and also in-page anchors can't be reliably linked to a specific part of the document (independent of the git forge's markdown parsing implementation). Using a snippet of [[https://github.com/alphapapa][@alphapapa]]'s unpackaged configuration, we can advice the export to create unique anchors that won't change between exports (unless the headings themselves have been changed). Replacing space (%20) with dash (-) because Github doesn't parse that correctly.
-#+transclude: [[./init.el::;usefulanchors_begin]] :lines 2- :src emacs-lisp :end ";usefulanchors_end"
+#+transclude: [[./init.el::;;usefulanchors_begin]] :lines 2- :src emacs-lisp :end ";;usefulanchors_end"
 
 ** Exporting Readme markdown
 Since I want to keep the org original with the transclusion blocks and Markdown is supported better by more forges, I want to export this config file as a README.md automatically each time I save.
@@ -106,5 +118,5 @@ Since I want to keep the org original with the transclusion blocks and Markdown 
 
 ** Remote as "mirrors"
 Sourcehut is the primary location of this repo with "mirror" on GitHub. But instead of relying on GitHub actions to mirror and manage a separate workflow on the secondary platform, I'm taking shortcut by adding a second push-url to my repo's main remote (origin) so whenever there's a push, it pushes to both Sourcehut and GitHub. When =git remote set-url --push origin --add= is called, it doesn't append to the existing list, it replaces so the primary url also needs to be added.
-#+transclude: [[./setRemotes.sh]] :src shell
+#+transclude: [[./setRemotes.sh]]  :src shell
 #  LocalWords:  config repo
