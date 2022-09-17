@@ -1,37 +1,39 @@
 
 # Table of Contents
 
-1.  [Startup](#org70f9e16)
-    1.  [User Emacs Directory](#org29e8c0e)
-    2.  [Package Management](#orgbf012f4)
-    3.  [Visual elements](#orgd61f8d5)
-    4.  [Early Init](#org1571289)
-2.  [Emacs Behavior](#org5ecc5c3)
-    1.  [Spellcheck](#orgfea6695)
-    2.  [Dired](#orgd0687a8)
-    3.  [No-littering](#orgc7a5b5a)
-    4.  [Misc](#orgf1fe863)
-3.  [Packages](#org5745e94)
-    1.  [Configuration Documentation/Annotation](#org498ee83)
-    2.  [Theme](#orgb00d3cf)
-    3.  [Muscle memory shortcuts](#org433d1ca)
-    4.  [Keybindings](#org5201f12)
-    5.  [Evil-Mode](#org6ff03d3)
-    6.  [History](#org73bea46)
-    7.  [Completions](#org08ff1b4)
-4.  [Exporting Readme markdown](#org3c2dc6d)
+1.  [Startup](#orge3f439c)
+    1.  [User Emacs Directory](#org6dc9aae)
+    2.  [Package Management](#org236ef52)
+    3.  [Visual elements](#org598129a)
+    4.  [Early Init](#org25ac73a)
+2.  [Emacs Behavior](#org480a323)
+    1.  [Spellcheck](#org0d92925)
+    2.  [Dired](#orgcc6c0cd)
+    3.  [No-littering](#org9210e9e)
+    4.  [Misc](#orgd6c2322)
+3.  [Packages](#org65e3ca1)
+    1.  [Configuration Documentation/Annotation](#org9fdfcfd)
+    2.  [Theme](#orgc12254e)
+    3.  [Muscle memory shortcuts](#org799cdf1)
+    4.  [Keybindings](#org361d336)
+    5.  [Evil-Mode](#org2347437)
+    6.  [History](#org2395246)
+    7.  [Completions](#org7ad9f98)
+4.  [Repo meta](#orgac13cfd)
+    1.  [Exporting Readme markdown](#orgc9eb34f)
+    2.  [Remote as "mirrors"](#org45e4484)
 
 This is my custom config based on my [Emacs journey](https://shom.dev/posts/20211121_emacs-custom-configuration/). I wanted to create a literate config but did not want slow down startup with tangling, so currently I'm trying to get "the best of both worlds" via `org-transclusion`. The file `config.org` in this repo contains the "source" and `org-transclusion` directives and is rendered out to `README.md` (markdown is better supported for auto-rendering by more forges currently). I'll eventually automate this process, likely through a git-hook. However, the rendered output is never guaranteed to include all of my config, just the sections that have been manually commented, `init.el` and includes will remain the source of truth. 
 
 
-<a id="org70f9e16"></a>
+<a id="orge3f439c"></a>
 
 # Startup
 
 I would like to have the option to have several Emacs "distributions" or configurations that are independent of each other. This allows for experimentation without breaking things (git helps with the actual config but this allows for the packages to be independent). I'm using Chemacs2 but that's outside the scope of the config, for now.
 
 
-<a id="org29e8c0e"></a>
+<a id="org6dc9aae"></a>
 
 ## User Emacs Directory
 
@@ -40,7 +42,7 @@ I've chosen to keep my custom config and all related packages, etc. in this spec
     (setq user-emacs-directory "~/.emacs/.custom/")
 
 
-<a id="orgbf012f4"></a>
+<a id="org236ef52"></a>
 
 ## Package Management
 
@@ -54,9 +56,9 @@ I'm using `straight.el` as a package manager with the `use-package` syntax. Stra
           (bootstrap-version 5))
       (unless (file-exists-p bootstrap-file)
         (with-current-buffer
-    	(url-retrieve-synchronously
-    	 "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-    	 'silent 'inhibit-cookies)
+            (url-retrieve-synchronously
+             "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+             'silent 'inhibit-cookies)
           (goto-char (point-max))
           (eval-print-last-sexp)))
       (load bootstrap-file nil 'nomessage))
@@ -65,7 +67,7 @@ I'm using `straight.el` as a package manager with the `use-package` syntax. Stra
     (straight-use-package 'use-package)
 
 
-<a id="orgd61f8d5"></a>
+<a id="org598129a"></a>
 
 ## Visual elements
 
@@ -87,7 +89,7 @@ The modeline is another important visual element to show important information a
       :init (doom-modeline-mode 1))
 
 
-<a id="org1571289"></a>
+<a id="org25ac73a"></a>
 
 ## Early Init
 
@@ -100,10 +102,10 @@ I'm not proficient in understanding the underpinnings of early init type optimiz
     
     ;; Profile emacs startup
     (add-hook 'emacs-startup-hook
-    	  (lambda ()
-    	    (message "*** Emacs loaded in %s seconds with %d garbage collections."
-    		     (emacs-init-time "%.2f")
-    		     gcs-done)))
+              (lambda ()
+                (message "*** Emacs loaded in %s seconds with %d garbage collections."
+                         (emacs-init-time "%.2f")
+                         gcs-done)))
     
     ;; Prevent unwanted runtime compilation for gccemacs (native-comp) users;
     ;; packages are compiled ahead-of-time when they are installed and site files
@@ -113,14 +115,14 @@ I'm not proficient in understanding the underpinnings of early init type optimiz
           native-comp-deferred-compilation nil)
 
 
-<a id="org5ecc5c3"></a>
+<a id="org480a323"></a>
 
 # Emacs Behavior
 
 A lot the configuration revolves around packages but there are some built-in settings and behavior within Emacs that also need to be tweaked.
 
 
-<a id="orgfea6695"></a>
+<a id="org0d92925"></a>
 
 ## Spellcheck
 
@@ -132,7 +134,7 @@ Spellchecking while typing is useful and I want to use it everywhere but in prog
     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 
-<a id="orgd0687a8"></a>
+<a id="orgcc6c0cd"></a>
 
 ## Dired
 
@@ -142,14 +144,14 @@ The built-in file explorer (directory editor, dired) doesn't need to be installe
       :straight nil
       :after evil-collection
       :commands (dired dired-jump)
-      :custom ((dired-listing-switches "-agho --group-directories-first"))
+      :custom (dired-listing-switches "-agho --group-directories-first")
       :config
-        (evil-collection-define-key 'normal 'dired-mode-map
+      (evil-collection-define-key 'normal 'dired-mode-map
         "h" '(lambda () (interactive) (find-alternate-file ".."))
         "l" 'dired-find-alternate-file))
 
 
-<a id="orgc7a5b5a"></a>
+<a id="org9210e9e"></a>
 
 ## No-littering
 
@@ -159,11 +161,11 @@ I don't want Emacs to put backup files in the file's directory and mess with git
       :straight t
       :init
       (setq auto-save-file-name-transforms
-    	`((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+            `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
       (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
 
-<a id="orgf1fe863"></a>
+<a id="orgd6c2322"></a>
 
 ## Misc
 
@@ -171,16 +173,19 @@ Because it's easier to type one letter than a word, let's replace the common yes
 
     (defalias 'yes-or-no-p 'y-or-n-p)
     (global-auto-revert-mode 1)
+    
+    (setq-default indent-tabs-mode t)
+    (setq-default tab-width 4)
 
 
-<a id="org5745e94"></a>
+<a id="org65e3ca1"></a>
 
 # Packages
 
 The rest of the functionality is provided by packages, all of which is managed by straight.
 
 
-<a id="org498ee83"></a>
+<a id="org9fdfcfd"></a>
 
 ## Configuration Documentation/Annotation
 
@@ -195,7 +200,7 @@ An important option to set is `org-transclusion-remember-transclusions` so that 
       (setq org-transclusion-remember-transclusions t))
 
 
-<a id="orgb00d3cf"></a>
+<a id="orgc12254e"></a>
 
 ## Theme
 
@@ -209,10 +214,14 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
       :straight t
       :config
       (unless (require 'all-the-icons nil 'noerror)
-      (all-the-icons-install-fonts)))
+        (all-the-icons-install-fonts)))
+    
+    (set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
+    (set-frame-parameter (selected-frame) 'alpha 90)
+    (setq default-frame-alist '((undecorated . t)))
 
 
-<a id="org433d1ca"></a>
+<a id="org799cdf1"></a>
 
 ## Muscle memory shortcuts
 
@@ -222,22 +231,22 @@ There are some shortcuts that I have lots of muscle memory with and also work in
       :straight t
       :after evil-collection
       :bind (("C-S-x" . 'simpleclip-cut)
-    	 ("C-S-c" . 'simpleclip-copy)
-    	 ("C-S-v" . 'simpleclip-paste))) 
+             ("C-S-c" . 'simpleclip-copy)
+             ("C-S-v" . 'simpleclip-paste))) 
     
     (use-package undo-fu
       :straight t
       :after evil-collection
       :defer t
       :bind (:map evil-insert-state-map
-    	      ("C-z" . undo-fu-only-undo)
-    	      ("C-S-z" . undo-fu-only-redo)
-    	 :map evil-normal-state-map
-    	      ("C-z" . undo-fu-only-undo)
-    	      ("C-S-z" . undo-fu-only-redo)))
+                  ("C-z" . undo-fu-only-undo)
+                  ("C-S-z" . undo-fu-only-redo)
+                  :map evil-normal-state-map
+                  ("C-z" . undo-fu-only-undo)
+                  ("C-S-z" . undo-fu-only-redo)))
 
 
-<a id="org5201f12"></a>
+<a id="org361d336"></a>
 
 ## Keybindings
 
@@ -251,7 +260,7 @@ For all the keys I don't have muscle memory for, there's `which-key`. It progres
       (setq which-key-idle-delay 0.1))
 
 
-<a id="org6ff03d3"></a>
+<a id="org2347437"></a>
 
 ## Evil-Mode
 
@@ -262,8 +271,8 @@ Extensible VI Layer (evil) mode for Emacs provides vi editing modes and keybindi
       :bind (("<escape>" . keyboard-escape-quit))
       :init
       (setq evil-want-integration t
-    	evil-want-keybinding nil
-    	evil-undo-system 'undo-fu)
+            evil-want-keybinding nil
+            evil-undo-system 'undo-fu)
       :config
       (evil-mode 1))
     
@@ -286,6 +295,7 @@ However, there are some keybindings I want to have available everywhere and use 
       "." 'find-file
       "," 'consult-buffer
       ";" 'consult-proj
+      "c" 'org-capture
       "SPC" 'execute-extended-command
     
       "e" '("eval" . (keymap))
@@ -312,7 +322,7 @@ However, there are some keybindings I want to have available everywhere and use 
       "ww" '("ace-window" . aw-show-dispatch-help))
 
 
-<a id="org73bea46"></a>
+<a id="org2395246"></a>
 
 ## History
 
@@ -330,7 +340,7 @@ These packages give Emacs memory so the frequent and recent things are near the 
       (run-at-time nil 600 'recentf-save-list))
 
 
-<a id="org08ff1b4"></a>
+<a id="org7ad9f98"></a>
 
 ## Completions
 
@@ -343,22 +353,22 @@ All the things that help with completion in various contexts are in this section
       (vertico-mode)
       (setq vertico-cycle t)
       :bind (:map vertico-map
-    	      ("C-j" . vertico-next)
-    	      ("C-k" . vertico-previous)))
+                  ("C-j" . vertico-next)
+                  ("C-k" . vertico-previous)))
     
     (use-package orderless
       :straight t
       :custom (completion-styles '(orderless)))
     (orderless-define-completion-style orderless+initialism
       (orderless-matching-styles '(orderless-initialism
-    			       orderless-literal
-    			       orderless-regexp)))
+                                   orderless-literal
+                                   orderless-regexp)))
     (setq completion-category-overrides
           '((command (styles orderless+initialism))
-    	(symbol (styles orderless+initialism))
-    	(variable (styles orderless+initialism))
-    	(file (styles . (partial-completion
-    			 orderless+initialism)))))
+            (symbol (styles orderless+initialism))
+            (variable (styles orderless+initialism))
+            (file (styles . (partial-completion
+                             orderless+initialism)))))
     
     (use-package marginalia
       :after vertico
@@ -390,31 +400,29 @@ All the things that help with completion in various contexts are in this section
       (corfu-scroll-margin 5)        ;; Use scroll margin
       (corfu-auto-delay 0.3)
       :bind (:map evil-insert-state-map
-    	      ("C-j" . corfu-next)
-    	      ("C-k" . corfu-previous)
-    	      :map corfu-map
-    	      ("<tab>" . corfu-next)
-    	      ("<backtab>" . corfu-previous))
-      :init
-      (setq tab-always-indent 'complete)
+                  ("C-j" . corfu-next)
+                  ("C-k" . corfu-previous)
+                  :map corfu-map
+                  ("<tab>" . corfu-next)
+                  ("<backtab>" . corfu-previous))
       (global-corfu-mode))
     
     (use-package cape
       :straight t
       :after corfu
       :bind (:map evil-insert-state-map
-    	      ("M-'" . completion-at-point))
+                  ("M-'" . completion-at-point))
       :init
       (add-to-list 'completion-at-point-functions #'cape-file)
       (add-to-list 'completion-at-point-functions #'cape-dabbrev)
       (add-to-list 'completion-at-point-functions #'cape-keyword)
       (add-to-list 'completion-at-point-functions #'cape-ispell)
       (setq-local completion-at-point-functions
-    	      (list (cape-super-capf
-    		     #'cape-file
-    		     #'cape-dabbrev
-    		     #'cape-ispell
-    		     #'cape-keyword))))
+                  (list (cape-super-capf
+                         #'cape-file
+                         #'cape-dabbrev
+                         #'cape-ispell
+                         #'cape-keyword))))
     
     (use-package kind-icon
       :straight t
@@ -423,11 +431,19 @@ All the things that help with completion in various contexts are in this section
       (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
       :config
       (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+    
+    (setq tab-always-indent 'complete
+          tab-first-completion 'word-or-paren-or-punct)
 
 
-<a id="org3c2dc6d"></a>
+<a id="orgac13cfd"></a>
 
-# Exporting Readme markdown
+# Repo meta
+
+
+<a id="orgc9eb34f"></a>
+
+## Exporting Readme markdown
 
 Since I want to keep the org original with the transclusion blocks and Markdown is supported better by more forges, I want to export this config file as a README.md automatically each time I save.
 
@@ -441,4 +457,14 @@ Since I want to keep the org original with the transclusion blocks and Markdown 
     (org-transclusion-deactivate)
     (message "Reverting buffer to avoid issues with org-babel")
     (interactive) (revert-buffer t t)
+
+
+<a id="org45e4484"></a>
+
+## Remote as "mirrors"
+
+Sourcehut is the primary location of this repo with "mirror" on GitHub. But instead of relying on GitHub actions to mirror and manage a separate workflow on the secondary platform, I'm taking shortcut by adding a second push-url to my repo's main remote (origin) so whenever there's a push, it pushes to both Sourcehut and GitHub. When `git remote set-url --push origin --add` is called, it doesn't append to the existing list, it replaces so the primary url also needs to be added.
+
+    git remote set-url --push origin --add git@git.sr.ht:~shom/.emacs.custom
+    git remote set-url --push origin --add git@github.com:shombando/.emacs.custom.git
 

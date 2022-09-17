@@ -81,7 +81,8 @@ All the things that help with completion in various contexts are in this section
 =Note=: The current completion strategy is very much a work in progress. However, vertico, corfu, cape, and friends seems to be the front-runners. 
 #+transclude: [[./init.el::;completions_begin]] :lines 2- :src emacs-lisp :end ";completions_end"
 
-* Exporting Readme markdown
+* Repo meta 
+** Exporting Readme markdown
 Since I want to keep the org original with the transclusion blocks and Markdown is supported better by more forges, I want to export this config file as a README.md automatically each time I save.
 
 #+NAME: generate_readme
@@ -98,4 +99,7 @@ Since I want to keep the org original with the transclusion blocks and Markdown 
   (interactive) (revert-buffer t t)
 #+end_src
 
+** Remote as "mirrors"
+Sourcehut is the primary location of this repo with "mirror" on GitHub. But instead of relying on GitHub actions to mirror and manage a separate workflow on the secondary platform, I'm taking shortcut by adding a second push-url to my repo's main remote (origin) so whenever there's a push, it pushes to both Sourcehut and GitHub. When =git remote set-url --push origin --add= is called, it doesn't append to the existing list, it replaces so the primary url also needs to be added.
+#+transclude: [[./setRemotes.sh]] :src shell
 #  LocalWords:  config repo
