@@ -1,7 +1,7 @@
 # -*- after-save-hook: org-babel-execute-buffer -*-
 #+EXPORT_FILE_NAME: README.md
 
-This is my custom config based on my [[https://shom.dev/posts/20211121_emacs-custom-configuration/][Emacs journey]]. I wanted to create a literate config but did not want slow down startup with tangling, so currently I'm trying to get "the best of both worlds" via =org-transclusion=. The file =config.org= in this repo contains the "source" and =org-transclusion= directives and is rendered out to =README.md= (markdown is better supported for auto-rendering by more forges currently). I'll eventually automate this process, likely through a git-hook. However, the rendered output is never guaranteed to include all of my config, just the sections that have been manually commented, =init.el= and includes will remain the source of truth. 
+This is my custom config based on my [[https://shom.dev/posts/20211121_emacs-custom-configuration/][Emacs journey]]. I wanted to create a literate config but did not want to slowdown startup with tangling, so currently I'm trying to get "the best of both worlds" via =org-transclusion=. The file =config.org= in this repo contains the "source" and =org-transclusion= directives and is rendered out to =README.md= (markdown is better supported for auto-rendering by more forges currently). I'll eventually automate this process, likely through a git-hook, currently it is rendered every time this file is saved using org's =after-save-hook=. However, the rendered output is never guaranteed to include all of my config, just the sections that have been manually commented, =init.el= and includes will remain the source of truth. 
 
 * Startup
 I would like to have the option to have several Emacs "distributions" or configurations that are independent of each other. This allows for experimentation without breaking things (git helps with the actual config but this allows for the packages to be independent). I'm using Chemacs2 but that's outside the scope of the config, for now.
@@ -81,7 +81,11 @@ All the things that help with completion in various contexts are in this section
 =Note=: The current completion strategy is very much a work in progress. However, vertico, corfu, cape, and friends seems to be the front-runners. 
 #+transclude: [[./init.el::;completions_begin]] :lines 2- :src emacs-lisp :end ";completions_end"
 
-* Repo meta 
+* Repo meta
+** Useful anchors
+By default =org-export= regenerates ids for all the headings which creates noise in the git commit history and also in-page anchors can't be reliably linked to a specific part of the document (independent of the git forge's markdown parsing implementation). Using a snippet of [[https://github.com/alphapapa][@alphapapa]]'s unpackaged configuration, we can advice the export to create unique anchors that won't change between exports (unless the headings themselves have been changed).
+#+transclude: [[./init.el::;usefulanchors_begin]] :lines 2- :src emacs-lisp :end ";usefulanchors_end"
+
 ** Exporting Readme markdown
 Since I want to keep the org original with the transclusion blocks and Markdown is supported better by more forges, I want to export this config file as a README.md automatically each time I save.
 
@@ -92,6 +96,7 @@ Since I want to keep the org original with the transclusion blocks and Markdown 
   (message "Turn transclusion On!")
   (org-transclusion-add-all)
   (message "Export")
+  (unpackaged/org-export-html-with-useful-ids-mode)
   (org-md-export-to-markdown)
   (message "Transclusion Off!")
   (org-transclusion-deactivate)

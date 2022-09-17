@@ -1,39 +1,40 @@
 
 # Table of Contents
 
-1.  [Startup](#orge3f439c)
-    1.  [User Emacs Directory](#org6dc9aae)
-    2.  [Package Management](#org236ef52)
-    3.  [Visual elements](#org598129a)
-    4.  [Early Init](#org25ac73a)
-2.  [Emacs Behavior](#org480a323)
-    1.  [Spellcheck](#org0d92925)
-    2.  [Dired](#orgcc6c0cd)
-    3.  [No-littering](#org9210e9e)
-    4.  [Misc](#orgd6c2322)
-3.  [Packages](#org65e3ca1)
-    1.  [Configuration Documentation/Annotation](#org9fdfcfd)
-    2.  [Theme](#orgc12254e)
-    3.  [Muscle memory shortcuts](#org799cdf1)
-    4.  [Keybindings](#org361d336)
-    5.  [Evil-Mode](#org2347437)
-    6.  [History](#org2395246)
-    7.  [Completions](#org7ad9f98)
-4.  [Repo meta](#orgac13cfd)
-    1.  [Exporting Readme markdown](#orgc9eb34f)
-    2.  [Remote as "mirrors"](#org45e4484)
+1.  [Startup](#Startup)
+    1.  [User Emacs Directory](#User%20Emacs%20Directory)
+    2.  [Package Management](#Package%20Management)
+    3.  [Visual elements](#Visual%20elements)
+    4.  [Early Init](#Early%20Init)
+2.  [Emacs Behavior](#Emacs%20Behavior)
+    1.  [Spellcheck](#Spellcheck)
+    2.  [Dired](#Dired)
+    3.  [No-littering](#No-littering)
+    4.  [Misc](#Misc)
+3.  [Packages](#Packages)
+    1.  [Configuration Documentation/Annotation](#Configuration%20Documentation%2FAnnotation)
+    2.  [Theme](#Theme)
+    3.  [Muscle memory shortcuts](#Muscle%20memory%20shortcuts)
+    4.  [Keybindings](#Keybindings)
+    5.  [Evil-Mode](#Evil-Mode)
+    6.  [History](#History)
+    7.  [Completions](#Completions)
+4.  [Repo meta](#Repo%20meta)
+    1.  [Useful anchors](#Useful%20anchors)
+    2.  [Exporting Readme markdown](#Exporting%20Readme%20markdown)
+    3.  [Remote as "mirrors"](#Remote%20as%20%22mirrors%22)
 
-This is my custom config based on my [Emacs journey](https://shom.dev/posts/20211121_emacs-custom-configuration/). I wanted to create a literate config but did not want slow down startup with tangling, so currently I'm trying to get "the best of both worlds" via `org-transclusion`. The file `config.org` in this repo contains the "source" and `org-transclusion` directives and is rendered out to `README.md` (markdown is better supported for auto-rendering by more forges currently). I'll eventually automate this process, likely through a git-hook. However, the rendered output is never guaranteed to include all of my config, just the sections that have been manually commented, `init.el` and includes will remain the source of truth. 
+This is my custom config based on my [Emacs journey](https://shom.dev/posts/20211121_emacs-custom-configuration/). I wanted to create a literate config but did not want to slowdown startup with tangling, so currently I'm trying to get "the best of both worlds" via `org-transclusion`. The file `config.org` in this repo contains the "source" and `org-transclusion` directives and is rendered out to `README.md` (markdown is better supported for auto-rendering by more forges currently). I'll eventually automate this process, likely through a git-hook, currently it is rendered every time this file is saved using org's `after-save-hook`. However, the rendered output is never guaranteed to include all of my config, just the sections that have been manually commented, `init.el` and includes will remain the source of truth. 
 
 
-<a id="orge3f439c"></a>
+<a id="Startup"></a>
 
 # Startup
 
 I would like to have the option to have several Emacs "distributions" or configurations that are independent of each other. This allows for experimentation without breaking things (git helps with the actual config but this allows for the packages to be independent). I'm using Chemacs2 but that's outside the scope of the config, for now.
 
 
-<a id="org6dc9aae"></a>
+<a id="User%20Emacs%20Directory"></a>
 
 ## User Emacs Directory
 
@@ -42,7 +43,7 @@ I've chosen to keep my custom config and all related packages, etc. in this spec
     (setq user-emacs-directory "~/.emacs/.custom/")
 
 
-<a id="org236ef52"></a>
+<a id="Package%20Management"></a>
 
 ## Package Management
 
@@ -65,9 +66,10 @@ I'm using `straight.el` as a package manager with the `use-package` syntax. Stra
     (setq package-enable-at-startup nil)
     
     (straight-use-package 'use-package)
+    (straight-use-package 'org)
 
 
-<a id="org598129a"></a>
+<a id="Visual%20elements"></a>
 
 ## Visual elements
 
@@ -89,7 +91,7 @@ The modeline is another important visual element to show important information a
       :init (doom-modeline-mode 1))
 
 
-<a id="org25ac73a"></a>
+<a id="Early%20Init"></a>
 
 ## Early Init
 
@@ -115,14 +117,14 @@ I'm not proficient in understanding the underpinnings of early init type optimiz
           native-comp-deferred-compilation nil)
 
 
-<a id="org480a323"></a>
+<a id="Emacs%20Behavior"></a>
 
 # Emacs Behavior
 
 A lot the configuration revolves around packages but there are some built-in settings and behavior within Emacs that also need to be tweaked.
 
 
-<a id="org0d92925"></a>
+<a id="Spellcheck"></a>
 
 ## Spellcheck
 
@@ -134,7 +136,7 @@ Spellchecking while typing is useful and I want to use it everywhere but in prog
     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 
-<a id="orgcc6c0cd"></a>
+<a id="Dired"></a>
 
 ## Dired
 
@@ -151,7 +153,7 @@ The built-in file explorer (directory editor, dired) doesn't need to be installe
         "l" 'dired-find-alternate-file))
 
 
-<a id="org9210e9e"></a>
+<a id="No-littering"></a>
 
 ## No-littering
 
@@ -165,7 +167,7 @@ I don't want Emacs to put backup files in the file's directory and mess with git
       (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
 
-<a id="orgd6c2322"></a>
+<a id="Misc"></a>
 
 ## Misc
 
@@ -178,14 +180,14 @@ Because it's easier to type one letter than a word, let's replace the common yes
     (setq-default tab-width 4)
 
 
-<a id="org65e3ca1"></a>
+<a id="Packages"></a>
 
 # Packages
 
 The rest of the functionality is provided by packages, all of which is managed by straight.
 
 
-<a id="org9fdfcfd"></a>
+<a id="Configuration%20Documentation%2FAnnotation"></a>
 
 ## Configuration Documentation/Annotation
 
@@ -200,7 +202,7 @@ An important option to set is `org-transclusion-remember-transclusions` so that 
       (setq org-transclusion-remember-transclusions t))
 
 
-<a id="orgc12254e"></a>
+<a id="Theme"></a>
 
 ## Theme
 
@@ -216,12 +218,16 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
       (unless (require 'all-the-icons nil 'noerror)
         (all-the-icons-install-fonts)))
     
+    (use-package rainbow-delimiters
+      :straight t
+      :hook (prog-mode . rainbow-delimiters-mode))
+    
     (set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
     (set-frame-parameter (selected-frame) 'alpha 90)
     (setq default-frame-alist '((undecorated . t)))
 
 
-<a id="org799cdf1"></a>
+<a id="Muscle%20memory%20shortcuts"></a>
 
 ## Muscle memory shortcuts
 
@@ -246,7 +252,7 @@ There are some shortcuts that I have lots of muscle memory with and also work in
                   ("C-S-z" . undo-fu-only-redo)))
 
 
-<a id="org361d336"></a>
+<a id="Keybindings"></a>
 
 ## Keybindings
 
@@ -260,7 +266,7 @@ For all the keys I don't have muscle memory for, there's `which-key`. It progres
       (setq which-key-idle-delay 0.1))
 
 
-<a id="org2347437"></a>
+<a id="Evil-Mode"></a>
 
 ## Evil-Mode
 
@@ -322,7 +328,7 @@ However, there are some keybindings I want to have available everywhere and use 
       "ww" '("ace-window" . aw-show-dispatch-help))
 
 
-<a id="org2395246"></a>
+<a id="History"></a>
 
 ## History
 
@@ -340,7 +346,7 @@ These packages give Emacs memory so the frequent and recent things are near the 
       (run-at-time nil 600 'recentf-save-list))
 
 
-<a id="org7ad9f98"></a>
+<a id="Completions"></a>
 
 ## Completions
 
@@ -391,6 +397,7 @@ All the things that help with completion in various contexts are in this section
     (use-package corfu
       :straight t
       :after vertico
+      :after evil
       :custom
       (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
       (corfu-auto t)                 ;; Enable auto completion
@@ -405,6 +412,7 @@ All the things that help with completion in various contexts are in this section
                   :map corfu-map
                   ("<tab>" . corfu-next)
                   ("<backtab>" . corfu-previous))
+      :init
       (global-corfu-mode))
     
     (use-package cape
@@ -436,12 +444,429 @@ All the things that help with completion in various contexts are in this section
           tab-first-completion 'word-or-paren-or-punct)
 
 
-<a id="orgac13cfd"></a>
+<a id="Repo%20meta"></a>
 
 # Repo meta
 
 
-<a id="orgc9eb34f"></a>
+<a id="Useful%20anchors"></a>
+
+## Useful anchors
+
+By default `org-export` regenerates ids for all the headings which creates noise in the git commit history and also in-page anchors can't be reliably linked to a specific part of the document (independent of the git forge's markdown parsing implementation). Using a snippet of [@alphapapa](https://github.com/alphapapa)'s unpackaged configuration, we can advice the export to create unique anchors that won't change between exports (unless the headings themselves have been changed).
+
+    (setq user-emacs-directory "~/.emacs/.custom/")
+    ;;directory_end
+    
+    ;;setup_begin
+    (setq byte-compile-warnings nil)
+    
+    (defvar bootstrap-version)
+    (let ((bootstrap-file
+           (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+          (bootstrap-version 5))
+      (unless (file-exists-p bootstrap-file)
+        (with-current-buffer
+            (url-retrieve-synchronously
+             "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+             'silent 'inhibit-cookies)
+          (goto-char (point-max))
+          (eval-print-last-sexp)))
+      (load bootstrap-file nil 'nomessage))
+    (setq package-enable-at-startup nil)
+    
+    (straight-use-package 'use-package)
+    (straight-use-package 'org)
+    ;;setup_end
+    
+    ;;visual_begin
+    (tool-bar-mode -1)
+    (menu-bar-mode -1)
+    (setq visible-bell 1)
+    (global-visual-line-mode 1)
+    (global-linum-mode 1)
+    (column-number-mode t)
+    (setq org-hide-emphasis-markers t)
+    (setq org-image-actual-width nil)
+    ;;visual_end
+    
+    ;;built-in_begin
+    (defalias 'yes-or-no-p 'y-or-n-p)
+    (global-auto-revert-mode 1)
+    
+    (setq-default indent-tabs-mode t)
+    (setq-default tab-width 4)
+    ;;built-in_end
+    
+    ;;spellcheck_begin
+    (setq-default ispell-program-name "aspell")
+    
+    (add-hook 'text-mode-hook 'flyspell-mode)
+    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+    ;;spellcheck_end
+    
+    ;;dired_begin
+    (use-package dired
+      :straight nil
+      :after evil-collection
+      :commands (dired dired-jump)
+      :custom (dired-listing-switches "-agho --group-directories-first")
+      :config
+      (evil-collection-define-key 'normal 'dired-mode-map
+        "h" '(lambda () (interactive) (find-alternate-file ".."))
+        "l" 'dired-find-alternate-file))
+    ;;dired_end
+    
+    ;;no-littering_begin
+    (use-package no-littering
+      :straight t
+      :init
+      (setq auto-save-file-name-transforms
+            `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+      (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
+    ;;no-littering_end
+    
+    ;;modeline_begin
+    (use-package doom-modeline
+      :straight t
+      :init (doom-modeline-mode 1))
+    ;;modeline_end
+    
+    ;;cua_begin
+    (use-package simpleclip
+      :straight t
+      :after evil-collection
+      :bind (("C-S-x" . 'simpleclip-cut)
+             ("C-S-c" . 'simpleclip-copy)
+             ("C-S-v" . 'simpleclip-paste))) 
+    
+    (use-package undo-fu
+      :straight t
+      :after evil-collection
+      :defer t
+      :bind (:map evil-insert-state-map
+                  ("C-z" . undo-fu-only-undo)
+                  ("C-S-z" . undo-fu-only-redo)
+                  :map evil-normal-state-map
+                  ("C-z" . undo-fu-only-undo)
+                  ("C-S-z" . undo-fu-only-redo)))
+    ;;cua_end
+    
+    ;;which-key_begin
+    (use-package which-key
+      :straight t
+      :config
+      (which-key-mode)
+      :init
+      (setq which-key-idle-delay 0.1))
+    ;;which-key_end
+    
+    (use-package magit
+      :straight t
+      :defer t)
+    
+    ;;evil_begin
+    (use-package evil
+      :straight t
+      :bind (("<escape>" . keyboard-escape-quit))
+      :init
+      (setq evil-want-integration t
+            evil-want-keybinding nil
+            evil-undo-system 'undo-fu)
+      :config
+      (evil-mode 1))
+    
+    (use-package evil-collection
+      :after evil
+      :straight t
+      :config
+      (evil-collection-init))
+    
+    (use-package evil-leader
+      :straight t
+      :config
+      (global-evil-leader-mode)
+      (evil-leader/set-leader "<SPC>")
+      (evil-leader-mode))
+    ;;evil_end
+    
+    ;;theme_begin
+    (use-package doom-themes
+      :straight t
+      :init (load-theme 'doom-one t))
+    
+    (use-package all-the-icons
+      :straight t
+      :config
+      (unless (require 'all-the-icons nil 'noerror)
+        (all-the-icons-install-fonts)))
+    
+    (use-package rainbow-delimiters
+      :straight t
+      :hook (prog-mode . rainbow-delimiters-mode))
+    
+    (set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
+    (set-frame-parameter (selected-frame) 'alpha 90)
+    (setq default-frame-alist '((undecorated . t)))
+    ;;theme_end
+    
+    ;;history_begin
+    (use-package savehist
+      :straight t
+      :init
+      (savehist-mode))
+    
+    (use-package recentf
+      :straight t
+      :init
+      (recentf-mode t)
+      (run-at-time nil 600 'recentf-save-list))
+    ;;history_end
+    
+    ;;completions_begin
+    (use-package vertico
+      :straight t
+      :init
+      (vertico-mode)
+      (setq vertico-cycle t)
+      :bind (:map vertico-map
+                  ("C-j" . vertico-next)
+                  ("C-k" . vertico-previous)))
+    
+    (use-package orderless
+      :straight t
+      :custom (completion-styles '(orderless)))
+    (orderless-define-completion-style orderless+initialism
+      (orderless-matching-styles '(orderless-initialism
+                                   orderless-literal
+                                   orderless-regexp)))
+    (setq completion-category-overrides
+          '((command (styles orderless+initialism))
+            (symbol (styles orderless+initialism))
+            (variable (styles orderless+initialism))
+            (file (styles . (partial-completion
+                             orderless+initialism)))))
+    
+    (use-package marginalia
+      :after vertico
+      :straight t
+      :custom
+      (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+      :init
+      (marginalia-mode))
+    
+    (use-package consult
+      :straight t
+      :after vertico)
+    
+    (use-package consult-proj
+      :straight (consult-proj :type git :host github :repo "Qkessler/consult-proj")
+      :bind
+      (("C-c p f" . consult-proj)
+       ("C-c p o" . consult-proj-other-window)))
+    
+    (use-package corfu
+      :straight t
+      :after vertico
+      :after evil
+      :custom
+      (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+      (corfu-auto t)                 ;; Enable auto completion
+      (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
+      (corfu-quit-no-match t)        ;; Automatically quit if there is no match
+      (corfu-preselect-first nil)    ;; Disable candidate preselection
+      (corfu-scroll-margin 5)        ;; Use scroll margin
+      (corfu-auto-delay 0.3)
+      :bind (:map evil-insert-state-map
+                  ("C-j" . corfu-next)
+                  ("C-k" . corfu-previous)
+                  :map corfu-map
+                  ("<tab>" . corfu-next)
+                  ("<backtab>" . corfu-previous))
+      :init
+      (global-corfu-mode))
+    
+    (use-package cape
+      :straight t
+      :after corfu
+      :bind (:map evil-insert-state-map
+                  ("M-'" . completion-at-point))
+      :init
+      (add-to-list 'completion-at-point-functions #'cape-file)
+      (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+      (add-to-list 'completion-at-point-functions #'cape-keyword)
+      (add-to-list 'completion-at-point-functions #'cape-ispell)
+      (setq-local completion-at-point-functions
+                  (list (cape-super-capf
+                         #'cape-file
+                         #'cape-dabbrev
+                         #'cape-ispell
+                         #'cape-keyword))))
+    
+    (use-package kind-icon
+      :straight t
+      :after corfu
+      :custom
+      (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+      :config
+      (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+    
+    (setq tab-always-indent 'complete
+          tab-first-completion 'word-or-paren-or-punct)
+    ;;completions_end
+    
+    ;;embark_begin
+    (use-package embark
+      :straight t
+      :bind
+      (("C-'" . embark-act))
+      :init
+      (setq prefix-help-command #'embark-prefix-help-command)
+      :config
+      ;; https://github.com/oantolin/embark/wiki/Additional-Configuration#use-which-key-like-a-key-menu-prompt
+      (defun embark-which-key-indicator ()
+        "An embark indicator that displays keymaps using which-key.
+    The which-key help message will show the type and value of the
+    current target followed by an ellipsis if there are further
+    targets."
+        (lambda (&optional keymap targets prefix)
+          (if (null keymap)
+              (which-key--hide-popup-ignore-command)
+            (which-key--show-keymap
+             (if (eq (plist-get (car targets) :type) 'embark-become)
+                 "Become"
+               (format "Act on %s '%s'%s"
+                       (plist-get (car targets) :type)
+                       (embark--truncate-target (plist-get (car targets) :target))
+                       (if (cdr targets) "…" "")))
+             (if prefix
+                 (pcase (lookup-key keymap prefix 'accept-default)
+                   ((and (pred keymapp) km) km)
+                   (_ (key-binding prefix 'accept-default)))
+               keymap)
+             nil nil t (lambda (binding)
+                         (not (string-suffix-p "-argument" (cdr binding))))))))
+    
+      (setq embark-indicators
+            '(embark-which-key-indicator
+              embark-highlight-indicator
+              embark-isearch-highlight-indicator))
+    
+      (defun embark-hide-which-key-indicator (fn &rest args)
+        "Hide the which-key indicator immediately when using the completing-read prompter."
+        (which-key--hide-popup-ignore-command)
+        (let ((embark-indicators
+               (remq #'embark-which-key-indicator embark-indicators)))
+          (apply fn args)))
+    
+      (advice-add #'embark-completing-read-prompter
+                  :around #'embark-hide-which-key-indicator))
+    ;;embark_end
+    
+    ;;window_begin
+    (use-package ace-window
+      :straight t
+      :init
+      (global-set-key (kbd "M-q") 'aw-show-dispatch-help)
+      (setq aw-dispatch-always t))
+    ;; :custom-face
+    ;;   '(aw-leading-char-face
+    ;;     :foreground "white" :background "red"
+    ;;     :weight bold :height 5 :box (:line-width 10 :color "red")))
+    ;;window_end
+    
+    ;; usefulanchors_begin
+    ;; From @alphapapa's unpackaged repo https://github.com/alphapapa/unpackaged.el#export-to-html-with-useful-anchors
+    (use-package ox
+      :config
+      (define-minor-mode unpackaged/org-export-html-with-useful-ids-mode
+        "Attempt to export Org as HTML with useful link IDs.
+    Instead of random IDs like \"#orga1b2c3\", use heading titles,
+    made unique when necessary."
+        :global t
+        (if unpackaged/org-export-html-with-useful-ids-mode
+            (advice-add #'org-export-get-reference :override #'unpackaged/org-export-get-reference)
+          (advice-remove #'org-export-get-reference #'unpackaged/org-export-get-reference)))
+    
+      (defun unpackaged/org-export-get-reference (datum info)
+        "Like `org-export-get-reference', except uses heading titles instead of random numbers."
+        (let ((cache (plist-get info :internal-references)))
+          (or (car (rassq datum cache))
+              (let* ((crossrefs (plist-get info :crossrefs))
+                     (cells (org-export-search-cells datum))
+                     ;; Preserve any pre-existing association between
+                     ;; a search cell and a reference, i.e., when some
+                     ;; previously published document referenced a location
+                     ;; within current file (see
+                     ;; `org-publish-resolve-external-link').
+                     ;;
+                     ;; However, there is no guarantee that search cells are
+                     ;; unique, e.g., there might be duplicate custom ID or
+                     ;; two headings with the same title in the file.
+                     ;;
+                     ;; As a consequence, before re-using any reference to
+                     ;; an element or object, we check that it doesn't refer
+                     ;; to a previous element or object.
+                     (new (or (cl-some
+                               (lambda (cell)
+                                 (let ((stored (cdr (assoc cell crossrefs))))
+                                   (when stored
+                                     (let ((old (org-export-format-reference stored)))
+                                       (and (not (assoc old cache)) stored)))))
+                               cells)
+                              (when (org-element-property :raw-value datum)
+                                ;; Heading with a title
+                                (unpackaged/org-export-new-title-reference datum cache))
+                              ;; NOTE: This probably breaks some Org Export
+                              ;; feature, but if it does what I need, fine.
+                              (org-export-format-reference
+                               (org-export-new-reference cache))))
+                     (reference-string new))
+                ;; Cache contains both data already associated to
+                ;; a reference and in-use internal references, so as to make
+                ;; unique references.
+                (dolist (cell cells) (push (cons cell new) cache))
+                ;; Retain a direct association between reference string and
+                ;; DATUM since (1) not every object or element can be given
+                ;; a search cell (2) it permits quick lookup.
+                (push (cons reference-string datum) cache)
+                (plist-put info :internal-references cache)
+                reference-string))))
+    
+      (defun unpackaged/org-export-new-title-reference (datum cache)
+        "Return new reference for DATUM that is unique in CACHE."
+        (cl-macrolet ((inc-suffixf (place)
+                                   `(progn
+                                      (string-match (rx bos
+                                                        (minimal-match (group (1+ anything)))
+                                                        (optional "--" (group (1+ digit)))
+                                                        eos)
+                                                    ,place)
+                                      ;; HACK: `s1' instead of a gensym.
+                                      (-let* (((s1 suffix) (list (match-string 1 ,place)
+                                                                 (match-string 2 ,place)))
+                                              (suffix (if suffix
+                                                          (string-to-number suffix)
+                                                        0)))
+                                        (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
+          (let* ((title (org-element-property :raw-value datum))
+                 (ref (url-hexify-string (substring-no-properties title)))
+                 (parent (org-element-property :parent datum)))
+            (while (--any (equal ref (car it))
+                          cache)
+              ;; Title not unique: make it so.
+              (if parent
+                  ;; Append ancestor title.
+                  (setf title (concat (org-element-property :raw-value parent)
+                                      "--" title)
+                        ref (url-hexify-string (substring-no-properties title))
+                        parent (org-element-property :parent parent))
+                ;; No more ancestors: add and increment a number.
+                (inc-suffixf ref)))
+            ref))))
+
+
+<a id="Exporting%20Readme%20markdown"></a>
 
 ## Exporting Readme markdown
 
@@ -452,6 +877,7 @@ Since I want to keep the org original with the transclusion blocks and Markdown 
     (message "Turn transclusion On!")
     (org-transclusion-add-all)
     (message "Export")
+    (unpackaged/org-export-html-with-useful-ids-mode)
     (org-md-export-to-markdown)
     (message "Transclusion Off!")
     (org-transclusion-deactivate)
@@ -459,7 +885,7 @@ Since I want to keep the org original with the transclusion blocks and Markdown 
     (interactive) (revert-buffer t t)
 
 
-<a id="org45e4484"></a>
+<a id="Remote%20as%20%22mirrors%22"></a>
 
 ## Remote as "mirrors"
 
