@@ -394,7 +394,7 @@ made unique when necessary."
                                                     0)))
                                     (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
       (let* ((title (org-element-property :raw-value datum))
-             (ref (url-hexify-string (substring-no-properties title)))
+             (ref (replace-regexp-in-string "%20" "-" (url-hexify-string (substring-no-properties title))))
              (parent (org-element-property :parent datum)))
         (while (--any (equal ref (car it))
                       cache)

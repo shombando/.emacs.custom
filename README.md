@@ -2,27 +2,27 @@
 # Table of Contents
 
 1.  [Startup](#Startup)
-    1.  [User Emacs Directory](#User%20Emacs%20Directory)
-    2.  [Package Management](#Package%20Management)
-    3.  [Visual elements](#Visual%20elements)
-    4.  [Early Init](#Early%20Init)
-2.  [Emacs Behavior](#Emacs%20Behavior)
+    1.  [User Emacs Directory](#User-Emacs-Directory)
+    2.  [Package Management](#Package-Management)
+    3.  [Visual elements](#Visual-elements)
+    4.  [Early Init](#Early-Init)
+2.  [Emacs Behavior](#Emacs-Behavior)
     1.  [Spellcheck](#Spellcheck)
     2.  [Dired](#Dired)
     3.  [No-littering](#No-littering)
     4.  [Misc](#Misc)
 3.  [Packages](#Packages)
-    1.  [Configuration Documentation/Annotation](#Configuration%20Documentation%2FAnnotation)
+    1.  [Configuration Documentation/Annotation](#Configuration-Documentation%2FAnnotation)
     2.  [Theme](#Theme)
-    3.  [Muscle memory shortcuts](#Muscle%20memory%20shortcuts)
+    3.  [Muscle memory shortcuts](#Muscle-memory-shortcuts)
     4.  [Keybindings](#Keybindings)
     5.  [Evil-Mode](#Evil-Mode)
     6.  [History](#History)
     7.  [Completions](#Completions)
-4.  [Repo meta](#Repo%20meta)
-    1.  [Useful anchors](#Useful%20anchors)
-    2.  [Exporting Readme markdown](#Exporting%20Readme%20markdown)
-    3.  [Remote as "mirrors"](#Remote%20as%20%22mirrors%22)
+4.  [Repo meta](#Repo-meta)
+    1.  [Useful anchors](#Useful-anchors)
+    2.  [Exporting Readme markdown](#Exporting-Readme-markdown)
+    3.  [Remote as "mirrors"](#Remote-as-%22mirrors%22)
 
 This is my custom config based on my [Emacs journey](https://shom.dev/posts/20211121_emacs-custom-configuration/). I wanted to create a literate config but did not want to slowdown startup with tangling, so currently I'm trying to get "the best of both worlds" via `org-transclusion`. The file `config.org` in this repo contains the "source" and `org-transclusion` directives and is rendered out to `README.md` (markdown is better supported for auto-rendering by more forges currently). I'll eventually automate this process, likely through a git-hook, currently it is rendered every time this file is saved using org's `after-save-hook`. However, the rendered output is never guaranteed to include all of my config, just the sections that have been manually commented, `init.el` and includes will remain the source of truth. 
 
@@ -34,7 +34,7 @@ This is my custom config based on my [Emacs journey](https://shom.dev/posts/2021
 I would like to have the option to have several Emacs "distributions" or configurations that are independent of each other. This allows for experimentation without breaking things (git helps with the actual config but this allows for the packages to be independent). I'm using Chemacs2 but that's outside the scope of the config, for now.
 
 
-<a id="User%20Emacs%20Directory"></a>
+<a id="User-Emacs-Directory"></a>
 
 ## User Emacs Directory
 
@@ -43,7 +43,7 @@ I've chosen to keep my custom config and all related packages, etc. in this spec
     (setq user-emacs-directory "~/.emacs/.custom/")
 
 
-<a id="Package%20Management"></a>
+<a id="Package-Management"></a>
 
 ## Package Management
 
@@ -69,7 +69,7 @@ I'm using `straight.el` as a package manager with the `use-package` syntax. Stra
     (straight-use-package 'org)
 
 
-<a id="Visual%20elements"></a>
+<a id="Visual-elements"></a>
 
 ## Visual elements
 
@@ -91,7 +91,7 @@ The modeline is another important visual element to show important information a
       :init (doom-modeline-mode 1))
 
 
-<a id="Early%20Init"></a>
+<a id="Early-Init"></a>
 
 ## Early Init
 
@@ -117,7 +117,7 @@ I'm not proficient in understanding the underpinnings of early init type optimiz
           native-comp-deferred-compilation nil)
 
 
-<a id="Emacs%20Behavior"></a>
+<a id="Emacs-Behavior"></a>
 
 # Emacs Behavior
 
@@ -187,7 +187,7 @@ Because it's easier to type one letter than a word, let's replace the common yes
 The rest of the functionality is provided by packages, all of which is managed by straight.
 
 
-<a id="Configuration%20Documentation%2FAnnotation"></a>
+<a id="Configuration-Documentation%2FAnnotation"></a>
 
 ## Configuration Documentation/Annotation
 
@@ -227,7 +227,7 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
     (setq default-frame-alist '((undecorated . t)))
 
 
-<a id="Muscle%20memory%20shortcuts"></a>
+<a id="Muscle-memory-shortcuts"></a>
 
 ## Muscle memory shortcuts
 
@@ -444,16 +444,16 @@ All the things that help with completion in various contexts are in this section
           tab-first-completion 'word-or-paren-or-punct)
 
 
-<a id="Repo%20meta"></a>
+<a id="Repo-meta"></a>
 
 # Repo meta
 
 
-<a id="Useful%20anchors"></a>
+<a id="Useful-anchors"></a>
 
 ## Useful anchors
 
-By default `org-export` regenerates ids for all the headings which creates noise in the git commit history and also in-page anchors can't be reliably linked to a specific part of the document (independent of the git forge's markdown parsing implementation). Using a snippet of [@alphapapa](https://github.com/alphapapa)'s unpackaged configuration, we can advice the export to create unique anchors that won't change between exports (unless the headings themselves have been changed).
+By default `org-export` regenerates ids for all the headings which creates noise in the git commit history and also in-page anchors can't be reliably linked to a specific part of the document (independent of the git forge's markdown parsing implementation). Using a snippet of [@alphapapa](https://github.com/alphapapa)'s unpackaged configuration, we can advice the export to create unique anchors that won't change between exports (unless the headings themselves have been changed). Replacing space (%20) with dash (-) because Github doesn't parse that correctly.
 
     (setq user-emacs-directory "~/.emacs/.custom/")
     ;;directory_end
@@ -850,7 +850,7 @@ By default `org-export` regenerates ids for all the headings which creates noise
                                                         0)))
                                         (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
           (let* ((title (org-element-property :raw-value datum))
-                 (ref (url-hexify-string (substring-no-properties title)))
+                 (ref (replace-regexp-in-string "%20" "-" (url-hexify-string (substring-no-properties title))))
                  (parent (org-element-property :parent datum)))
             (while (--any (equal ref (car it))
                           cache)
@@ -866,7 +866,7 @@ By default `org-export` regenerates ids for all the headings which creates noise
             ref))))
 
 
-<a id="Exporting%20Readme%20markdown"></a>
+<a id="Exporting-Readme-markdown"></a>
 
 ## Exporting Readme markdown
 
@@ -885,7 +885,7 @@ Since I want to keep the org original with the transclusion blocks and Markdown 
     (interactive) (revert-buffer t t)
 
 
-<a id="Remote%20as%20%22mirrors%22"></a>
+<a id="Remote-as-%22mirrors%22"></a>
 
 ## Remote as "mirrors"
 
