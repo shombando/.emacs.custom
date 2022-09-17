@@ -36,6 +36,9 @@
 ;built-in_begin
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode 1)
+
+(setq-default indent-tabs-mode t)
+(setq-default tab-width 4)
 ;built-in_end
 
 ;spellcheck_begin
@@ -218,8 +221,6 @@
 	      :map corfu-map
 	      ("<tab>" . corfu-next)
 	      ("<backtab>" . corfu-previous))
-  :init
-  (setq tab-always-indent 'complete)
   (global-corfu-mode))
 
 (use-package cape
@@ -246,6 +247,9 @@
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+  (setq tab-always-indent 'complete
+	tab-first-completion 'word-or-paren-or-punct)
 ;completions_end
 
 ;embark_begin
