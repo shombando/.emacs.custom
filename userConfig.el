@@ -3,8 +3,7 @@
 
 (use-package yasnippet
   :straight t
-  :config (setq yas-snippet-dirs '("/home/shom/.emacs/.custom/snippets"))
-  (add-to-list 'warning-suppress-types '(yasnippet backquote-change))
+  :config (setq yas-snippet-dirs '("~/.emacs/.custom/snippets"))
   :init
   (yas-global-mode 1)
   (yas-reload-all))
@@ -178,3 +177,7 @@ See `org-capture-templates' for more information."
 				tab-bar-menu-bar :help "Menu Bar")))
 
   (tab-bar-mode t))
+
+(use-package nov
+  :straight t
+  :config (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
