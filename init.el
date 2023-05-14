@@ -39,10 +39,23 @@
 ;built-in_end
 
 ;spellcheck_begin
-(setq-default ispell-program-name "aspell")
-
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+;; (setq-default ispell-program-name "Aspell")
+;; (require 'jinx)
+;; ;; (use-package jinx
+;; ;;   :hook (emacs-startup . global-jinx-mode)
+;; ;;   :bind (("M-$" . jinx-correct)
+;; ;;          ("C-M-$" . jinx-languages)))
+;; (use-package jinx
+;;   :straight (jinx
+;; 	     :type git
+;; 	     :host github
+;; 	     :repo "minad/jinx")
+;;   :init
+;;   (add-hook 'emacs-startup-hook #'global-jinx-mode)
+;;   :config
+;;   (add-to-list 'vertico-multiform-categories
+;; 	       '(jinx grid (vertico-grid-annotate . 20)))
+;;   (vertico-multiform-mode 1))
 ;spellcheck_end
 
 ;dired_begin
