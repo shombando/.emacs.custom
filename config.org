@@ -42,6 +42,7 @@ A lot the configuration revolves around packages but there are some built-in set
 
 ** Spellcheck
 Spellchecking while typing is useful and I want to use it everywhere but in programming modes only comments should be spell checked not the whole buffer.
+Prose and grammar linting is provided by ~flycheck-vale~ which requires [[https://vale.sh/generator][vale]] to be setup with a ~.vale.ini~ file per project.
 #+transclude: [[./init.el::;;spellcheck_begin]] :lines 2- :src emacs-lisp :end ";;spellcheck_end"
 
 ** Dired

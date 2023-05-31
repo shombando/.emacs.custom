@@ -47,6 +47,12 @@
 
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
+(use-package flycheck-vale
+  :straight t
+  :init
+  (require 'flycheck-vale)
+  (flycheck-vale-setup))
 ;;spellcheck_end
 
 ;;dired_begin
