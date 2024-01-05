@@ -1,5 +1,5 @@
 ;;directory_begin
-(setq user-emacs-directory "~/.emacs/.custom/")
+(setq user-emacs-directory "~/.emacs.d/")
 ;;directory_end
 
 ;;setup_begin
@@ -28,7 +28,7 @@
 (menu-bar-mode -1)
 (setq visible-bell 1)
 (global-visual-line-mode 1)
-(global-linum-mode 1)
+;;(global-linum-mode 1)
 (column-number-mode t)
 (setq org-hide-emphasis-markers t)
 (setq org-image-actual-width nil)
@@ -47,12 +47,6 @@
 
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-
-(use-package flycheck-vale
-  :straight t
-  :init
-  (require 'flycheck-vale)
-  (flycheck-vale-setup))
 ;;spellcheck_end
 
 ;;dired_begin
@@ -246,12 +240,13 @@
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-ispell)
-  (setq-local completion-at-point-functions
-			  (list (cape-super-capf
-					 #'cape-file
-					 #'cape-dabbrev
-					 #'cape-ispell
-					 #'cape-keyword))))
+  ;; (setq-local completion-at-point-functions
+  ;; 			  (list (;'cape-super-capf
+  ;; 					 #'cape-file
+  ;; 					 #'cape-dabbrev
+  ;; 					 #'cape-ispell
+  ;; 					 #'cape-keyword))))
+  )
 
 (use-package kind-icon
   :straight t
