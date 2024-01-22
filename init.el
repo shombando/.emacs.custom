@@ -1,5 +1,5 @@
 ;;directory_begin
-(setq user-emacs-directory "~/.emacs.d/")
+(setq user-emacs-directory "~/.emacs/.custom/")
 ;;directory_end
 
 ;;setup_begin
