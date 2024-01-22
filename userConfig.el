@@ -34,6 +34,9 @@ See `org-capture-templates' for more information."
 					 ,(concat "\n* DRAFT " title)
 					 ":PROPERTIES:\n:EXPORT_FILE_NAME: index"
 					 ,(concat ":EXPORT_HUGO_BUNDLE: " fname)
+					 ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :aliases /s/"
+							  (shell-command-to-string
+							   (concat "~/dev/shom.dev/crc32Janky.sh " fname)))
 					 ,(concat ":EXPORT_HUGO_IMAGES: /posts/" fname "/image.jpg")
 					 ":EXPORT_HUGO_MENU:\n:END:"
 					 "%?\n")          ;Place the cursor here finally
