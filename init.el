@@ -116,6 +116,7 @@
   :init
   (setq evil-want-integration t
 		evil-want-keybinding nil
+		evil-disable-insert-state-bindings t
 		evil-undo-system 'undo-fu)
   :config
   (evil-mode 1))
