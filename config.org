@@ -94,6 +94,10 @@ All the things that help with completion in various contexts are in this section
 =Note=: The current completion strategy is very much a work in progress. However, vertico, corfu, cape, and friends seems to be the front-runners. 
 #+transclude: [[./init.el::;;completions_begin]] :lines 2- :src emacs-lisp :end ";;completions_end"
 
+** User Config
+There are a few packages and specific configuration that is quite specific to my workflow so they're in a separate file and not transcluded here. If anyone wants to use this ~init.el~ file, this section needs to be removed.
+#+transclude: [[./init.el::;;user-config_begin]] :lines 2- :src emacs-lisp :end ";;user-config_end"
+
 * Repo meta
 ** Useful anchors
 By default =org-export= regenerates ids for all the headings which creates noise in the git commit history and also in-page anchors can't be reliably linked to a specific part of the document (independent of the git forge's markdown parsing implementation). Using a snippet of [[https://github.com/alphapapa][@alphapapa]]'s unpackaged configuration, we can advice the export to create unique anchors that won't change between exports (unless the headings themselves have been changed). Replacing space (%20) with dash (-) because Github doesn't parse that correctly.

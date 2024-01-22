@@ -241,13 +241,11 @@
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-ispell)
-  ;; (setq-local completion-at-point-functions
-  ;; 			  (list (;'cape-super-capf
-  ;; 					 #'cape-file
-  ;; 					 #'cape-dabbrev
-  ;; 					 #'cape-ispell
-  ;; 					 #'cape-keyword))))
-  )
+  (setq-local completion-at-point-functions
+			  (list (cape-capf-super
+					 #'cape-dabbrev
+					 #'cape-ispell
+					 #'cape-keyword))))
 
 (use-package kind-icon
   :straight t
@@ -511,4 +509,6 @@ made unique when necessary."
   "ww" '("ace-window" . aw-show-dispatch-help))
 ;;evil-leader_end
 
+;;user-config_begin 
 (load (concat user-emacs-directory "userConfig.el"))
+;;user-config_end 
