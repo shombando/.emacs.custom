@@ -49,7 +49,7 @@ See `org-capture-templates' for more information."
 				   ;; It is assumed that below file is present in `org-directory'
 				   ;; and that it has a "Blog Ideas" heading. It can even be a
 				   ;; symlink pointing to the actual location of all-posts.org!
-				   (file+olp "~/dev/shom.dev/content.org" "Content")
+				   (file+olp "~/dev/shom.dev/posts.org" "Content")
 				   (function org-hugo-new-subtree-post-capture-template)
 				   :prepend t))))
 
