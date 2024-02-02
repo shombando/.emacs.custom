@@ -18,6 +18,9 @@
   :config (setq org-books-file "~/org/personal/books.org"))
 
 
+(use-package yaml-mode
+  :straight t)
+
 (use-package ox-hugo
   :straight t
   :config
@@ -29,6 +32,8 @@
 See `org-capture-templates' for more information."
 	  (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
 			 (fname (concat (format-time-string "%Y%m%d_") (org-hugo-slug title))))
+		(shell-command-to-string
+		 (concat "mkdir -p ~/dev/shom.dev/images/posts/" fname))
 		(mapconcat #'identity
 				   `(
 					 ,(concat "\n* DRAFT " title)
@@ -42,13 +47,37 @@ See `org-capture-templates' for more information."
 					 "%?\n")          ;Place the cursor here finally
 				   "\n")))
 
+	(defun org-hugo-new-subtree-start-guide-capture-template ()
+	  "Returns `org-capture' template string for new Hugo post.
+See `org-capture-templates' for more information."
+	  (let* ((title (read-from-minibuffer "Start Guide Title: ")) ;Prompt to enter the post title
+			 (fname (org-hugo-slug title)))
+		(shell-command-to-string
+		 (concat "mkdir -p ~/dev/shom.dev/images/start/" fname))
+		(mapconcat #'identity
+				   `(
+					 ,(concat "\n* DRAFT " title)
+					 ":PROPERTIES:\n:EXPORT_FILE_NAME: index"
+					 ,(concat ":EXPORT_HUGO_BUNDLE: " fname)
+					 ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :aliases /s/"
+							  (shell-command-to-string
+							   (concat "~/dev/shom.dev/crc32Janky.sh " fname)))
+					 ,(concat ":EXPORT_HUGO_IMAGES: /start/" fname "/image.jpg")
+					 ":EXPORT_HUGO_MENU:\n:END:"
+					 "%?\n")          ;Place the cursor here finally
+				   "\n")))
+
+	(add-to-list 'org-capture-templates
+				 '("s"
+				   "Hugo Start Guide"
+				   entry
+				   (file+olp "~/dev/shom.dev/start.org" "Start")
+				   (function org-hugo-new-subtree-start-guide-capture-template)
+				   :prepend t))
 	(add-to-list 'org-capture-templates
 				 '("h"                ;`org-capture' binding + h
-				   "Hugo post"
+				   "Hugo Post"
 				   entry
-				   ;; It is assumed that below file is present in `org-directory'
-				   ;; and that it has a "Blog Ideas" heading. It can even be a
-				   ;; symlink pointing to the actual location of all-posts.org!
 				   (file+olp "~/dev/shom.dev/posts.org" "Content")
 				   (function org-hugo-new-subtree-post-capture-template)
 				   :prepend t))))
