@@ -56,7 +56,7 @@ See `org-capture-templates' for more information."
 		 (concat "mkdir -p ~/dev/shom.dev/images/start/" fname))
 		(mapconcat #'identity
 				   `(
-					 ,(concat "\n* DRAFT " title)
+					 ,(concat "\n* DRAFT " title " :start:")
 					 ":PROPERTIES:\n:EXPORT_FILE_NAME: index"
 					 ,(concat ":EXPORT_HUGO_BUNDLE: " fname)
 					 ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :aliases /s/"
@@ -213,3 +213,9 @@ See `org-capture-templates' for more information."
 (use-package nov
   :straight t
   :config (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
+
+(use-package geiser-guile
+  :straight t)
+
+(use-package markdown-mode
+  :straight t)

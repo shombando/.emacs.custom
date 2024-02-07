@@ -73,7 +73,9 @@
 ;;modeline_begin
 (use-package doom-modeline
   :straight t
-  :init (doom-modeline-mode 1))
+  :init (doom-modeline-mode 1)
+  :config (all-the-icons-install-fonts))
+;; install NerdFontsSymbolsOnly from https://github.com/ryanoasis/nerd-fonts/releases
 ;;modeline_end
 
 ;;cua_begin
