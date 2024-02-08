@@ -1,0 +1,23 @@
+# -*- mode: snippet -*-
+# name: HugoVideo
+# key: <hphoto
+# --
+#+begin_export html
+<video controls width="800">
+  <source src="${1:source}" type="video/webm" />
+  <track kind="subtitles" src="alt_video_en.vtt" srclang="en" />
+</video>
+#+end_export
+#+begin_src org :exports none :tangle content/${2:slug}/alt_video_en.vtt
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.000
+- Sorry, this is a poor solution to provide alt-text. Description of video follows:
+
+2
+00:00:05.000 --> 00:00:30.000
+${3:alt-text}
+#+end_src
+=Note:Alt-text provided as closed-caption=
+$0
