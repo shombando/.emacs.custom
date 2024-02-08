@@ -80,7 +80,7 @@ The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'
     (menu-bar-mode -1)
     (setq visible-bell 1)
     (global-visual-line-mode 1)
-    ;;(global-linum-mode 1)
+    (global-linum-mode 1)
     (column-number-mode t)
     (setq org-hide-emphasis-markers t)
     (setq org-image-actual-width nil)
@@ -90,6 +90,8 @@ The modeline is another important visual element to show important information a
     (use-package doom-modeline
       :straight t
       :init (doom-modeline-mode 1))
+    ;; run (all-the-icons-install-fonts)) if icons are missing
+    ;; install NerdFontsSymbolsOnly from https://github.com/ryanoasis/nerd-fonts/releases
 
 
 <a id="Early-Init"></a>
@@ -199,7 +201,10 @@ An important option to set is `org-transclusion-remember-transclusions` so that 
 
     (use-package org-transclusion
       :after org
-      :straight t
+      :straight( org-transclusion
+      :type git
+      :host github
+      :repo "nobiot/org-transclusion")
       :init
       (setq org-transclusion-remember-transclusions t))
 
@@ -450,7 +455,7 @@ All the things that help with completion in various contexts are in this section
 
 ## User Config
 
-There are a few packages and specific configuration that is quite specific to my workflow so they're in a separate file and not transcluded here. If anyone wants to use this `init.el` file, this section needs to be removed, the rest of the config should be generic.
+There are a few packages and specific configuration that is quite specific to my workflow so they're in a separate file and not transcluded here. If anyone wants to use this `init.el` file, this section needs to be removed.
 
     (load (concat user-emacs-directory "userConfig.el"))
 

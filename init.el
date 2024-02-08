@@ -415,7 +415,10 @@ made unique when necessary."
 ;;org-transclusion_begin
 (use-package org-transclusion
   :after org
-  :straight t
+  :straight( org-transclusion
+  :type git
+  :host github
+  :repo "nobiot/org-transclusion")
   :init
   (setq org-transclusion-remember-transclusions t))
 ;;org-transclusion_end
