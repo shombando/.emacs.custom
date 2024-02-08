@@ -28,7 +28,7 @@
 (menu-bar-mode -1)
 (setq visible-bell 1)
 (global-visual-line-mode 1)
-;;(global-linum-mode 1)
+(global-linum-mode 1)
 (column-number-mode t)
 (setq org-hide-emphasis-markers t)
 (setq org-image-actual-width nil)
@@ -73,8 +73,8 @@
 ;;modeline_begin
 (use-package doom-modeline
   :straight t
-  :init (doom-modeline-mode 1)
-  :config (all-the-icons-install-fonts))
+  :init (doom-modeline-mode 1))
+;; run (all-the-icons-install-fonts)) if icons are missing
 ;; install NerdFontsSymbolsOnly from https://github.com/ryanoasis/nerd-fonts/releases
 ;;modeline_end
 
