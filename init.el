@@ -140,7 +140,7 @@
 ;;theme_begin
 (use-package doom-themes
   :straight t
-  :init (load-theme 'doom-one t))
+  :init (load-theme 'doom-nord t))
 
 (use-package all-the-icons
   :straight t
@@ -150,6 +150,7 @@
 
 (use-package rainbow-delimiters
   :straight t
+  :config (electric-pair-mode)
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
