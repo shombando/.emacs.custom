@@ -45,7 +45,7 @@ See `org-capture-templates' for more information."
 					 ,(concat ":EXPORT_HUGO_IMAGES: /posts/" fname "/image.jpg")
 					 ":EXPORT_HUGO_MENU:\n:END:"
 					 "%?\n")          ;Place the cursor here finally
-				   "\n")))
+				   "\n#+hugo: more\n\n")))
 
 	(defun org-hugo-new-subtree-start-guide-capture-template ()
 	  "Returns `org-capture' template string for new Hugo post.
