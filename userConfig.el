@@ -3,7 +3,9 @@
 
 (use-package yasnippet
   :straight t
-  :config (setq yas-snippet-dirs '("~/.emacs/.custom/snippets"))
+  :config
+  (setq yas-snippet-dirs '("~/.emacs/.custom/snippets"))
+  (setq warning-suppress-types (cons warning-suppress-types '(yasnippet backquote-change)))
   :init
   (yas-global-mode 1)
   (yas-reload-all))
@@ -44,8 +46,8 @@ See `org-capture-templates' for more information."
 							   (concat "~/dev/shom.dev/crc32Janky.sh " fname)))
 					 ,(concat ":EXPORT_HUGO_IMAGES: /posts/" fname "/image.jpg")
 					 ":EXPORT_HUGO_MENU:\n:END:"
-					 "%?\n")          ;Place the cursor here finally
-				   "\n#+hugo: more\n\n")))
+					 "%?\n\n#+hugo: more")          ;Place the cursor here finally
+				   "\n")))
 
 	(defun org-hugo-new-subtree-start-guide-capture-template ()
 	  "Returns `org-capture' template string for new Hugo post.
@@ -64,7 +66,7 @@ See `org-capture-templates' for more information."
 							   (concat "~/dev/shom.dev/crc32Janky.sh " fname)))
 					 ,(concat ":EXPORT_HUGO_IMAGES: /start/" fname "/image.jpg")
 					 ":EXPORT_HUGO_MENU:\n:END:"
-					 "%?\n")          ;Place the cursor here finally
+					 "%?\n\n#+hugo: more")          ;Place the cursor here finally
 				   "\n")))
 
 	(add-to-list 'org-capture-templates
@@ -75,7 +77,7 @@ See `org-capture-templates' for more information."
 				   (function org-hugo-new-subtree-start-guide-capture-template)
 				   :prepend t))
 	(add-to-list 'org-capture-templates
-				 '("h"                ;`org-capture' binding + h
+				 '("p"                ;`org-capture' binding + h
 				   "Hugo Post"
 				   entry
 				   (file+olp "~/dev/shom.dev/posts.org" "Content")

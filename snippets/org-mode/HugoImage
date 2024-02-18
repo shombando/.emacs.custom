@@ -3,6 +3,6 @@
 # key: <himage
 # --
 #+begin_export hugo
-{{< figure src="`(yank)`" caption="${1:caption}" alt="${2:alttext}" >}}
+{{< figure src="`(yank)`" width= "${1:400px}" title="${2:title}" alt="${3:alttext}" align="center" >}}
 #+end_export
 $0
