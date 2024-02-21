@@ -308,6 +308,9 @@ targets."
 
   (advice-add #'embark-completing-read-prompter
 			  :around #'embark-hide-which-key-indicator))
+
+(use-package embark-consult
+  :straight t)
 ;;embark_end
 
 ;;window_begin
@@ -489,6 +492,7 @@ made unique when necessary."
   "," 'consult-buffer
   ";" 'consult-proj
   "c" 'org-capture
+  "/" 'consult-ripgrep
   "SPC" 'execute-extended-command
 
   "e" '("eval" . (keymap))
