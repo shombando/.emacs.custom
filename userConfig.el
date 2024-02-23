@@ -5,7 +5,7 @@
   :straight t
   :config
   (setq yas-snippet-dirs '("~/.emacs/.custom/snippets"))
-  (setq warning-suppress-types (cons warning-suppress-types '(yasnippet backquote-change)))
+  (setq warning-suppress-types (cons 'warning-suppress-types '(yasnippet backquote-change)))
   :init
   (yas-global-mode 1)
   (yas-reload-all))
@@ -194,7 +194,7 @@ See `org-capture-templates' for more information."
   ;; remove battery from doom-modeline
   (doom-modeline-def-modeline 'default
 	'(bar window-number modals matches buffer-info remote-host buffer-position word-count parrot selection-info)
-	'(objed-state grip debug repl lsp minor-modes input-method indent-info buffer-encoding major-mode process vcs checker))
+	'(vcs checker major-mode process objed-state grip debug repl lsp minor-modes input-method indent-info buffer-encoding))
   (doom-modeline-set-modeline 'default t)
   (add-to-list 'global-mode-string '("" doom-modeline--battery-status))
   (add-to-list 'global-mode-string '("" tracking-mode-line-buffers))
@@ -217,7 +217,19 @@ See `org-capture-templates' for more information."
   :config (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
 (use-package geiser-guile
-  :straight t)
+  :straight t
+  :after org
+  :config
+  (evil-collection-define-key 'normal 'geiser-repl-mode-map
+	"k" 'comint-previous-input
+	"j" 'comint-next-input)
+  (evil-define-key 'insert geiser-repl-mode-map
+	(kbd "<up>") 'comint-previous-input
+	(kbd "<down>") 'comint-next-input)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((scheme . t)
+	 (shell . t))))
 
 (use-package markdown-mode
   :straight t)

@@ -243,11 +243,9 @@
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-ispell)
   (setq-local completion-at-point-functions
 			  (list (cape-capf-super
 					 #'cape-dabbrev
-					 #'cape-ispell
 					 #'cape-keyword))))
 
 (use-package kind-icon
@@ -493,6 +491,7 @@ made unique when necessary."
   ";" 'consult-proj
   "c" 'org-capture
   "/" 'consult-ripgrep
+  "=" 'org-indent-region
   "SPC" 'execute-extended-command
 
   "e" '("eval" . (keymap))
