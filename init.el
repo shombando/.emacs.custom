@@ -28,7 +28,7 @@
 (menu-bar-mode -1)
 (setq visible-bell 1)
 (global-visual-line-mode 1)
-(global-linum-mode 1)
+(global-display-line-numbers-mode 1)
 (column-number-mode t)
 (setq org-hide-emphasis-markers t)
 (setq org-image-actual-width nil)
