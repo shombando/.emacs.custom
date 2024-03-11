@@ -514,6 +514,8 @@ made unique when necessary."
 
   "w" '("window" . (keymap))
   "wd" '("delete" . delete-window)
+  "wb" '("split-below" . split-window-below)
+  "wr" '("split-right" . split-window-right)
   "wo" '("delete other" . delete-other-windows)
   "ww" '("ace-window" . aw-show-dispatch-help))
 ;;evil-leader_end
