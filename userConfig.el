@@ -15,11 +15,6 @@
   :config (setq org-directory "~/org"
 				org-pretty-entities-include-sub-superscripts t))
 
-(use-package org-books
-  :straight t
-  :config (setq org-books-file "~/org/personal/books.org"))
-
-
 (use-package yaml-mode
   :straight t)
 
