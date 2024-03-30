@@ -10,7 +10,7 @@
   :config
   (setq yas-snippet-dirs '("~/.emacs/.custom/snippets"))
   (setq warning-suppress-types (cons 'warning-suppress-types '(yasnippet backquote-change)))
-  :init
+  :config
   (yas-global-mode 1)
   (yas-reload-all))
 
