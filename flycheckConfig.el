@@ -1,4 +1,4 @@
-;; from: https://config.phundrak.com/emacs.html#Packages-Configuration-Programming-languages-Flycheckb446fl6184j0
+;; from: https://config.phundrak.com/emacs/packages/programming.html#flycheck
 (use-package flycheck
   :straight (:build t)
   :defer t

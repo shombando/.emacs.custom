@@ -44,7 +44,6 @@ A lot the configuration revolves around packages but there are some built-in set
 
 ** Spellcheck
 Spellchecking while typing is useful and I want to use it everywhere but in programming modes only comments should be spell checked not the whole buffer.
-Prose and grammar linting is provided by ~flycheck-vale~ which requires [[https://vale.sh/generator][vale]] to be setup with a ~.vale.ini~ file per project.
 #+transclude: [[./init.el::;;spellcheck_begin]] :lines 2- :src emacs-lisp :end ";;spellcheck_end"
 
 ** Dired
@@ -99,6 +98,10 @@ All the things that help with completion in various contexts are in this section
 ** User Config
 There are a few packages and specific configuration that is quite specific to my workflow so they're in a separate file and not transcluded here. If anyone wants to use this ~init.el~ file, this section needs to be removed.
 #+transclude: [[./init.el::;;user-config_begin]] :lines 2- :src emacs-lisp :end ";;user-config_end"
+
+*** Flycheck
+[[https://www.flycheck.org/en/latest/][Flycheck]] provides syntax checking for Emacs and provides more of the IDE functionality to the text-editor. [[https://config.phundrak.com/emacs/packages/programming.html#flycheck][Phundrak's config]] is fairly authoritative and I'm using it whole sale.
+#+transclude: [[./flycheckConfig.el]] :lines 2- :src emacs-lisp
 
 * Repo meta
 ** Useful anchors
