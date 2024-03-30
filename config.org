@@ -103,6 +103,12 @@ There are a few packages and specific configuration that is quite specific to my
 [[https://www.flycheck.org/en/latest/][Flycheck]] provides syntax checking for Emacs and provides more of the IDE functionality to the text-editor. [[https://config.phundrak.com/emacs/packages/programming.html#flycheck][Phundrak's config]] is fairly authoritative and I'm using it whole sale.
 #+transclude: [[./flycheckConfig.el]] :lines 2- :src emacs-lisp
 
+*** Ox-hugo
+My website/blog is created with [[https://gohugo.io/][Hugo]]: a static site generator. However, I wanted to create an unified workflow and have a central place to write instead of manually managing files and folders. To that effect (and seeing how this is a 'not so small' Emacs config) I decided to go with [[https://ox-hugo.scripter.co/][ox-hugo]].
+
+Ox-hugo serves as the middle-ware so the "front-end" can be Emacs and the it handles all the content directory and file structure creation before handing it off to Hugo to generate the HTML site. While this is a few levels of abstraction it allows for a very straight-forward and friction free blogging experience. I run an org-capture template that creates all the meta data (front-matter) needed and I can write a post (use yasnippet for other captures like inserting images), commit, and push and the remote server (as of writing [[https://srht.site/][Sourcehut Pages]]) builds and serves the site.
+#+transclude: [[./ox-hugoConfig.el]] :lines 1- :src emacs-lisp
+
 * Repo meta
 ** Useful anchors
 By default =org-export= regenerates ids for all the headings which creates noise in the git commit history and also in-page anchors can't be reliably linked to a specific part of the document (independent of the git forge's markdown parsing implementation). Using a snippet of [[https://github.com/alphapapa][@alphapapa]]'s unpackaged configuration, we can advice the export to create unique anchors that won't change between exports (unless the headings themselves have been changed). Replacing space (%20) with dash (-) because Github doesn't parse that correctly.
