@@ -18,9 +18,6 @@
 (use-package yaml-mode
   :straight t)
 
-(use-package yaml-mode
-  :straight t)
-
 ;; from: https://config.phundrak.com/emacs.html#Packages-Configuration-Programming-languages-Flycheckb446fl6184j0
 (use-package flycheck
   :straight (:build t)
