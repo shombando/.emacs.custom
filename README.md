@@ -19,8 +19,12 @@
     5.  [Evil-Mode](#Evil-Mode)
     6.  [History](#History)
     7.  [Completions](#Completions)
-    8.  [User Config](#User-Config)
-4.  [Repo meta](#Repo-meta)
+4.  [User Config](#User-Config)
+        1.  [Flycheck](#Flycheck)
+        2.  [Ox-hugo](#Ox-hugo)
+        3.  [Email](#Email)
+        4.  [Yasnippet](#Yasnippet)
+5.  [Repo meta](#Repo-meta)
     1.  [Useful anchors](#Useful-anchors)
     2.  [Exporting Readme markdown](#Exporting-Readme-markdown)
     3.  [Remote as "mirrors"](#Remote-as--mirrors-)
@@ -80,18 +84,100 @@ The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'
     (menu-bar-mode -1)
     (setq visible-bell 1)
     (global-visual-line-mode 1)
-    (global-linum-mode 1)
+    (global-display-line-numbers-mode 1)
     (column-number-mode t)
     (setq org-hide-emphasis-markers t)
     (setq org-image-actual-width nil)
 
 The modeline is another important visual element to show important information about the buffer and modes. Doom's modeline is a significant visual upgrade to the default.
 
+In addition to the modeline at the bottom, I want a nice bar at the top for tabs with a mouse clickable Emacs menu button as well (as a backup to keyboard navigation).
+
     (use-package doom-modeline
       :straight t
       :init (doom-modeline-mode 1))
     ;; run (all-the-icons-install-fonts)) if icons are missing
     ;; install NerdFontsSymbolsOnly from https://github.com/ryanoasis/nerd-fonts/releases
+    
+    (with-eval-after-load 'doom-modeline
+      ;; Mostly using @daviwil's config
+      (defun dw/set-tab-bar-faces ()
+        (let ((color (face-attribute 'doom-modeline-bar :background nil t)))
+          (set-face-attribute 'tab-bar-tab t :foreground unspecified :background unspecified :weight 'semi-bold :underline `(:color ,color) :inherit nil)
+          (set-face-attribute 'tab-bar nil :font "JetBrains Mono Bold" :height 0.95 :underline `(:color ,color) :foreground nil :inherit 'mode-line)))
+    
+      (setq tab-bar-close-button-show nil
+            tab-bar-format '(dw/set-tab-bar-faces
+                             tab-bar-format-menu-bar
+                             tab-bar-format-history
+                             tab-bar-format-tabs
+                             tab-bar-separator
+                             tab-bar-format-add-tab
+                             tab-bar-format-align-right
+                             tab-bar-format-global
+                             tab-bar-separator))
+    
+      ;; remove battery from doom-modeline
+      (doom-modeline-def-modeline 'default
+        '(bar window-number modals matches buffer-info remote-host buffer-position word-count parrot selection-info)
+        '(vcs major-mode process objed-state grip debug repl lsp minor-modes input-method indent-info buffer-encoding))
+      (doom-modeline-set-modeline 'default t)
+      (add-to-list 'global-mode-string '("" doom-modeline--battery-status))
+      (add-to-list 'global-mode-string '("" tracking-mode-line-buffers))
+    
+      (display-time-mode 1)
+      ;; (display-battery-mode 1)
+    
+      (setq tab-bar-separator " | ")
+    
+      ;; Redefine tab-bar-format-menu-bar since there's no option for changing the menu text, taken from karthinks.com
+      (defun tab-bar-frmat-menu-bar ()
+        "Produce the Menu button for the tab bar that shows the menu bar."
+        `((menu-bar menu-item (propertize " ξ " 'face 'tab-bar-tab-inactive)
+                    tab-bar-menu-bar :help "Menu Bar")))
+    
+      (tab-bar-mode t))
+
+A few more visual decorations and nice to have only make sense/only supported on a full display. So they're not loaded when Emacs in running in Termux on Android.
+
+    (unless sb/is-termux
+      (scroll-bar-mode -1)
+      (set-fringe-mode '(20 . 10))
+    
+      (use-package git-gutter-fringe
+        :straight t
+        :init
+        (require 'git-gutter-fringe)
+        (global-git-gutter-mode t)
+        :config
+        (setq git-gutter:update-interval 2
+              git-gutter:modified-sign "&"
+              git-gutter:added-sign "+"
+              git-gutter:deleted-sign "-")
+        (set-face-foreground 'git-gutter-fr:modified "LightGoldenrod")
+        (set-face-foreground 'git-gutter-fr:added    "LightGreen")
+        (set-face-foreground 'git-gutter-fr:deleted  "LightCoral"))
+    
+      (use-package org-bars
+        :after org
+        :straight (org-bars :type git :host github :repo "tonyaldon/org-bars")
+        :init
+        (defun org-no-ellipsis-in-headlines ()
+          "Remove use of ellipsis in headlines."
+          (remove-from-invisibility-spec '(outline . t))
+          (add-to-invisibility-spec 'outline))
+        (add-hook 'org-mode-hook #'org-bars-mode)
+        (add-hook 'org-mode-hook 'org-no-ellipsis-in-headlines))
+    
+      (use-package all-the-icons-dired
+        :straight t
+        :hook (dired-mode . all-the-icons-dired-mode))
+    
+      (use-package vertico-posframe
+        :after vertico
+        :straight t
+        :init
+        (vertico-posframe-mode 1)))
 
 
 <a id="Early-Init"></a>
@@ -132,7 +218,6 @@ A lot the configuration revolves around packages but there are some built-in set
 ## Spellcheck
 
 Spellchecking while typing is useful and I want to use it everywhere but in programming modes only comments should be spell checked not the whole buffer.
-Prose and grammar linting is provided by `flycheck-vale` which requires [vale](https://vale.sh/generator) to be setup with a `.vale.ini` file per project.
 
     (setq-default ispell-program-name "aspell")
     
@@ -168,7 +253,9 @@ I don't want Emacs to put backup files in the file's directory and mess with git
       :init
       (setq auto-save-file-name-transforms
             `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
-      (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
+      (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
+      :config
+      (no-littering-theme-backups))
 
 
 <a id="Misc"></a>
@@ -199,6 +286,11 @@ As mentioned in the intro, this whole configuration documentation/annotation/"in
 
 An important option to set is `org-transclusion-remember-transclusions` so that just the buffer contains the transcluded text and it's not actually saved out to the file on disk. *This is the way* to preserve the pointer/link.
 
+    (use-package org
+      :straight t
+      :config (setq org-directory "~/org"
+                    org-pretty-entities-include-sub-superscripts t))
+    
     (use-package org-transclusion
       :after org
       :straight( org-transclusion
@@ -217,7 +309,7 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
 
     (use-package doom-themes
       :straight t
-      :init (load-theme 'doom-one t))
+      :init (load-theme 'doom-nord t))
     
     (use-package all-the-icons
       :straight t
@@ -227,6 +319,7 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
     
     (use-package rainbow-delimiters
       :straight t
+      :config (electric-pair-mode)
       :hook (prog-mode . rainbow-delimiters-mode))
     
     (set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
@@ -310,6 +403,8 @@ However, there are some keybindings I want to have available everywhere and use 
       "," 'consult-buffer
       ";" 'consult-proj
       "c" 'org-capture
+      "/" 'consult-ripgrep
+      "=" 'org-indent-region
       "SPC" 'execute-extended-command
     
       "e" '("eval" . (keymap))
@@ -332,6 +427,8 @@ However, there are some keybindings I want to have available everywhere and use 
     
       "w" '("window" . (keymap))
       "wd" '("delete" . delete-window)
+      "wb" '("split-below" . split-window-below)
+      "wr" '("split-right" . split-window-right)
       "wo" '("delete other" . delete-other-windows)
       "ww" '("ace-window" . aw-show-dispatch-help))
 
@@ -432,11 +529,9 @@ All the things that help with completion in various contexts are in this section
       (add-to-list 'completion-at-point-functions #'cape-file)
       (add-to-list 'completion-at-point-functions #'cape-dabbrev)
       (add-to-list 'completion-at-point-functions #'cape-keyword)
-      (add-to-list 'completion-at-point-functions #'cape-ispell)
       (setq-local completion-at-point-functions
                   (list (cape-capf-super
                          #'cape-dabbrev
-                         #'cape-ispell
                          #'cape-keyword))))
     
     (use-package kind-icon
@@ -453,11 +548,50 @@ All the things that help with completion in various contexts are in this section
 
 <a id="User-Config"></a>
 
-## User Config
+# User Config
 
 There are a few packages and specific configuration that is quite specific to my workflow so they're in a separate file and not transcluded here. If anyone wants to use this `init.el` file, this section needs to be removed.
 
     (load (concat user-emacs-directory "userConfig.el"))
+
+
+<a id="Flycheck"></a>
+
+### Flycheck
+
+[Flycheck](https://www.flycheck.org/en/latest/) provides syntax checking for Emacs and provides more of the IDE functionality to the text-editor. [Phundrak's config](https://config.phundrak.com/emacs/packages/programming.html#flycheck) is fairly authoritative and I'm using it whole sale.
+
+
+<a id="Ox-hugo"></a>
+
+### Ox-hugo
+
+My website/blog is created with [Hugo](https://gohugo.io/): a static site generator. However, I wanted to create an unified workflow and have a central place to write instead of manually managing files and folders. To that effect (and seeing how this is a 'not so small' Emacs config) I decided to go with [ox-hugo](https://ox-hugo.scripter.co/).
+
+Ox-hugo serves as the middle-ware so the "front-end" can be Emacs and the it handles all the content directory and file structure creation before handing it off to Hugo to generate the HTML site. While this is a few levels of abstraction it allows for a very straight-forward and friction free blogging experience. I run an org-capture template that creates all the meta data (front-matter) needed and I can write a post (use yasnippet for other captures like inserting images), commit, and push and the remote server (as of writing [Sourcehut Pages](https://srht.site/)) builds and serves the site.
+
+
+<a id="Email"></a>
+
+### Email
+
+I use mu4e and org-msg for doing email through Emacs. I'm not a prolific mail user so my setup is pretty simple. I have written a post about [setting up Proton Mail in Emacs](https://shom.dev/posts/20220108_setting-up-protonmail-in-emacs/) that covers the setup in more detail.
+
+
+<a id="Yasnippet"></a>
+
+### Yasnippet
+
+Yasnippet is a tenplating package, it's autocomplete on steroids. You define templates that are relevant for specific modes (org/lisp/rust/html/etc) and when in that mode and a keyphrase is typed and activated it will pull in that template with multiple variables and multi-line typing. I currently use it **very** simplistically but need to integrate it more into my workflow.
+
+    (use-package yasnippet
+      :straight t
+      :config
+      (setq yas-snippet-dirs '("~/.emacs/.custom/snippets"))
+      (setq warning-suppress-types (cons 'warning-suppress-types '(yasnippet backquote-change)))
+      :config
+      (yas-global-mode 1)
+      (yas-reload-all))
 
 
 <a id="Repo-meta"></a>
