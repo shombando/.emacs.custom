@@ -149,7 +149,7 @@ See `org-capture-templates' for more information."
   ;; remove battery from doom-modeline
   (doom-modeline-def-modeline 'default
 	'(bar window-number modals matches buffer-info remote-host buffer-position word-count parrot selection-info)
-	'(vcs checker major-mode process objed-state grip debug repl lsp minor-modes input-method indent-info buffer-encoding))
+	'(vcs major-mode process objed-state grip debug repl lsp minor-modes input-method indent-info buffer-encoding))
   (doom-modeline-set-modeline 'default t)
   (add-to-list 'global-mode-string '("" doom-modeline--battery-status))
   (add-to-list 'global-mode-string '("" tracking-mode-line-buffers))
