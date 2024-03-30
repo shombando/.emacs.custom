@@ -116,7 +116,7 @@ I use mu4e and org-msg for doing email through Emacs. I'm not a prolific mail us
 #+transclude: [[./mailConfig.el]] :lines 1- :src emacs-lisp
 
 *** Yasnippet
-Yasnippet is a tenplating package, it's autocomplete on steroids. You define templates that are relevant for specific modes (org/lisp/rust/html/etc) and when in that mode and a keyphrase is typed and activated it will pull in that template with multiple variables and multi-line typing. I currently use it *very* simplistically but need to integrate it more
+Yasnippet is a tenplating package, it's autocomplete on steroids. You define templates that are relevant for specific modes (org/lisp/rust/html/etc) and when in that mode and a keyphrase is typed and activated it will pull in that template with multiple variables and multi-line typing. I currently use it *very* simplistically but need to integrate it more into my workflow.
 #+transclude: [[./userConfig.el::;;yasnippet_begin]] :lines 2- :src emacs-lisp :end ";;yasnippet_end"
 
 * Repo meta
