@@ -97,7 +97,7 @@ All the things that help with completion in various contexts are in this section
 =Note=: The current completion strategy is very much a work in progress. However, vertico, corfu, cape, and friends seems to be the front-runners. 
 #+transclude: [[./init.el::;;completions_begin]] :lines 2- :src emacs-lisp :end ";;completions_end"
 
-** User Config
+* User Config
 There are a few packages and specific configuration that is quite specific to my workflow so they're in a separate file and not transcluded here. If anyone wants to use this ~init.el~ file, this section needs to be removed.
 #+transclude: [[./init.el::;;user-config_begin]] :lines 2- :src emacs-lisp :end ";;user-config_end"
 
@@ -114,6 +114,10 @@ Ox-hugo serves as the middle-ware so the "front-end" can be Emacs and the it han
 *** Email
 I use mu4e and org-msg for doing email through Emacs. I'm not a prolific mail user so my setup is pretty simple. I have written a post about [[https://shom.dev/posts/20220108_setting-up-protonmail-in-emacs/][setting up Proton Mail in Emacs]] that covers the setup in more detail.
 #+transclude: [[./mailConfig.el]] :lines 1- :src emacs-lisp
+
+*** Yasnippet
+Yasnippet is a tenplating package, it's autocomplete on steroids. You define templates that are relevant for specific modes (org/lisp/rust/html/etc) and when in that mode and a keyphrase is typed and activated it will pull in that template with multiple variables and multi-line typing. I currently use it *very* simplistically but need to integrate it more
+#+transclude: [[./userConfig.el::;;yasnippet_begin]] :lines 2- :src emacs-lisp :end ";;yasnippet_end"
 
 * Repo meta
 ** Useful anchors

@@ -7,6 +7,7 @@
 (load (concat user-emacs-directory "ox-hugoConfig.el"))
 (load (concat user-emacs-directory "flycheckConfig.el"))
 
+;;yasnippet_begin
 (use-package yasnippet
   :straight t
   :config
@@ -15,6 +16,7 @@
   :config
   (yas-global-mode 1)
   (yas-reload-all))
+;;yasnippet_end
 
 (use-package yaml-mode
   :straight t)
