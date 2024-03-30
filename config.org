@@ -27,6 +27,8 @@ The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'
 #+RESULTS:
 
 The modeline is another important visual element to show important information about the buffer and modes. Doom's modeline is a significant visual upgrade to the default.
+
+In addition to the modeline at the bottom, I want a nice bar at the top for tabs with a mouse clickable Emacs menu button as well (as a backup to keyboard navigation).
 #+transclude: [[./init.el::;;modeline_begin]] :lines 2- :src emacs-lisp :end ";;modeline_end"
 
 #+RESULTS:
