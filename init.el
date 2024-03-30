@@ -417,6 +417,11 @@ made unique when necessary."
 ;;usefulanchors_end
 
 ;;org-transclusion_begin
+(use-package org
+  :straight t
+  :config (setq org-directory "~/org"
+				org-pretty-entities-include-sub-superscripts t))
+
 (use-package org-transclusion
   :after org
   :straight( org-transclusion

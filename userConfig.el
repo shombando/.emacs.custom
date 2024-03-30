@@ -14,11 +14,6 @@
   (yas-global-mode 1)
   (yas-reload-all))
 
-(use-package org
-  :straight t
-  :config (setq org-directory "~/org"
-				org-pretty-entities-include-sub-superscripts t))
-
 (use-package yaml-mode
   :straight t)
 
