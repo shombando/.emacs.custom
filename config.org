@@ -27,9 +27,13 @@ The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'
 #+RESULTS:
 
 The modeline is another important visual element to show important information about the buffer and modes. Doom's modeline is a significant visual upgrade to the default.
+
+In addition to the modeline at the bottom, I want a nice bar at the top for tabs with a mouse clickable Emacs menu button as well (as a backup to keyboard navigation).
 #+transclude: [[./init.el::;;modeline_begin]] :lines 2- :src emacs-lisp :end ";;modeline_end"
 
 #+RESULTS:
+A few more visual decorations and nice to have only make sense/only supported on a full display. So they're not loaded when Emacs in running in Termux on Android.
+#+transclude: [[./init.el::;;visualNonPhone_begin]] :lines 2- :src emacs-lisp :end ";;visualNonPhone_end"
 
 ** Early Init
 I'm not proficient in understanding the underpinnings of early init type optimizations so I'm borrowing from [[https://github.com/hlissner/doom-emacs/][Doom]] and [[https://systemcrafters.net][System Crafters]]. here.
@@ -42,7 +46,6 @@ A lot the configuration revolves around packages but there are some built-in set
 
 ** Spellcheck
 Spellchecking while typing is useful and I want to use it everywhere but in programming modes only comments should be spell checked not the whole buffer.
-Prose and grammar linting is provided by ~flycheck-vale~ which requires [[https://vale.sh/generator][vale]] to be setup with a ~.vale.ini~ file per project.
 #+transclude: [[./init.el::;;spellcheck_begin]] :lines 2- :src emacs-lisp :end ";;spellcheck_end"
 
 ** Dired
@@ -94,9 +97,27 @@ All the things that help with completion in various contexts are in this section
 =Note=: The current completion strategy is very much a work in progress. However, vertico, corfu, cape, and friends seems to be the front-runners. 
 #+transclude: [[./init.el::;;completions_begin]] :lines 2- :src emacs-lisp :end ";;completions_end"
 
-** User Config
+* User Config
 There are a few packages and specific configuration that is quite specific to my workflow so they're in a separate file and not transcluded here. If anyone wants to use this ~init.el~ file, this section needs to be removed.
 #+transclude: [[./init.el::;;user-config_begin]] :lines 2- :src emacs-lisp :end ";;user-config_end"
+
+*** Flycheck
+[[https://www.flycheck.org/en/latest/][Flycheck]] provides syntax checking for Emacs and provides more of the IDE functionality to the text-editor. [[https://config.phundrak.com/emacs/packages/programming.html#flycheck][Phundrak's config]] is fairly authoritative and I'm using it whole sale.
+#+transclude: [[./flycheckConfig.el]] :lines 2- :src emacs-lisp
+
+*** Ox-hugo
+My website/blog is created with [[https://gohugo.io/][Hugo]]: a static site generator. However, I wanted to create an unified workflow and have a central place to write instead of manually managing files and folders. To that effect (and seeing how this is a 'not so small' Emacs config) I decided to go with [[https://ox-hugo.scripter.co/][ox-hugo]].
+
+Ox-hugo serves as the middle-ware so the "front-end" can be Emacs and the it handles all the content directory and file structure creation before handing it off to Hugo to generate the HTML site. While this is a few levels of abstraction it allows for a very straight-forward and friction free blogging experience. I run an org-capture template that creates all the meta data (front-matter) needed and I can write a post (use yasnippet for other captures like inserting images), commit, and push and the remote server (as of writing [[https://srht.site/][Sourcehut Pages]]) builds and serves the site.
+#+transclude: [[./ox-hugoConfig.el]] :lines 1- :src emacs-lisp
+
+*** Email
+I use mu4e and org-msg for doing email through Emacs. I'm not a prolific mail user so my setup is pretty simple. I have written a post about [[https://shom.dev/posts/20220108_setting-up-protonmail-in-emacs/][setting up Proton Mail in Emacs]] that covers the setup in more detail.
+#+transclude: [[./mailConfig.el]] :lines 1- :src emacs-lisp
+
+*** Yasnippet
+Yasnippet is a tenplating package, it's autocomplete on steroids. You define templates that are relevant for specific modes (org/lisp/rust/html/etc) and when in that mode and a keyphrase is typed and activated it will pull in that template with multiple variables and multi-line typing. I currently use it *very* simplistically but need to integrate it more into my workflow.
+#+transclude: [[./userConfig.el::;;yasnippet_begin]] :lines 2- :src emacs-lisp :end ";;yasnippet_end"
 
 * Repo meta
 ** Useful anchors
