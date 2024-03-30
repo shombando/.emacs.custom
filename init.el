@@ -475,6 +475,7 @@ made unique when necessary."
 (setq sb/is-termux
 	  (string-suffix-p "Android" (string-trim (shell-command-to-string "uname -a"))))
 
+;;visualNonPhone_begin
 (unless sb/is-termux
   (scroll-bar-mode -1)
   (set-fringe-mode '(20 . 10))
@@ -513,6 +514,7 @@ made unique when necessary."
 	:straight t
 	:init
 	(vertico-posframe-mode 1)))
+;;visualNonPhone_end
 
 (setq org-support-shift-select t)
 (setq org-log-done 'time)

@@ -32,6 +32,8 @@ In addition to the modeline at the bottom, I want a nice bar at the top for tabs
 #+transclude: [[./init.el::;;modeline_begin]] :lines 2- :src emacs-lisp :end ";;modeline_end"
 
 #+RESULTS:
+A few more visual decorations and nice to have only make sense/only supported on a full display. So they're not loaded when Emacs in running in Termux on Android.
+#+transclude: [[./init.el::;;visualNonPhone_begin]] :lines 2- :src emacs-lisp :end ";;visualNonPhone_end"
 
 ** Early Init
 I'm not proficient in understanding the underpinnings of early init type optimizations so I'm borrowing from [[https://github.com/hlissner/doom-emacs/][Doom]] and [[https://systemcrafters.net][System Crafters]]. here.
