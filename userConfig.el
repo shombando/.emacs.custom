@@ -2,10 +2,10 @@
 	  user-mail-address "shom@bandopadhaya.com")
 
 ;; Optional packages
-;; (load (concat user-emacs-directory "mailConfig.el"))
-;; (load (concat user-emacs-directory "guileConfig.el"))
-(load (concat user-emacs-directory "ox-hugoConfig.el"))
-(load (concat user-emacs-directory "flycheckConfig.el"))
+;; (load (concat user-emacs-directory "modules/mailConfig.el"))
+;; (load (concat user-emacs-directory "modules/guileConfig.el"))
+(load (concat user-emacs-directory "modules/ox-hugoConfig.el"))
+(load (concat user-emacs-directory "modules/flycheckConfig.el"))
 
 ;;yasnippet_begin
 (use-package yasnippet
