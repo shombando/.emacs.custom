@@ -20,10 +20,10 @@
     6.  [History](#History)
     7.  [Completions](#Completions)
 4.  [User Config](#User-Config)
-        1.  [Flycheck](#Flycheck)
-        2.  [Ox-hugo](#Ox-hugo)
-        3.  [Email](#Email)
-        4.  [Yasnippet](#Yasnippet)
+    1.  [Flycheck](#Flycheck)
+    2.  [Ox-hugo](#Ox-hugo)
+    3.  [Email](#Email)
+    4.  [Yasnippet](#Yasnippet)
 5.  [Repo meta](#Repo-meta)
     1.  [Useful anchors](#Useful-anchors)
     2.  [Exporting Readme markdown](#Exporting-Readme-markdown)
@@ -557,30 +557,176 @@ There are a few packages and specific configuration that is quite specific to my
 
 <a id="Flycheck"></a>
 
-### Flycheck
+## Flycheck
 
 [Flycheck](https://www.flycheck.org/en/latest/) provides syntax checking for Emacs and provides more of the IDE functionality to the text-editor. [Phundrak's config](https://config.phundrak.com/emacs/packages/programming.html#flycheck) is fairly authoritative and I'm using it whole sale.
+
+    (use-package flycheck
+      :straight (:build t)
+      :defer t
+      :init
+      (global-flycheck-mode)
+      :config
+      (setq flycheck-emacs-lisp-load-path 'inherit)
+    
+      ;; Rerunning checks on every newline is a mote excessive.
+      (delq 'new-line flycheck-check-syntax-automatically)
+      ;; And don’t recheck on idle as often
+      (setq flycheck-idle-change-delay 2.0)
+    
+      ;; For the above functionality, check syntax in a buffer that you
+      ;; switched to on briefly. This allows “refreshing” the syntax check
+      ;; state for several buffers quickly after e.g. changing a config
+      ;; file.
+      (setq flycheck-buffer-switch-check-intermediate-buffers t)
+    
+      ;; Display errors a little quicker (default is 0.9s)
+      (setq flycheck-display-errors-delay 1))
+    
+    (use-package flycheck-popup-tip
+      :straight (:build t)
+      :after flycheck evil
+      :hook (flycheck-mode . flycheck-popup-tip-mode)
+      :config
+      (setq flycheck-popup-tip-error-prefix "X ")
+      (add-hook 'evil-insert-state-entry-hook
+                #'flycheck-popup-tip-delete-popup)
+      (add-hook 'evil-replace-state-entry-hook
+                #'flycheck-popup-tip-delete-popup))
+    
+    (use-package flycheck-posframe
+      :straight (:build t)
+      :hook (flycheck-mode . flycheck-posframe-mode)
+      :config
+      (setq flycheck-posframe-warning-prefix "! "
+            flycheck-posframe-info-prefix    "··· "
+            flycheck-posframe-error-prefix   "X "))
 
 
 <a id="Ox-hugo"></a>
 
-### Ox-hugo
+## Ox-hugo
 
 My website/blog is created with [Hugo](https://gohugo.io/): a static site generator. However, I wanted to create an unified workflow and have a central place to write instead of manually managing files and folders. To that effect (and seeing how this is a 'not so small' Emacs config) I decided to go with [ox-hugo](https://ox-hugo.scripter.co/).
 
 Ox-hugo serves as the middle-ware so the "front-end" can be Emacs and the it handles all the content directory and file structure creation before handing it off to Hugo to generate the HTML site. While this is a few levels of abstraction it allows for a very straight-forward and friction free blogging experience. I run an org-capture template that creates all the meta data (front-matter) needed and I can write a post (use yasnippet for other captures like inserting images), commit, and push and the remote server (as of writing [Sourcehut Pages](https://srht.site/)) builds and serves the site.
 
+    (use-package ox-hugo
+      :straight t
+      :config
+      ;; Org capture template for Hugo posts
+      ;; https://ox-hugo.scripter.co/doc/org-capture-setup/
+      (with-eval-after-load 'org-capture
+        (defun org-hugo-new-subtree-post-capture-template ()
+          "Returns `org-capture' template string for new Hugo post.
+    See `org-capture-templates' for more information."
+          (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
+                 (fname (concat (format-time-string "%Y%m%d_") (org-hugo-slug title))))
+            (shell-command-to-string
+             (concat "mkdir -p ~/dev/shom.dev/images/posts/" fname))
+            (mapconcat #'identity
+                       `(
+                         ,(concat "\n* DRAFT " title)
+                         ":PROPERTIES:\n:EXPORT_FILE_NAME: index"
+                         ,(concat ":EXPORT_HUGO_BUNDLE: " fname)
+                         ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :aliases /s/"
+                                  (shell-command-to-string
+                                   (concat "~/dev/shom.dev/crc32Janky.sh " fname)))
+                         ,(concat ":EXPORT_HUGO_IMAGES: /posts/" fname "/image.jpg")
+                         ":EXPORT_HUGO_MENU:\n:END:"
+                         "%?\n\n#+hugo: more")          ;Place the cursor here finally
+                       "\n")))
+    
+        (defun org-hugo-new-subtree-start-guide-capture-template ()
+          "Returns `org-capture' template string for new Hugo post.
+    See `org-capture-templates' for more information."
+          (let* ((title (read-from-minibuffer "Start Guide Title: ")) ;Prompt to enter the post title
+                 (fname (org-hugo-slug title)))
+            (shell-command-to-string
+             (concat "mkdir -p ~/dev/shom.dev/images/start/" fname))
+            (mapconcat #'identity
+                       `(
+                         ,(concat "\n* DRAFT " title " :start:")
+                         ":PROPERTIES:\n:EXPORT_FILE_NAME: index"
+                         ,(concat ":EXPORT_HUGO_BUNDLE: " fname)
+                         ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :aliases /s/"
+                                  (shell-command-to-string
+                                   (concat "~/dev/shom.dev/crc32Janky.sh " fname)))
+                         ,(concat ":EXPORT_HUGO_IMAGES: /start/" fname "/image.jpg")
+                         ":EXPORT_HUGO_MENU:\n:END:"
+                         "%?\n\n#+hugo: more")          ;Place the cursor here finally
+                       "\n")))
+    
+        (add-to-list 'org-capture-templates
+                     '("s"
+                       "Hugo Start Guide"
+                       entry
+                       (file+olp "~/dev/shom.dev/start.org" "Start")
+                       (function org-hugo-new-subtree-start-guide-capture-template)
+                       :prepend t))
+        (add-to-list 'org-capture-templates
+                     '("p"                ;`org-capture' binding + h
+                       "Hugo Post"
+                       entry
+                       (file+olp "~/dev/shom.dev/posts.org" "Content")
+                       (function org-hugo-new-subtree-post-capture-template)
+                       :prepend t))))
+
 
 <a id="Email"></a>
 
-### Email
+## Email
 
 I use mu4e and org-msg for doing email through Emacs. I'm not a prolific mail user so my setup is pretty simple. I have written a post about [setting up Proton Mail in Emacs](https://shom.dev/posts/20220108_setting-up-protonmail-in-emacs/) that covers the setup in more detail.
+
+    (unless sb/is-termux
+      (use-package mu4e
+        :straight nil
+        :defer 20 ; Wait until 20 seconds after startup
+        :config
+    
+        (setq mu4e-change-filenames-when-moving t ; avoid sync conflicts
+              mu4e-update-interval (* 10 60) ; check mail 10 minutes
+              mu4e-compose-format-flowed t ; re-flow mail so it's not hard wrapped
+              mu4e-get-mail-command "mbsync -a"
+              mu4e-maildir "~/mail/proton")
+    
+        (setq mu4e-drafts-folder "/proton/Drafts"
+              mu4e-sent-folder   "/proton/Sent"
+              mu4e-refile-folder "/proton/All Mail"
+              mu4e-trash-folder  "/proton/Trash")
+    
+        (setq mu4e-maildir-shortcuts
+              '(("/proton/inbox"     . ?i)
+                ("/proton/Sent"      . ?s)
+                ("/proton/Trash"     . ?t)
+                ("/proton/Drafts"    . ?d)
+                ("/proton/All Mail"  . ?a)))
+    
+        (setq message-send-mail-function 'smtpmail-send-it
+              auth-sources '("~/.authinfo") ;need to use gpg version but only local smtp stored for now
+              smtpmail-smtp-server "127.0.0.1"
+              smtpmail-smtp-service 1025
+              smtpmail-stream-type  'ssl))
+    
+      (use-package org-msg
+        :straight t
+        :after mu4e
+        :config
+        (setq mail-user-agent 'mu4e-user-agent)
+        (require 'org-msg)
+        (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
+              org-msg-startup "hidestars indent inlineimages"
+              org-msg-default-alternatives '((new		. (text html))
+                                             (reply-to-html	. (text html))
+                                             (reply-to-text	. (text)))
+              org-msg-convert-citation t)
+        (org-msg-mode)))
 
 
 <a id="Yasnippet"></a>
 
-### Yasnippet
+## Yasnippet
 
 Yasnippet is a tenplating package, it's autocomplete on steroids. You define templates that are relevant for specific modes (org/lisp/rust/html/etc) and when in that mode and a keyphrase is typed and activated it will pull in that template with multiple variables and multi-line typing. I currently use it **very** simplistically but need to integrate it more into my workflow.
 

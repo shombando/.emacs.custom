@@ -101,21 +101,21 @@ All the things that help with completion in various contexts are in this section
 There are a few packages and specific configuration that is quite specific to my workflow so they're in a separate file and not transcluded here. If anyone wants to use this ~init.el~ file, this section needs to be removed.
 #+transclude: [[./init.el::;;user-config_begin]] :lines 2- :src emacs-lisp :end ";;user-config_end"
 
-*** Flycheck
+** Flycheck
 [[https://www.flycheck.org/en/latest/][Flycheck]] provides syntax checking for Emacs and provides more of the IDE functionality to the text-editor. [[https://config.phundrak.com/emacs/packages/programming.html#flycheck][Phundrak's config]] is fairly authoritative and I'm using it whole sale.
-#+transclude: [[./flycheckConfig.el]] :lines 2- :src emacs-lisp
+#+transclude: [[./modules/flycheckConfig.el]] :lines 2- :src emacs-lisp
 
-*** Ox-hugo
+** Ox-hugo
 My website/blog is created with [[https://gohugo.io/][Hugo]]: a static site generator. However, I wanted to create an unified workflow and have a central place to write instead of manually managing files and folders. To that effect (and seeing how this is a 'not so small' Emacs config) I decided to go with [[https://ox-hugo.scripter.co/][ox-hugo]].
 
 Ox-hugo serves as the middle-ware so the "front-end" can be Emacs and the it handles all the content directory and file structure creation before handing it off to Hugo to generate the HTML site. While this is a few levels of abstraction it allows for a very straight-forward and friction free blogging experience. I run an org-capture template that creates all the meta data (front-matter) needed and I can write a post (use yasnippet for other captures like inserting images), commit, and push and the remote server (as of writing [[https://srht.site/][Sourcehut Pages]]) builds and serves the site.
-#+transclude: [[./ox-hugoConfig.el]] :lines 1- :src emacs-lisp
+#+transclude: [[./modules/ox-hugoConfig.el]] :lines 1- :src emacs-lisp
 
-*** Email
+** Email
 I use mu4e and org-msg for doing email through Emacs. I'm not a prolific mail user so my setup is pretty simple. I have written a post about [[https://shom.dev/posts/20220108_setting-up-protonmail-in-emacs/][setting up Proton Mail in Emacs]] that covers the setup in more detail.
-#+transclude: [[./mailConfig.el]] :lines 1- :src emacs-lisp
+#+transclude: [[./modules/mailConfig.el]] :lines 1- :src emacs-lisp
 
-*** Yasnippet
+** Yasnippet
 Yasnippet is a tenplating package, it's autocomplete on steroids. You define templates that are relevant for specific modes (org/lisp/rust/html/etc) and when in that mode and a keyphrase is typed and activated it will pull in that template with multiple variables and multi-line typing. I currently use it *very* simplistically but need to integrate it more into my workflow.
 #+transclude: [[./userConfig.el::;;yasnippet_begin]] :lines 2- :src emacs-lisp :end ";;yasnippet_end"
 
