@@ -455,6 +455,9 @@ made unique when necessary."
             ;; No more ancestors: add and increment a number.
             (inc-suffixf ref)))
         ref))))
+
+(use-package ox-gfm
+  :straight t)
 ;;usefulanchors_end
 
 ;;org-transclusion_begin
