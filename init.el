@@ -148,9 +148,11 @@
   (setq which-key-idle-delay 0.1))
 ;;which-key_end
 
+;;magit_begin
 (use-package magit
   :straight t
   :defer t)
+;;magit_end
 
 ;;evil_begin
 (use-package evil
