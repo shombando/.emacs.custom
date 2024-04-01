@@ -173,6 +173,7 @@
   (evil-collection-init))
 
 (use-package evil-leader
+  :after evil-collection
   :straight t
   :config
   (global-evil-leader-mode)
@@ -524,53 +525,57 @@ made unique when necessary."
 ;;visualNonPhone_end
 
 ;;evil-leader_begin
-(evil-leader/set-key
-  "." 'find-file
-  "," 'consult-buffer
-  ";" 'consult-proj
-  "c" 'org-capture
-  "/" 'consult-ripgrep
-  "=" 'org-indent-region
-  "SPC" 'execute-extended-command
+(defun sb/set-global-key-bindings ()
+  (evil-leader/set-key
+	"." 'find-file
+	"," 'consult-buffer
+	";" 'consult-proj
+	"c" 'org-capture
+	"/" 'consult-ripgrep
+	"=" 'org-indent-region
+	"SPC" 'execute-extended-command
 
-  "e" '("eval" . (keymap))
-  "eb" '("buffer" . eval-buffer)
-  "er" '("region" . eval-region)
+	"e" '("eval" . (keymap))
+	"eb" '("buffer" . eval-buffer)
+	"er" '("region" . eval-region)
 
-  "g" '("magit" . (keymap))
-  "ga" '("add" . magit-stage-buffer-file)
-  "gc" '("commit" . magit-commit)
-  "gf" '("fetch" . magit-fetch)
-  "gg" '("status" . magit-status)
-  "gr" '("status" . magit-refresh)
+	"g" '("magit" . (keymap))
+	"ga" '("add" . magit-stage-buffer-file)
+	"gc" '("commit" . magit-commit)
+	"gf" '("fetch" . magit-fetch)
+	"gg" '("status" . magit-status)
+	"gr" '("status" . magit-refresh)
 
-  "q" '("quit" . (keymap))  
-  "qb" '("buffer" . kill-this-buffer)
-  "qq" '("save&quit" . save-buffers-kill-terminal)
+	"q" '("quit" . (keymap))
+	"qb" '("buffer" . kill-this-buffer)
+	"qq" '("save&quit" . save-buffers-kill-terminal)
 
-  "h" '("help" . (keymap))
-  "hf" '("function" . describe-function)
-  "hk" '("key" . describe-key)
-  "hv" '("variable" . describe-variable)
+	"h" '("help" . (keymap))
+	"hf" '("function" . describe-function)
+	"hk" '("key" . describe-key)
+	"hv" '("variable" . describe-variable)
 
-  "w" '("window" . (keymap))
-  "wd" '("delete" . delete-window)
-  "wb" '("split-below" . split-window-below)
-  "wr" '("split-right" . split-window-right)
-  "wo" '("delete other" . delete-other-windows)
-  "ww" '("ace-window" . aw-show-dispatch-help))
+	"w" '("window" . (keymap))
+	"wd" '("delete" . delete-window)
+	"wb" '("split-below" . split-window-below)
+	"wr" '("split-right" . split-window-right)
+	"wo" '("delete other" . delete-other-windows)
+	"ww" '("ace-window" . aw-show-dispatch-help))
 
-(global-set-key (kbd "C-s") 'save-buffer)
-(global-set-key (kbd "C-S-s") 'write-file)
-(global-set-key (kbd "C-a") 'mark-whole-buffer)
-(global-set-key (kbd "M-a") 'other-window)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "C-=") 'text-scale-increase)
-(global-set-key (kbd "C-S-p") 'execute-extended-command)
-(global-set-key (kbd "C-<tab>") #'consult-buffer)
-(global-set-key (kbd "C-z") #'undo-fu-only-undo)
-(global-set-key (kbd "C-S-z") #'undo-fu-only-redo)
-(define-key evil-normal-state-local-map "gb" 'revert-buffer-quick)
+  (global-set-key (kbd "C-s") 'save-buffer)
+  (global-set-key (kbd "C-S-s") 'write-file)
+  (global-set-key (kbd "C-a") 'mark-whole-buffer)
+  (global-set-key (kbd "M-a") 'other-window)
+  (global-set-key (kbd "C--") 'text-scale-decrease)
+  (global-set-key (kbd "C-=") 'text-scale-increase)
+  (global-set-key (kbd "C-S-p") 'execute-extended-command)
+  (global-set-key (kbd "C-<tab>") #'consult-buffer)
+  (global-set-key (kbd "C-z") #'undo-fu-only-undo)
+  (global-set-key (kbd "C-S-z") #'undo-fu-only-redo)
+  (define-key evil-normal-state-map "gb" 'revert-buffer-quick))
+
+(with-eval-after-load 'evil-collection
+  (sb/set-global-key-bindings))
 ;;evil-leader_end
 
 ;;user-config_begin 

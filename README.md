@@ -437,6 +437,7 @@ Extensible VI Layer (evil) mode for Emacs provides vi editing modes and keybindi
   (evil-collection-init))
 
 (use-package evil-leader
+  :after evil-collection
   :straight t
   :config
   (global-evil-leader-mode)
@@ -444,56 +445,60 @@ Extensible VI Layer (evil) mode for Emacs provides vi editing modes and keybindi
   (evil-leader-mode))
 ```
 
-However, there are some keybindings I want to have available everywhere and use the `evil-leader` to configure those. I'm still debating whether I want to all my Keybindings behind the leader or start inserting more into `evil-<current>-state-local-map`, especially if that leads to 2 keystrokes instead of 3. There are also global binds as `global-set-key`, which probably should be listed with the CUA section. So, it's a bit of a mixed bag, but all the keybindings that are global are at least in one place (I hope).
+However, there are some keybindings I want to have available everywhere and use the `evil-leader` to configure those. I'm still debating whether I want to all my Keybindings behind the leader or start inserting more into `evil-<current>-state-local-map`, especially if that leads to 2 keystrokes instead of 3. There are also global binds as `global-set-key`, which probably should be listed with the CUA section. So, it's a bit of a mixed bag, but all the keybindings that are global are at least defined through one function (I hope) after `evil-collection` is done making its changes.
 
 ```emacs-lisp
-(evil-leader/set-key
-  "." 'find-file
-  "," 'consult-buffer
-  ";" 'consult-proj
-  "c" 'org-capture
-  "/" 'consult-ripgrep
-  "=" 'org-indent-region
-  "SPC" 'execute-extended-command
+(defun sb/set-global-key-bindings ()
+  (evil-leader/set-key
+    "." 'find-file
+    "," 'consult-buffer
+    ";" 'consult-proj
+    "c" 'org-capture
+    "/" 'consult-ripgrep
+    "=" 'org-indent-region
+    "SPC" 'execute-extended-command
 
-  "e" '("eval" . (keymap))
-  "eb" '("buffer" . eval-buffer)
-  "er" '("region" . eval-region)
+    "e" '("eval" . (keymap))
+    "eb" '("buffer" . eval-buffer)
+    "er" '("region" . eval-region)
 
-  "g" '("magit" . (keymap))
-  "ga" '("add" . magit-stage-buffer-file)
-  "gc" '("commit" . magit-commit)
-  "gf" '("fetch" . magit-fetch)
-  "gg" '("status" . magit-status)
-  "gr" '("status" . magit-refresh)
+    "g" '("magit" . (keymap))
+    "ga" '("add" . magit-stage-buffer-file)
+    "gc" '("commit" . magit-commit)
+    "gf" '("fetch" . magit-fetch)
+    "gg" '("status" . magit-status)
+    "gr" '("status" . magit-refresh)
 
-  "q" '("quit" . (keymap))  
-  "qb" '("buffer" . kill-this-buffer)
-  "qq" '("save&quit" . save-buffers-kill-terminal)
+    "q" '("quit" . (keymap))
+    "qb" '("buffer" . kill-this-buffer)
+    "qq" '("save&quit" . save-buffers-kill-terminal)
 
-  "h" '("help" . (keymap))
-  "hf" '("function" . describe-function)
-  "hk" '("key" . describe-key)
-  "hv" '("variable" . describe-variable)
+    "h" '("help" . (keymap))
+    "hf" '("function" . describe-function)
+    "hk" '("key" . describe-key)
+    "hv" '("variable" . describe-variable)
 
-  "w" '("window" . (keymap))
-  "wd" '("delete" . delete-window)
-  "wb" '("split-below" . split-window-below)
-  "wr" '("split-right" . split-window-right)
-  "wo" '("delete other" . delete-other-windows)
-  "ww" '("ace-window" . aw-show-dispatch-help))
+    "w" '("window" . (keymap))
+    "wd" '("delete" . delete-window)
+    "wb" '("split-below" . split-window-below)
+    "wr" '("split-right" . split-window-right)
+    "wo" '("delete other" . delete-other-windows)
+    "ww" '("ace-window" . aw-show-dispatch-help))
 
-(global-set-key (kbd "C-s") 'save-buffer)
-(global-set-key (kbd "C-S-s") 'write-file)
-(global-set-key (kbd "C-a") 'mark-whole-buffer)
-(global-set-key (kbd "M-a") 'other-window)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "C-=") 'text-scale-increase)
-(global-set-key (kbd "C-S-p") 'execute-extended-command)
-(global-set-key (kbd "C-<tab>") #'consult-buffer)
-(global-set-key (kbd "C-z") #'undo-fu-only-undo)
-(global-set-key (kbd "C-S-z") #'undo-fu-only-redo)
-(define-key evil-normal-state-local-map "gb" 'revert-buffer-quick)
+  (global-set-key (kbd "C-s") 'save-buffer)
+  (global-set-key (kbd "C-S-s") 'write-file)
+  (global-set-key (kbd "C-a") 'mark-whole-buffer)
+  (global-set-key (kbd "M-a") 'other-window)
+  (global-set-key (kbd "C--") 'text-scale-decrease)
+  (global-set-key (kbd "C-=") 'text-scale-increase)
+  (global-set-key (kbd "C-S-p") 'execute-extended-command)
+  (global-set-key (kbd "C-<tab>") #'consult-buffer)
+  (global-set-key (kbd "C-z") #'undo-fu-only-undo)
+  (global-set-key (kbd "C-S-z") #'undo-fu-only-redo)
+  (define-key evil-normal-state-map "gb" 'revert-buffer-quick))
+
+(with-eval-after-load 'evil-collection
+  (sb/set-global-key-bindings))
 ```
 
 
