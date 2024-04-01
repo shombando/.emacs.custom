@@ -464,6 +464,8 @@ made unique when necessary."
 (use-package org
   :straight t
   :config (setq org-directory "~/org"
+				org-support-shift-select t
+				org-log-done 'time
 				org-pretty-entities-include-sub-superscripts t))
 
 (use-package org-transclusion
@@ -476,11 +478,11 @@ made unique when necessary."
   (setq org-transclusion-remember-transclusions t))
 ;;org-transclusion_end
 
+;;visualNonPhone_begin
 ;;;https://config.daviwil.com/emacs#system-settings
 (setq sb/is-termux
 	  (string-suffix-p "Android" (string-trim (shell-command-to-string "uname -a"))))
 
-;;visualNonPhone_begin
 (unless sb/is-termux
   (scroll-bar-mode -1)
   (set-fringe-mode '(20 . 10))
@@ -521,22 +523,6 @@ made unique when necessary."
 	(vertico-posframe-mode 1)))
 ;;visualNonPhone_end
 
-(setq org-support-shift-select t)
-(setq org-log-done 'time)
-
-(global-set-key (kbd "C-s") 'save-buffer)
-(global-set-key (kbd "C-S-s") 'write-file)
-(global-set-key (kbd "C-a") 'mark-whole-buffer)
-(global-set-key (kbd "M-a") 'other-window)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "C-=") 'text-scale-increase)
-(global-set-key (kbd "C-S-p") 'execute-extended-command)
-(global-set-key (kbd "C-<tab>") #'consult-buffer)
-(global-set-key (kbd "C-f") #'consult-ripgrep)
-(global-set-key (kbd "C-i") #'consult-imenu)
-(global-set-key (kbd "C-z") #'undo-fu-only-undo)
-(global-set-key (kbd "C-S-z") #'undo-fu-only-redo)
-
 ;;evil-leader_begin
 (evil-leader/set-key
   "." 'find-file
@@ -552,9 +538,11 @@ made unique when necessary."
   "er" '("region" . eval-region)
 
   "g" '("magit" . (keymap))
+  "ga" '("add" . magit-stage-buffer-file)
   "gc" '("commit" . magit-commit)
   "gf" '("fetch" . magit-fetch)
   "gg" '("status" . magit-status)
+  "gr" '("status" . magit-refresh)
 
   "q" '("quit" . (keymap))  
   "qb" '("buffer" . kill-this-buffer)
@@ -571,6 +559,18 @@ made unique when necessary."
   "wr" '("split-right" . split-window-right)
   "wo" '("delete other" . delete-other-windows)
   "ww" '("ace-window" . aw-show-dispatch-help))
+
+(global-set-key (kbd "C-s") 'save-buffer)
+(global-set-key (kbd "C-S-s") 'write-file)
+(global-set-key (kbd "C-a") 'mark-whole-buffer)
+(global-set-key (kbd "M-a") 'other-window)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C-S-p") 'execute-extended-command)
+(global-set-key (kbd "C-<tab>") #'consult-buffer)
+(global-set-key (kbd "C-z") #'undo-fu-only-undo)
+(global-set-key (kbd "C-S-z") #'undo-fu-only-redo)
+(define-key evil-normal-state-local-map "gb" 'revert-buffer-quick)
 ;;evil-leader_end
 
 ;;user-config_begin 
