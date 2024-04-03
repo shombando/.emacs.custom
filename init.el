@@ -57,6 +57,7 @@
   :custom (dired-listing-switches "-agho --group-directories-first")
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
+	"o" '(lambda () (interactive) (dired-find-file-other-window))
 	"h" '(lambda () (interactive) (find-alternate-file ".."))
 	"l" 'dired-find-alternate-file))
 ;;dired_end
