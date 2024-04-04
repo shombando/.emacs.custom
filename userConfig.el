@@ -28,3 +28,5 @@
 (use-package markdown-mode
   :straight t)
 
+(use-package nix-mode
+  :straight t)
