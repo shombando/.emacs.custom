@@ -256,6 +256,7 @@ The built-in file explorer (directory editor, dired) doesn't need to be installe
   :custom (dired-listing-switches "-agho --group-directories-first")
   :config
   (evil-collection-define-key 'normal 'dired-mode-map
+    "o" '(lambda () (interactive) (dired-find-file-other-window))
     "h" '(lambda () (interactive) (find-alternate-file ".."))
     "l" 'dired-find-alternate-file))
 ```
@@ -274,8 +275,8 @@ I don't want Emacs to put backup files in the file's directory and mess with git
   (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
-  :config
-  (no-littering-theme-backups))
+  );:config
+  ;(no-littering-theme-backups))
 ```
 
 
@@ -960,4 +961,5 @@ Sourcehut is the primary location of this repo with "mirror" on GitHub. But inst
 ```shell
 git remote set-url --push origin --add git@git.sr.ht:~shom/.emacs.custom
 git remote set-url --push origin --add git@github.com:shombando/.emacs.custom.git
+git remote set-url --push origin --add git@codeberg.org:shom/.emacs.custom.git
 ```
