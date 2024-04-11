@@ -64,7 +64,7 @@ Because it's easier to type one letter than a word, let's replace the common yes
 The rest of the functionality is provided by packages, all third-party packages managed by straight.
 
 ** Version Control
-[[https://magit.vc/][Magit]] *the* killer application that brought me to Emacs. Git is great, but also complicated and Magit is the best user interface I've found for git.
+[[https://magit.vc/][Magit]] *the* killer application that brought me to Emacs. Git is great, but also complicated and Magit is the best user interface I've found for git. Being able to diff and work with hunks at a line level is both simple andp powerful.
 #+transclude: [[./init.el::;;magit_begin]] :lines 2- :src emacs-lisp :end ";;magit_end"
 
 ** Configuration Documentation/Annotation

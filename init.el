@@ -152,7 +152,11 @@
 ;;magit_begin
 (use-package magit
   :straight t
-  :defer t)
+  :defer t
+  :config (setq
+		   magit-diff-refine-hunk t
+		   magit-diff-paint-whitespace-lines t
+		   magit-diff-highlight-indentation t))
 ;;magit_end
 
 ;;evil_begin

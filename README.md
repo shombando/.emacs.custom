@@ -306,12 +306,16 @@ The rest of the functionality is provided by packages, all third-party packages 
 
 ## Version Control
 
-[Magit](https://magit.vc/) **the** killer application that brought me to Emacs. Git is great, but also complicated and Magit is the best user interface I've found for git.
+[Magit](https://magit.vc/) **the** killer application that brought me to Emacs. Git is great, but also complicated and Magit is the best user interface I've found for git. Being able to diff and work with hunks at a line level is both simple andp powerful.
 
 ```emacs-lisp
 (use-package magit
   :straight t
-  :defer t)
+  :defer t
+  :config (setq
+           magit-diff-refine-hunk t
+           magit-diff-paint-whitespace-lines t
+           magit-diff-highlight-indentation t))
 ```
 
 
