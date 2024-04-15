@@ -40,3 +40,5 @@
 (use-package 0x0
   :straight t)
 
+(unless (treesit-language-available-p 'rust)
+  (load (concat user-emacs-directory "modules/rustConfig.el")))
