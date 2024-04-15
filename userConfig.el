@@ -42,3 +42,5 @@
 
 (unless (treesit-language-available-p 'rust)
   (load (concat user-emacs-directory "modules/rustConfig.el")))
+
+(load (concat user-emacs-directory "modules/lspConfig.el"))
