@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: HugoPhoto 
-# key: <hphoto
+# key: $hphoto
 # --
 #+begin_export hugo
 {{< exif src="`(yank)`" caption="${1:caption}" alt="${2:alttext}" >}}

@@ -586,3 +586,4 @@ made unique when necessary."
 ;;user-config_begin 
 (load (concat user-emacs-directory "userConfig.el"))
 ;;user-config_end 
+(evil-mode 1)

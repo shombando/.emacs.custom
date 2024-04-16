@@ -1,8 +1,8 @@
 # -*- mode: snippet -*-
 # name: HugoImage
-# key: <himage
+# key: $himg
 # --
 #+begin_export hugo
-{{< figure src="`(yank)`" width= "${1:400px}" title="${2:title}" alt="${3:alttext}" align="center" >}}
+{{< figure src="${1:SOURCE}" width= "${2:4}00px" title="${3:TITLE}" alt="${4:ALT-TEXT}" align="center" >}}
 #+end_export
 $0

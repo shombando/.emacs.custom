@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: HugoVideo
-# key: <hphoto
+# key: $hvid
 # --
 #+begin_export html
 <video controls width="800">

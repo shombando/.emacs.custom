@@ -30,3 +30,13 @@
 
 (use-package nix-mode
   :straight t)
+
+(use-package avy
+  :straight t
+  :config
+  (global-set-key (kbd "C-:") 'avy-goto-char-timer)
+  (setq avy-timeout-seconds .5))
+
+(use-package 0x0
+  :straight t)
+
