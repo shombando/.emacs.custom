@@ -56,6 +56,7 @@
   :commands (dired dired-jump)
   :custom (dired-listing-switches "-agho --group-directories-first")
   :config
+  (setq dired-dwim-target t)
   (evil-collection-define-key 'normal 'dired-mode-map
 	"o" '(lambda () (interactive) (dired-find-file-other-window))
 	"h" '(lambda () (interactive) (find-alternate-file ".."))
