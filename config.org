@@ -135,17 +135,20 @@ Since I want to keep the org original with the transclusion blocks and Markdown 
 
 #+NAME: generate_readme
 #+begin_src emacs-lisp :results output silent
-  (if (file-exists-p "./README.md")
-      (delete-file "./README.md"))
-  (message "Turn transclusion On!")
-  (org-transclusion-add-all)
-  (message "Export")
-  (unpackaged/org-export-html-with-useful-ids-mode)
-  (org-gfm-export-to-markdown)
-  (message "Transclusion Off!")
-  (org-transclusion-deactivate)
-  (message "Reverting buffer to avoid issues with org-babel")
-  (interactive) (revert-buffer t t)
+  (defun sb/generate-readme()
+    (if (file-exists-p "./README.md")
+        (delete-file "./README.md"))
+    (message "Turn transclusion On!")
+    (org-transclusion-add-all)
+    (message "Export")
+    (unpackaged/org-export-html-with-useful-ids-mode)
+    (org-gfm-export-to-markdown)
+    (message "Transclusion Off!")
+    (org-transclusion-deactivate)
+    (message "Reverting buffer to avoid issues with org-babel")
+    (interactive) (revert-buffer t t))
+
+  (sb/generate-readme)
 #+end_src
 
 ** Remote as "mirrors"

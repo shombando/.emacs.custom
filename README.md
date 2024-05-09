@@ -954,17 +954,20 @@ made unique when necessary."
 Since I want to keep the org original with the transclusion blocks and Markdown is supported better by more forges, I want to export this config file as a README.md automatically each time I save.
 
 ```emacs-lisp
-(if (file-exists-p "./README.md")
-    (delete-file "./README.md"))
-(message "Turn transclusion On!")
-(org-transclusion-add-all)
-(message "Export")
-(unpackaged/org-export-html-with-useful-ids-mode)
-(org-gfm-export-to-markdown)
-(message "Transclusion Off!")
-(org-transclusion-deactivate)
-(message "Reverting buffer to avoid issues with org-babel")
-(interactive) (revert-buffer t t)
+(defun sb/generate-readme()
+  (if (file-exists-p "./README.md")
+      (delete-file "./README.md"))
+  (message "Turn transclusion On!")
+  (org-transclusion-add-all)
+  (message "Export")
+  (unpackaged/org-export-html-with-useful-ids-mode)
+  (org-gfm-export-to-markdown)
+  (message "Transclusion Off!")
+  (org-transclusion-deactivate)
+  (message "Reverting buffer to avoid issues with org-babel")
+  (interactive) (revert-buffer t t))
+
+(sb/generate-readme)
 ```
 
 
