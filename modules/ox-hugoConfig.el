@@ -58,3 +58,13 @@ See `org-capture-templates' for more information."
 				   (file+olp "~/dev/shom.dev/posts.org" "Content")
 				   (function org-hugo-new-subtree-post-capture-template)
 				   :prepend t))))
+
+(use-package ob-mermaid
+  :straight t
+  :config
+  (setq ob-mermaid-cli-path "/home/shom/.config/nvm/versions/node/v18.16.1/bin/mmdc")
+  (org-babel-do-load-languages
+		   'org-babel-load-languages
+		   '((mermaid .t)
+			 (shell . t)
+			 (scheme . t))))

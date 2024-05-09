@@ -113,6 +113,8 @@ There are a few packages and specific configuration that is quite specific to my
 My website/blog is created with [[https://gohugo.io/][Hugo]]: a static site generator. However, I wanted to create an unified workflow and have a central place to write instead of manually managing files and folders. To that effect (and seeing how this is a 'not so small' Emacs config) I decided to go with [[https://ox-hugo.scripter.co/][ox-hugo]].
 
 Ox-hugo serves as the middle-ware so the "front-end" can be Emacs and the it handles all the content directory and file structure creation before handing it off to Hugo to generate the HTML site. While this is a few levels of abstraction it allows for a very straight-forward and friction free blogging experience. I run an org-capture template that creates all the meta data (front-matter) needed and I can write a post (use yasnippet for other captures like inserting images), commit, and push and the remote server (as of writing [[https://srht.site/][Sourcehut Pages]]) builds and serves the site.
+
+I've used diagramming on the blog, I want to better integrate it eventually but so far I've used =ob-mermaid= but then had to output and embed png since the Mermaid.js payload is 3MB!
 #+transclude: [[./modules/ox-hugoConfig.el]] :lines 1- :src emacs-lisp
 
 ** Email

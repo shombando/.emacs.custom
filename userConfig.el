@@ -41,3 +41,6 @@
 (use-package 0x0
   :straight t)
 
+(use-package olivetti
+  :straight t)
+

@@ -705,6 +705,8 @@ My website/blog is created with [Hugo](https://gohugo.io/): a static site genera
 
 Ox-hugo serves as the middle-ware so the "front-end" can be Emacs and the it handles all the content directory and file structure creation before handing it off to Hugo to generate the HTML site. While this is a few levels of abstraction it allows for a very straight-forward and friction free blogging experience. I run an org-capture template that creates all the meta data (front-matter) needed and I can write a post (use yasnippet for other captures like inserting images), commit, and push and the remote server (as of writing [Sourcehut Pages](https://srht.site/)) builds and serves the site.
 
+I've used diagramming on the blog, I want to better integrate it eventually but so far I've used `ob-mermaid` but then had to output and embed png since the Mermaid.js payload is 3MB!
+
 ```emacs-lisp
 (use-package ox-hugo
   :straight t
@@ -766,6 +768,16 @@ See `org-capture-templates' for more information."
                    (file+olp "~/dev/shom.dev/posts.org" "Content")
                    (function org-hugo-new-subtree-post-capture-template)
                    :prepend t))))
+
+(use-package ob-mermaid
+  :straight t
+  :config
+  (setq ob-mermaid-cli-path "/home/shom/.config/nvm/versions/node/v18.16.1/bin/mmdc")
+  (org-babel-do-load-languages
+           'org-babel-load-languages
+           '((mermaid .t)
+             (shell . t)
+             (scheme . t))))
 ```
 
 
