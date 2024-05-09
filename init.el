@@ -32,6 +32,14 @@
 (column-number-mode t)
 (setq org-hide-emphasis-markers t)
 (setq org-image-actual-width nil)
+
+(defun sb/load-light-theme ()
+  (interactive)
+  (load-theme 'doom-nord-light t))
+
+(defun sb/load-dark-theme ()
+  (interactive)
+  (load-theme 'doom-nord t))
 ;;visual_end
 
 ;;built-in_begin
@@ -560,6 +568,10 @@ made unique when necessary."
 	"hf" '("function" . describe-function)
 	"hk" '("key" . describe-key)
 	"hv" '("variable" . describe-variable)
+
+	"t" '("theme" . (keymap))
+	"td" '("dark" . 'sb/load-dark-theme)
+	"tl" '("light" . 'sb/load-light-theme)
 
 	"w" '("window" . (keymap))
 	"wd" '("delete" . delete-window)
