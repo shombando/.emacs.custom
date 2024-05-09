@@ -128,7 +128,7 @@ Yasnippet is a tenplating package, it's autocomplete on steroids. You define tem
 By default =org-export= regenerates ids for all the headings which creates noise in the git commit history and also in-page anchors can't be reliably linked to a specific part of the document (independent of the git forge's markdown parsing implementation). Using a snippet of [[https://github.com/alphapapa][@alphapapa]]'s unpackaged configuration, we can advice the export to create unique anchors that won't change between exports (unless the headings themselves have been changed). Replacing space (%20) with dash (-) because Github doesn't parse that correctly.
 
 I'm also using [[https://github.com/larstvei/ox-gfm][ox-gfm]] to produce GitHub flavored Markdown to generate code fences with language specifier so it syntax-highlighting is rendered on the web forges.
-#+transclude: [[./init.el::;;usefulanchors_begin]] :lines 2- :src emacs-lisp :end ";;usefulanchors_end"
+#+transclude: [[./modules/useful-anchors.el]] :lines 2- :src emacs-lisp
 
 ** Exporting Readme markdown
 Since I want to keep the org original with the transclusion blocks and Markdown is supported better by more forges, I want to export this config file as a README.md automatically each time I save.

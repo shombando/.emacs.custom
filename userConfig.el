@@ -6,6 +6,7 @@
 ;; (load (concat user-emacs-directory "modules/guileConfig.el"))
 (load (concat user-emacs-directory "modules/ox-hugoConfig.el"))
 (load (concat user-emacs-directory "modules/flycheckConfig.el"))
+(load (concat user-emacs-directory "modules/useful-anchors.el"))
 
 ;;yasnippet_begin
 (use-package yasnippet

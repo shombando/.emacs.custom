@@ -91,6 +91,14 @@ The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'
 (column-number-mode t)
 (setq org-hide-emphasis-markers t)
 (setq org-image-actual-width nil)
+
+(defun sb/load-light-theme ()
+  (interactive)
+  (load-theme 'doom-nord-light t))
+
+(defun sb/load-dark-theme ()
+  (interactive)
+  (load-theme 'doom-nord t))
 ```
 
 The modeline is another important visual element to show important information about the buffer and modes. Doom's modeline is a significant visual upgrade to the default.
@@ -255,6 +263,7 @@ The built-in file explorer (directory editor, dired) doesn't need to be installe
   :commands (dired dired-jump)
   :custom (dired-listing-switches "-agho --group-directories-first")
   :config
+  (setq dired-dwim-target t)
   (evil-collection-define-key 'normal 'dired-mode-map
     "o" '(lambda () (interactive) (dired-find-file-other-window))
     "h" '(lambda () (interactive) (find-alternate-file ".."))
@@ -275,8 +284,8 @@ I don't want Emacs to put backup files in the file's directory and mess with git
   (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
-  );:config
-  ;(no-littering-theme-backups))
+  :config
+  (no-littering-theme-backups))
 ```
 
 
@@ -482,6 +491,10 @@ However, there are some keybindings I want to have available everywhere and use 
     "hf" '("function" . describe-function)
     "hk" '("key" . describe-key)
     "hv" '("variable" . describe-variable)
+
+    "t" '("theme" . (keymap))
+    "td" '("dark" . 'sb/load-dark-theme)
+    "tl" '("light" . 'sb/load-light-theme)
 
     "w" '("window" . (keymap))
     "wd" '("delete" . delete-window)
@@ -841,7 +854,6 @@ By default `org-export` regenerates ids for all the headings which creates noise
 I'm also using [ox-gfm](https://github.com/larstvei/ox-gfm) to produce GitHub flavored Markdown to generate code fences with language specifier so it syntax-highlighting is rendered on the web forges.
 
 ```emacs-lisp
-;; From @alphapapa's unpackaged repo https://github.com/alphapapa/unpackaged.el#export-to-html-with-useful-anchors
 (use-package ox
   :config
   (define-minor-mode unpackaged/org-export-html-with-useful-ids-mode
