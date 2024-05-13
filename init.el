@@ -476,8 +476,8 @@ targets."
 	"hv" '("variable" . describe-variable)
 
 	"t" '("theme" . (keymap))
-	"td" '("dark" . 'sb/load-dark-theme)
-	"tl" '("light" . 'sb/load-light-theme)
+	"td" '("dark" . sb/load-dark-theme)
+	"tl" '("light" . sb/load-light-theme)
 
 	"w" '("window" . (keymap))
 	"wd" '("delete" . delete-window)
