@@ -44,3 +44,5 @@
 (use-package olivetti
   :straight t)
 
+(straight-use-package
+  '(project-butler :type git :host codeberg :repo "jabbo/project-butler"))

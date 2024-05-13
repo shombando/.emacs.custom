@@ -449,7 +449,7 @@ targets."
   (evil-leader/set-key
 	"." 'find-file
 	"," 'consult-buffer
-	";" 'consult-proj
+	";" 'consult-project-buffer
 	"c" 'org-capture
 	"/" 'consult-ripgrep
 	"=" 'org-indent-region
