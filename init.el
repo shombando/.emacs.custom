@@ -47,7 +47,7 @@
 (global-auto-revert-mode 1)
 
 (setq-default indent-tabs-mode t)
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 ;;built-in_end
 
 ;;spellcheck_begin
@@ -199,6 +199,13 @@
 (use-package doom-themes
   :straight t
   :init (load-theme 'doom-nord t))
+
+(use-package auto-dark
+  :straight t
+	:custom
+	(auto-dark-themes '((doom-nord) (doom-nord-light)))
+	:init
+	(auto-dark-mode))
 
 (use-package all-the-icons
   :straight t

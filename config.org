@@ -74,7 +74,7 @@ An important option to set is ~org-transclusion-remember-transclusions~ so that 
 #+transclude: [[./init.el::;;org-transclusion_begin]] :lines 2- :src emacs-lisp :end ";;org-transclusion_end"
 
 ** Theme
-Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring the default =doom-one= theme but I also use the =doom-nord= theme.
+Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring the default =doom-one= theme but I also use the =doom-nord= theme. I also use [[https://github.com/LionyxML/auto-dark-emacs][auto-dark-emacs]] so the theme switches automatically with the system theme.
 #+transclude: [[./init.el::;;theme_begin]] :lines 2- :src emacs-lisp :end ";;theme_end"
 
 ** Muscle memory shortcuts
