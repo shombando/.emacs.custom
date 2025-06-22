@@ -84,7 +84,7 @@ The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'
 
 ```emacs-lisp
 (tool-bar-mode -1)
-(menu-bar-mode -1)
+(menu-bar-mode 0)
 (setq visible-bell 1)
 (global-visual-line-mode 1)
 (global-display-line-numbers-mode 1)
@@ -385,7 +385,7 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
-(set-frame-parameter (selected-frame) 'alpha 90)
+(set-frame-parameter (selected-frame) 'alpha 100)
 (setq default-frame-alist '((undecorated . t)))
 ```
 
@@ -394,7 +394,7 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
 
 ## Muscle memory shortcuts
 
-There are some shortcuts that I have lots of muscle memory with and also work in other applications that I find convenient to use in Emacs. I also use the evil-mode keys when in normal mode, based on whatever is most convenient.
+There are some shortcuts that I have lots of muscle memory with and also work in other applications that I find convenient to use in Emacs. I also use the evil-mode keys when in normal mode, based on whatever is most convenient. I used `undo-fu` for a familiar approach to undo-redo system but knew I wasn't taking advantage of the power of multi-path undo, until I found [`vundo`](https://github.com/casouri/vundo), visual undo. This package visualizes the history as nodes that can traverse and diff in a very familiar git branch paradigm.
 
 ```emacs-lisp
 (use-package simpleclip
@@ -404,16 +404,18 @@ There are some shortcuts that I have lots of muscle memory with and also work in
      ("C-S-c" . 'simpleclip-copy)
      ("C-S-v" . 'simpleclip-paste))) 
 
-(use-package undo-fu
+(use-package vundo
   :straight t
   :after evil-collection
   :defer t
-  :bind (:map evil-insert-state-map
-        ("C-z" . undo-fu-only-undo)
-        ("C-S-z" . undo-fu-only-redo)
+  :bind (:map global-map
+        ("C-M-z" . vundo)
+        :map evil-insert-state-map
+        ("C-z" . evil-undo)
+        ("C-S-z" . evil-redo)
         :map evil-normal-state-map
-        ("C-z" . undo-fu-only-undo)
-        ("C-S-z" . undo-fu-only-redo)))
+        ("C-z" . evil-undo)
+        ("C-S-z" . evil-redo)))
 ```
 
 
@@ -447,7 +449,8 @@ Extensible VI Layer (evil) mode for Emacs provides vi editing modes and keybindi
   (setq evil-want-integration t
     evil-want-keybinding nil
     evil-disable-insert-state-bindings t
-    evil-undo-system 'undo-fu)
+    ;; evil-undo-system 'undo-fu)
+    evil-undo-system 'undo-redo)
   :config
   (evil-mode 1))
 
@@ -473,7 +476,7 @@ However, there are some keybindings I want to have available everywhere and use 
   (evil-leader/set-key
   "." 'find-file
   "," 'consult-buffer
-  ";" 'consult-proj
+  ";" 'consult-project-buffer
   "c" 'org-capture
   "/" 'consult-ripgrep
   "=" 'org-indent-region
@@ -997,7 +1000,9 @@ Since I want to keep the org original with the transclusion blocks and Markdown 
 Sourcehut is the primary location of this repo with "mirror" on GitHub. But instead of relying on GitHub actions to mirror and manage a separate workflow on the secondary platform, I'm taking shortcut by adding a second push-url to my repo's main remote (origin) so whenever there's a push, it pushes to both Sourcehut and GitHub. When `git remote set-url --push origin --add` is called, it doesn't append to the existing list, it replaces so the primary url also needs to be added.
 
 ```shell
+#!/usr/bin/sh
+set -eu
+git remote set-url --push origin --add git@codeberg.org:shom/.emacs.custom.git 
 git remote set-url --push origin --add git@git.sr.ht:~shom/.emacs.custom
 git remote set-url --push origin --add git@github.com:shombando/.emacs.custom.git
-git remote set-url --push origin --add git@codeberg.org:shom/.emacs.custom.git
 ```
