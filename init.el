@@ -25,7 +25,7 @@
 
 ;;visual_begin
 (tool-bar-mode -1)
-(menu-bar-mode -1)
+(menu-bar-mode 0)
 (setq visible-bell 1)
 (global-visual-line-mode 1)
 (global-display-line-numbers-mode 1)
@@ -137,16 +137,18 @@
 		 ("C-S-c" . 'simpleclip-copy)
 		 ("C-S-v" . 'simpleclip-paste))) 
 
-(use-package undo-fu
-  :straight t
+(use-package vundo
+	:straight t
   :after evil-collection
   :defer t
-  :bind (:map evil-insert-state-map
-			  ("C-z" . undo-fu-only-undo)
-			  ("C-S-z" . undo-fu-only-redo)
+  :bind (:map global-map
+				("C-M-z" . vundo)
+				:map evil-insert-state-map
+			  ("C-z" . evil-undo)
+			  ("C-S-z" . evil-redo)
 			  :map evil-normal-state-map
-			  ("C-z" . undo-fu-only-undo)
-			  ("C-S-z" . undo-fu-only-redo)))
+			  ("C-z" . evil-undo)
+			  ("C-S-z" . evil-redo)))
 ;;cua_end
 
 ;;which-key_begin
@@ -176,7 +178,8 @@
   (setq evil-want-integration t
 		evil-want-keybinding nil
 		evil-disable-insert-state-bindings t
-		evil-undo-system 'undo-fu)
+		;; evil-undo-system 'undo-fu)
+		evil-undo-system 'undo-redo)
   :config
   (evil-mode 1))
 

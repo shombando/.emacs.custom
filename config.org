@@ -79,6 +79,7 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
 
 ** Muscle memory shortcuts
 There are some shortcuts that I have lots of muscle memory with and also work in other applications that I find convenient to use in Emacs. I also use the evil-mode keys when in normal mode, based on whatever is most convenient.
+I used =undo-fu= for a familiar approach to undo-redo system but knew I wasn't taking advantage of the power of multi-path undo, until I found [[https://github.com/casouri/vundo][=vundo=]], visual undo. This package visualizes the history as nodes that can traverse and diff in a very familiar git branch paradigm.
 #+transclude: [[./init.el::;;cua_begin]] :lines 2- :src emacs-lisp :end ";;cua_end"
 
 ** Keybindings
