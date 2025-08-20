@@ -385,6 +385,7 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
+(set-frame-parameter (selected-frame) 'alpha-background 90)
 (set-frame-parameter (selected-frame) 'alpha 100)
 (setq default-frame-alist '((undecorated . t)))
 ```
@@ -402,20 +403,21 @@ There are some shortcuts that I have lots of muscle memory with and also work in
   :after evil-collection
   :bind (("C-S-x" . 'simpleclip-cut)
      ("C-S-c" . 'simpleclip-copy)
-     ("C-S-v" . 'simpleclip-paste))) 
+     ("C-S-v" . 'simpleclip-paste)))
 
 (use-package vundo
   :straight t
   :after evil-collection
   :defer t
+  :config
+  (setq vundo-popup-mode 1
+        vundo-compact-display t)
   :bind (:map global-map
         ("C-M-z" . vundo)
         :map evil-insert-state-map
-        ("C-z" . evil-undo)
-        ("C-S-z" . evil-redo)
+        ("C-z" . undo)
         :map evil-normal-state-map
-        ("C-z" . evil-undo)
-        ("C-S-z" . evil-redo)))
+        ("C-z" . undo)))
 ```
 
 
@@ -474,44 +476,44 @@ However, there are some keybindings I want to have available everywhere and use 
 ```emacs-lisp
 (defun sb/set-global-key-bindings ()
   (evil-leader/set-key
-  "." 'find-file
-  "," 'consult-buffer
-  ";" 'consult-project-buffer
-  "c" 'org-capture
-  "/" 'consult-ripgrep
-  "=" 'org-indent-region
-  "SPC" 'execute-extended-command
+  "." '("file"           . find-file)
+  "," '("buffers"        . consult-buffer)
+  ";" '("project"        . consult-project-buffer)
+  "c" '("capture"        . org-capture)
+  "/" '("find"           . consult-ripgrep)
+  "=" '("indent"         . org-indent-region)
+  "SPC" '("M-x"          . execute-extended-command)
 
-  "e" '("eval" . (keymap))
-  "eb" '("buffer" . eval-buffer)
-  "er" '("region" . eval-region)
+  "e" '("eval"           . (keymap))
+  "eb" '("buffer"        . eval-buffer)
+  "er" '("region"        . eval-region)
 
-  "g" '("magit" . (keymap))
-  "ga" '("add" . magit-stage-buffer-file)
-  "gc" '("commit" . magit-commit)
-  "gf" '("fetch" . magit-fetch)
-  "gg" '("status" . magit-status)
-  "gr" '("status" . magit-refresh)
+  "g" '("magit"          . (keymap))
+  "ga" '("add"           . magit-stage-buffer-file)
+  "gc" '("commit"        . magit-commit)
+  "gf" '("fetch"         . magit-fetch)
+  "gg" '("status"        . magit-status)
+  "gr" '("status"        . magit-refresh)
 
-  "q" '("quit" . (keymap))
-  "qb" '("buffer" . kill-this-buffer)
-  "qq" '("save&quit" . save-buffers-kill-terminal)
+  "q" '("quit"           . (keymap))
+  "qb" '("buffer"        . kill-current-buffer)
+  "qq" '("save & quit"   . save-buffers-kill-terminal)
 
-  "h" '("help" . (keymap))
-  "hf" '("function" . describe-function)
-  "hk" '("key" . describe-key)
-  "hv" '("variable" . describe-variable)
+  "h" '("help"           . (keymap))
+  "hf" '("function"      . describe-function)
+  "hk" '("key"           . describe-key)
+  "hv" '("variable"      . describe-variable)
 
-  "t" '("theme" . (keymap))
-  "td" '("dark" . sb/load-dark-theme)
-  "tl" '("light" . sb/load-light-theme)
+  "t" '("theme"          . (keymap))
+  "td" '("dark"          . sb/load-dark-theme)
+  "tl" '("light"         . sb/load-light-theme)
 
-  "w" '("window" . (keymap))
-  "wd" '("delete" . delete-window)
-  "wb" '("split-below" . split-window-below)
-  "wr" '("split-right" . split-window-right)
-  "wo" '("delete other" . delete-other-windows)
-  "ww" '("ace-window" . aw-show-dispatch-help))
+  "w" '("window"         . (keymap))
+  "wd" '("delete"        . delete-window)
+  "wb" '("split-below"   . split-window-below)
+  "wr" '("split-right"   . split-window-right)
+  "wo" '("delete other"  . delete-other-windows)
+  "ww" '("ace-window"    . aw-show-dispatch-help))
 
   (global-set-key (kbd "C-s") 'save-buffer)
   (global-set-key (kbd "C-S-s") 'write-file)
