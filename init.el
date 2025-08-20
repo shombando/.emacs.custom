@@ -223,7 +223,8 @@
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (set-frame-font "JetBrainsMono Nerd Font" 16 nil t)
-(set-frame-parameter (selected-frame) 'alpha 90)
+(set-frame-parameter (selected-frame) 'alpha-background 90)
+(set-frame-parameter (selected-frame) 'alpha 100)
 (setq default-frame-alist '((undecorated . t)))
 ;;theme_end
 
