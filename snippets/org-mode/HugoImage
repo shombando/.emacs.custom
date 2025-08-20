@@ -3,6 +3,6 @@
 # key: $himg
 # --
 #+begin_export hugo
-{{< figure src="${1:SOURCE}" width= "${2:4}00px" title="${3:TITLE}" alt="${4:ALT-TEXT}" align="center" >}}
+{{< fig src="${1:SOURCE}" width= "${2:4}00px" title="${3:TITLE}" alt="${4:ALT-TEXT}" align="center" >}}
 #+end_export
 $0
