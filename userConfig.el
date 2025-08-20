@@ -42,10 +42,18 @@
   :straight t)
 
 (use-package olivetti
-  :straight t)
+  :straight t
+	:config
+	(setq-default olivetti-body-width 0.7)
+	(setq-default olivetti-style t))
 
 (straight-use-package
   '(project-butler :type git :host codeberg :repo "jabbo/project-butler"))
+(use-package caddyfile-mode
+  :straight t
+	 :mode (("Caddyfile\\'" . caddyfile-mode)
+         ("caddy\\.conf\\'" . caddyfile-mode)))
+
  (use-package org-social
 	 :straight( :package "org-social"
 							:type git :host github :repo "tanrax/org-social.el")
