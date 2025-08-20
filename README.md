@@ -22,6 +22,7 @@
   - [Ox-hugo](#Ox-hugo)
   - [Email](#Email)
   - [Yasnippet](#Yasnippet)
+  - [Org-Social](#Org-Social)
 - [Repo meta](#Repo-meta)
   - [Useful anchors](#Useful-anchors)
   - [Exporting Readme markdown](#Exporting-Readme-markdown)
@@ -861,6 +862,35 @@ Yasnippet is a tenplating package, it's autocomplete on steroids. You define tem
   :config
   (yas-global-mode 1)
   (yas-reload-all))
+```
+
+
+<a id="Org-Social"></a>
+
+## Org-Social
+
+[Org-Social](https://github.com/tanrax/org-social) is the hottest "social media" for Emacs org-mode aficionados. I'm not sure how/if I will use this long-term but it is a very neat idea and I created a small config for the [org-social.el](https://github.com/tanrax/org-social.el/) official client and since examples aren't plentiful yet, I'm including it here.
+
+```emacs-lisp
+(use-package org-social
+   :straight( :package "org-social"
+              :type git :host github :repo "tanrax/org-social.el")
+  :config
+  (setq org-social-file "~/dev/shom.dev/static/social.org")
+  (add-to-list 'evil-emacs-state-modes 'org-social-timeline-mode)
+  (evil-leader/set-key
+    "s" '("social"     . (keymap))
+    "st" '("timeline"  . org-social-timeline)
+    "sn" '("new"       . org-social-new-post)
+    "so" '("open"      . org-social-open-file))
+  :init
+  (add-hook 'org-social-after-save-file-hook
+            (lambda ()
+              (call-process-shell-command
+               (format "scp %s %s"
+                       org-social-file
+                       "conmanBananerd:/home/conman/prod/caddy/site/shom.dev/social.org")
+               nil 0))))
 ```
 
 

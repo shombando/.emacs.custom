@@ -126,6 +126,10 @@ I use mu4e and org-msg for doing email through Emacs. I'm not a prolific mail us
 Yasnippet is a tenplating package, it's autocomplete on steroids. You define templates that are relevant for specific modes (org/lisp/rust/html/etc) and when in that mode and a keyphrase is typed and activated it will pull in that template with multiple variables and multi-line typing. I currently use it *very* simplistically but need to integrate it more into my workflow.
 #+transclude: [[./userConfig.el::;;yasnippet_begin]] :lines 2- :src emacs-lisp :end ";;yasnippet_end"
 
+** Org-Social
+[[https://github.com/tanrax/org-social][Org-Social]] is the hottest "social media" for Emacs org-mode aficionados. I'm not sure how/if I will use this long-term but it is a very neat idea and I created a small config for the [[https://github.com/tanrax/org-social.el/][org-social.el]] official client and since examples aren't plentiful yet, I'm including it here.
+#+transclude: [[./modules/org-social.el]] :lines 1- :src emacs-lisp
+
 * Repo meta
 ** Useful anchors
 By default =org-export= regenerates ids for all the headings which creates noise in the git commit history and also in-page anchors can't be reliably linked to a specific part of the document (independent of the git forge's markdown parsing implementation). Using a snippet of [[https://github.com/alphapapa][@alphapapa]]'s unpackaged configuration, we can advice the export to create unique anchors that won't change between exports (unless the headings themselves have been changed). Replacing space (%20) with dash (-) because Github doesn't parse that correctly.
