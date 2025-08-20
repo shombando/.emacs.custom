@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: HugoAccordian
+# key: $haccord
+# --
+#+begin_details :trim-post nil
+#+begin_summary
+${1:Summary}
+#+end_summary
+${2:Details}
+#+end_details
+#+begin_export html
+<br />
+#+end_export
+$0

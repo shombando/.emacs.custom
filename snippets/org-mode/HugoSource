@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: HugoSource
+# key: $hsrc
+# --
+#+begin_src ${1:Syxtax}
+${2:Source}
+#+end_src
+$0
