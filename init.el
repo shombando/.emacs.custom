@@ -135,20 +135,21 @@
   :after evil-collection
   :bind (("C-S-x" . 'simpleclip-cut)
 		 ("C-S-c" . 'simpleclip-copy)
-		 ("C-S-v" . 'simpleclip-paste))) 
+		 ("C-S-v" . 'simpleclip-paste)))
 
 (use-package vundo
 	:straight t
   :after evil-collection
   :defer t
+	:config
+	(setq vundo-popup-mode 1
+				vundo-compact-display t)
   :bind (:map global-map
 				("C-M-z" . vundo)
 				:map evil-insert-state-map
-			  ("C-z" . evil-undo)
-			  ("C-S-z" . evil-redo)
+			  ("C-z" . undo)
 			  :map evil-normal-state-map
-			  ("C-z" . evil-undo)
-			  ("C-S-z" . evil-redo)))
+			  ("C-z" . undo)))
 ;;cua_end
 
 ;;which-key_begin
