@@ -457,44 +457,44 @@ targets."
 ;;evil-leader_begin
 (defun sb/set-global-key-bindings ()
   (evil-leader/set-key
-	"." 'find-file
-	"," 'consult-buffer
-	";" 'consult-project-buffer
-	"c" 'org-capture
-	"/" 'consult-ripgrep
-	"=" 'org-indent-region
-	"SPC" 'execute-extended-command
+	"." '("file"           . find-file)
+	"," '("buffers"        . consult-buffer)
+	";" '("project"        . consult-project-buffer)
+	"c" '("capture"        . org-capture)
+	"/" '("find"           . consult-ripgrep)
+	"=" '("indent"         . org-indent-region)
+	"SPC" '("M-x"          . execute-extended-command)
 
-	"e" '("eval" . (keymap))
-	"eb" '("buffer" . eval-buffer)
-	"er" '("region" . eval-region)
+	"e" '("eval"           . (keymap))
+	"eb" '("buffer"        . eval-buffer)
+	"er" '("region"        . eval-region)
 
-	"g" '("magit" . (keymap))
-	"ga" '("add" . magit-stage-buffer-file)
-	"gc" '("commit" . magit-commit)
-	"gf" '("fetch" . magit-fetch)
-	"gg" '("status" . magit-status)
-	"gr" '("status" . magit-refresh)
+	"g" '("magit"          . (keymap))
+	"ga" '("add"           . magit-stage-buffer-file)
+	"gc" '("commit"        . magit-commit)
+	"gf" '("fetch"         . magit-fetch)
+	"gg" '("status"        . magit-status)
+	"gr" '("status"        . magit-refresh)
 
-	"q" '("quit" . (keymap))
-	"qb" '("buffer" . kill-this-buffer)
-	"qq" '("save&quit" . save-buffers-kill-terminal)
+	"q" '("quit"           . (keymap))
+	"qb" '("buffer"        . kill-current-buffer)
+	"qq" '("save & quit"   . save-buffers-kill-terminal)
 
-	"h" '("help" . (keymap))
-	"hf" '("function" . describe-function)
-	"hk" '("key" . describe-key)
-	"hv" '("variable" . describe-variable)
+	"h" '("help"           . (keymap))
+	"hf" '("function"      . describe-function)
+	"hk" '("key"           . describe-key)
+	"hv" '("variable"      . describe-variable)
 
-	"t" '("theme" . (keymap))
-	"td" '("dark" . sb/load-dark-theme)
-	"tl" '("light" . sb/load-light-theme)
+	"t" '("theme"          . (keymap))
+	"td" '("dark"          . sb/load-dark-theme)
+	"tl" '("light"         . sb/load-light-theme)
 
-	"w" '("window" . (keymap))
-	"wd" '("delete" . delete-window)
-	"wb" '("split-below" . split-window-below)
-	"wr" '("split-right" . split-window-right)
-	"wo" '("delete other" . delete-other-windows)
-	"ww" '("ace-window" . aw-show-dispatch-help))
+	"w" '("window"         . (keymap))
+	"wd" '("delete"        . delete-window)
+	"wb" '("split-below"   . split-window-below)
+	"wr" '("split-right"   . split-window-right)
+	"wo" '("delete other"  . delete-other-windows)
+	"ww" '("ace-window"    . aw-show-dispatch-help))
 
   (global-set-key (kbd "C-s") 'save-buffer)
   (global-set-key (kbd "C-S-s") 'write-file)
