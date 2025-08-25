@@ -8,4 +8,4 @@
 		"s" '("social"     . (keymap))
 		"st" '("timeline"  . org-social-timeline)
 		"sn" '("new"       . org-social-new-post)
-		"so" '("open"      . org-social-open-file))
+		"so" '("open"      . org-social-open-file)))

@@ -322,10 +322,18 @@ The rest of the functionality is provided by packages, all third-party packages 
 (use-package magit
   :straight t
   :defer t
-  :config (setq
-       magit-diff-refine-hunk t
-       magit-diff-paint-whitespace-lines t
-       magit-diff-highlight-indentation t))
+  :config
+  (evil-leader/set-key
+  "g" '("magit"          . (keymap))
+  "ga" '("add"           . magit-stage-buffer-file)
+  "gc" '("commit"        . magit-commit)
+  "gf" '("fetch"         . magit-fetch)
+  "gg" '("status"        . magit-status)
+  "gr" '("status"        . magit-refresh))
+
+  (setq magit-diff-refine-hunk t
+        magit-diff-paint-whitespace-lines t
+        magit-diff-highlight-indentation t))
 ```
 
 
@@ -365,7 +373,12 @@ Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring th
 ```emacs-lisp
 (use-package doom-themes
   :straight t
-  :init (load-theme 'doom-nord t))
+  :init (load-theme 'doom-nord t)
+  :config
+  (evil-leader/set-key
+    "t" '("theme"          . (keymap))
+    "td" '("dark"          . sb/load-dark-theme)
+    "tl" '("light"         . sb/load-light-theme)))
 
 (use-package auto-dark
   :straight t
@@ -472,7 +485,7 @@ Extensible VI Layer (evil) mode for Emacs provides vi editing modes and keybindi
   (evil-leader-mode))
 ```
 
-However, there are some keybindings I want to have available everywhere and use the `evil-leader` to configure those. I'm still debating whether I want to all my Keybindings behind the leader or start inserting more into `evil-<current>-state-local-map`, especially if that leads to 2 keystrokes instead of 3. There are also global binds as `global-set-key`, which probably should be listed with the CUA section. So, it's a bit of a mixed bag, but all the keybindings that are global are at least defined through one function (I hope) after `evil-collection` is done making its changes.
+However, there are some keybindings I want to have available everywhere and use the `evil-leader` to configure those. I'm still debating whether I want to all my Keybindings behind the leader or start inserting more into `evil-<current>-state-local-map`, especially if that leads to 2 keystrokes instead of 3. There are also global binds as `global-set-key`, which probably should be listed with the CUA section. So, it's a bit of a mixed bag, but all the keybindings that are global are at least defined through one function (I hope) after `evil-collection` is done making its changes. I moved some of the hyper package-specific keybinds to the respective package's config, these are mostly native (plus `consult`).
 
 ```emacs-lisp
 (defun sb/set-global-key-bindings ()
@@ -489,13 +502,6 @@ However, there are some keybindings I want to have available everywhere and use 
   "eb" '("buffer"        . eval-buffer)
   "er" '("region"        . eval-region)
 
-  "g" '("magit"          . (keymap))
-  "ga" '("add"           . magit-stage-buffer-file)
-  "gc" '("commit"        . magit-commit)
-  "gf" '("fetch"         . magit-fetch)
-  "gg" '("status"        . magit-status)
-  "gr" '("status"        . magit-refresh)
-
   "q" '("quit"           . (keymap))
   "qb" '("buffer"        . kill-current-buffer)
   "qq" '("save & quit"   . save-buffers-kill-terminal)
@@ -503,18 +509,7 @@ However, there are some keybindings I want to have available everywhere and use 
   "h" '("help"           . (keymap))
   "hf" '("function"      . describe-function)
   "hk" '("key"           . describe-key)
-  "hv" '("variable"      . describe-variable)
-
-  "t" '("theme"          . (keymap))
-  "td" '("dark"          . sb/load-dark-theme)
-  "tl" '("light"         . sb/load-light-theme)
-
-  "w" '("window"         . (keymap))
-  "wd" '("delete"        . delete-window)
-  "wb" '("split-below"   . split-window-below)
-  "wr" '("split-right"   . split-window-right)
-  "wo" '("delete other"  . delete-other-windows)
-  "ww" '("ace-window"    . aw-show-dispatch-help))
+  "hv" '("variable"      . describe-variable))
 
   (global-set-key (kbd "C-s") 'save-buffer)
   (global-set-key (kbd "C-S-s") 'write-file)
@@ -524,8 +519,6 @@ However, there are some keybindings I want to have available everywhere and use 
   (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C-S-p") 'execute-extended-command)
   (global-set-key (kbd "C-<tab>") #'consult-buffer)
-  (global-set-key (kbd "C-z") #'undo-fu-only-undo)
-  (global-set-key (kbd "C-S-z") #'undo-fu-only-redo)
   (define-key evil-normal-state-map "gb" 'revert-buffer-quick))
 
 (with-eval-after-load 'evil-collection
@@ -876,21 +869,13 @@ Yasnippet is a tenplating package, it's autocomplete on steroids. You define tem
    :straight( :package "org-social"
               :type git :host github :repo "tanrax/org-social.el")
   :config
-  (setq org-social-file "~/dev/shom.dev/static/social.org")
+  (setq org-social-file "/ssh:conmanBananerd:/home/conman/prod/caddy/site/shom.dev/social.org")
   (add-to-list 'evil-emacs-state-modes 'org-social-timeline-mode)
   (evil-leader/set-key
     "s" '("social"     . (keymap))
     "st" '("timeline"  . org-social-timeline)
     "sn" '("new"       . org-social-new-post)
-    "so" '("open"      . org-social-open-file))
-  :init
-  (add-hook 'org-social-after-save-file-hook
-            (lambda ()
-              (call-process-shell-command
-               (format "scp %s %s"
-                       org-social-file
-                       "conmanBananerd:/home/conman/prod/caddy/site/shom.dev/social.org")
-               nil 0))))
+    "so" '("open"      . org-social-open-file)))
 ```
 
 

@@ -165,10 +165,18 @@
 (use-package magit
   :straight t
   :defer t
-  :config (setq
-		   magit-diff-refine-hunk t
-		   magit-diff-paint-whitespace-lines t
-		   magit-diff-highlight-indentation t))
+  :config
+	(evil-leader/set-key
+	"g" '("magit"          . (keymap))
+	"ga" '("add"           . magit-stage-buffer-file)
+	"gc" '("commit"        . magit-commit)
+	"gf" '("fetch"         . magit-fetch)
+	"gg" '("status"        . magit-status)
+	"gr" '("status"        . magit-refresh))
+
+	(setq magit-diff-refine-hunk t
+				magit-diff-paint-whitespace-lines t
+				magit-diff-highlight-indentation t))
 ;;magit_end
 
 ;;evil_begin
@@ -202,7 +210,12 @@
 ;;theme_begin
 (use-package doom-themes
   :straight t
-  :init (load-theme 'doom-nord t))
+  :init (load-theme 'doom-nord t)
+	:config
+	(evil-leader/set-key
+		"t" '("theme"          . (keymap))
+		"td" '("dark"          . sb/load-dark-theme)
+		"tl" '("light"         . sb/load-light-theme)))
 
 (use-package auto-dark
   :straight t
@@ -386,11 +399,15 @@ targets."
   :straight t
   :init
   (global-set-key (kbd "M-q") 'aw-show-dispatch-help)
-  (setq aw-dispatch-always t))
-;; :custom-face
-;;   '(aw-leading-char-face
-;;     :foreground "white" :background "red"
-;;     :weight bold :height 5 :box (:line-width 10 :color "red")))
+  (setq aw-dispatch-always t)
+	:config
+	(evil-leader/set-key
+	  "w" '("window"         . (keymap))
+	  "wd" '("delete"        . delete-window)
+	  "wb" '("split-below"   . split-window-below)
+	  "wr" '("split-right"   . split-window-right)
+	  "wo" '("delete other"  . delete-other-windows)
+	  "ww" '("ace-window"    . aw-show-dispatch-help)))
 ;;window_end
 
 ;;org-transclusion_begin
@@ -471,13 +488,6 @@ targets."
 	"eb" '("buffer"        . eval-buffer)
 	"er" '("region"        . eval-region)
 
-	"g" '("magit"          . (keymap))
-	"ga" '("add"           . magit-stage-buffer-file)
-	"gc" '("commit"        . magit-commit)
-	"gf" '("fetch"         . magit-fetch)
-	"gg" '("status"        . magit-status)
-	"gr" '("status"        . magit-refresh)
-
 	"q" '("quit"           . (keymap))
 	"qb" '("buffer"        . kill-current-buffer)
 	"qq" '("save & quit"   . save-buffers-kill-terminal)
@@ -485,18 +495,7 @@ targets."
 	"h" '("help"           . (keymap))
 	"hf" '("function"      . describe-function)
 	"hk" '("key"           . describe-key)
-	"hv" '("variable"      . describe-variable)
-
-	"t" '("theme"          . (keymap))
-	"td" '("dark"          . sb/load-dark-theme)
-	"tl" '("light"         . sb/load-light-theme)
-
-	"w" '("window"         . (keymap))
-	"wd" '("delete"        . delete-window)
-	"wb" '("split-below"   . split-window-below)
-	"wr" '("split-right"   . split-window-right)
-	"wo" '("delete other"  . delete-other-windows)
-	"ww" '("ace-window"    . aw-show-dispatch-help))
+	"hv" '("variable"      . describe-variable))
 
   (global-set-key (kbd "C-s") 'save-buffer)
   (global-set-key (kbd "C-S-s") 'write-file)
@@ -506,8 +505,6 @@ targets."
   (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C-S-p") 'execute-extended-command)
   (global-set-key (kbd "C-<tab>") #'consult-buffer)
-  (global-set-key (kbd "C-z") #'undo-fu-only-undo)
-  (global-set-key (kbd "C-S-z") #'undo-fu-only-redo)
   (define-key evil-normal-state-map "gb" 'revert-buffer-quick))
 
 (with-eval-after-load 'evil-collection
