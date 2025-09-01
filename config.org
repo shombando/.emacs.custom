@@ -161,4 +161,4 @@ Since I want to keep the org original with the transclusion blocks and Markdown 
 ** Remote as "mirrors"
 Sourcehut is the primary location of this repo with "mirror" on GitHub. But instead of relying on GitHub actions to mirror and manage a separate workflow on the secondary platform, I'm taking shortcut by adding a second push-url to my repo's main remote (origin) so whenever there's a push, it pushes to both Sourcehut and GitHub. When =git remote set-url --push origin --add= is called, it doesn't append to the existing list, it replaces so the primary url also needs to be added.
 #+transclude: [[./setRemotes.sh]]  :src shell
-#  LocalWords:  config repo
+#  LocalWords:  config repo README md init transclusion

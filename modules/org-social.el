@@ -6,6 +6,7 @@
 	(add-to-list 'evil-emacs-state-modes 'org-social-timeline-mode)
 	(evil-leader/set-key
 		"s" '("social"     . (keymap))
-		"st" '("timeline"  . org-social-timeline)
+		"sm" '("mention"   . org-social-mention-user)
 		"sn" '("new"       . org-social-new-post)
-		"so" '("open"      . org-social-open-file)))
+		"so" '("open"      . org-social-open-file)
+		"st" '("timeline"  . org-social-timeline)))

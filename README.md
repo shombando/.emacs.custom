@@ -873,9 +873,10 @@ Yasnippet is a tenplating package, it's autocomplete on steroids. You define tem
   (add-to-list 'evil-emacs-state-modes 'org-social-timeline-mode)
   (evil-leader/set-key
     "s" '("social"     . (keymap))
-    "st" '("timeline"  . org-social-timeline)
+    "sm" '("mention"   . org-social-mention-user)
     "sn" '("new"       . org-social-new-post)
-    "so" '("open"      . org-social-open-file)))
+    "so" '("open"      . org-social-open-file)
+    "st" '("timeline"  . org-social-timeline)))
 ```
 
 
@@ -1020,6 +1021,7 @@ Sourcehut is the primary location of this repo with "mirror" on GitHub. But inst
 #!/usr/bin/sh
 set -eu
 git remote set-url --push origin --add git@codeberg.org:shom/.emacs.custom.git 
+git remote set-url --push origin --add git@git.shom.dev:shom/.emacs.custom.git
 git remote set-url --push origin --add git@git.sr.ht:~shom/.emacs.custom
 git remote set-url --push origin --add git@github.com:shombando/.emacs.custom.git
 ```
