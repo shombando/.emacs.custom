@@ -50,8 +50,19 @@
 
 (straight-use-package
   '(project-butler :type git :host codeberg :repo "jabbo/project-butler"))
+
+;;(use-package paren
+;;	:ensure nil
+;;	:hook (after-init . show-paren-mode)
+;;	:custom
+;;	(show-paren-style 'mixed)
+;;	(show-paren-context-when_offscreen t))
+
+
 (use-package caddyfile-mode
   :straight t
 	 :mode (("Caddyfile\\'" . caddyfile-mode)
          ("caddy\\.conf\\'" . caddyfile-mode)))
 
+(provide 'userConfig)
+;;; userConfig.el ends here
