@@ -84,6 +84,7 @@ I'm using `straight.el` as a package manager with the `use-package` syntax. Stra
 The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'll be customizing my keymaps they're going to be mostly superfluous and take up real-estate. There are a few other preferences relative to how things are displayed here, the rest of the visuals are configured by the theme.
 
 ```emacs-lisp
+(setenv "TERM" "xterm-256color")
 (tool-bar-mode -1)
 (menu-bar-mode 0)
 (setq visible-bell 1)
@@ -302,6 +303,7 @@ Because it's easier to type one letter than a word, let's replace the common yes
 
 (setq-default indent-tabs-mode t)
 (setq-default tab-width 2)
+(setq backward-delete-char-untabify-method nil)
 ```
 
 
@@ -321,7 +323,7 @@ The rest of the functionality is provided by packages, all third-party packages 
 ```emacs-lisp
 (use-package magit
   :straight t
-  :defer t
+  :after evil-leader
   :config
   (evil-leader/set-key
   "g" '("magit"          . (keymap))
@@ -332,8 +334,9 @@ The rest of the functionality is provided by packages, all third-party packages 
   "gr" '("status"        . magit-refresh))
 
   (setq magit-diff-refine-hunk t
-        magit-diff-paint-whitespace-lines t
-        magit-diff-highlight-indentation t))
+        magit-diff-paint-whitespace-lines t))
+                                        ;magit-diff-highlight-indentation t))
+                                        ;causes commit process window to crash when evil-mode is on
 ```
 
 
@@ -371,6 +374,7 @@ An important option to set is `org-transclusion-remember-transclusions` so that 
 Since I migrated from Doom, I really enjoy the Doom themes, mostly preferring the default `doom-one` theme but I also use the `doom-nord` theme. I also use [auto-dark-emacs](https://github.com/LionyxML/auto-dark-emacs) so the theme switches automatically with the system theme.
 
 ```emacs-lisp
+(load custom-file)
 (use-package doom-themes
   :straight t
   :init (load-theme 'doom-nord t)
@@ -465,9 +469,7 @@ Extensible VI Layer (evil) mode for Emacs provides vi editing modes and keybindi
   (setq evil-want-integration t
     evil-want-keybinding nil
     evil-disable-insert-state-bindings t
-    ;; evil-undo-system 'undo-fu)
     evil-undo-system 'undo-redo)
-  :config
   (evil-mode 1))
 
 (use-package evil-collection

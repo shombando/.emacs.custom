@@ -164,7 +164,7 @@
 ;;magit_begin
 (use-package magit
   :straight t
-  :defer t
+	:after evil-leader
   :config
 	(evil-leader/set-key
 	"g" '("magit"          . (keymap))
@@ -175,8 +175,9 @@
 	"gr" '("status"        . magit-refresh))
 
 	(setq magit-diff-refine-hunk t
-				magit-diff-paint-whitespace-lines t
-				magit-diff-highlight-indentation t))
+				magit-diff-paint-whitespace-lines t))
+																				;magit-diff-highlight-indentation t))
+																				;causes commit process window to crash when evil-mode is on
 ;;magit_end
 
 ;;evil_begin
@@ -187,9 +188,7 @@
   (setq evil-want-integration t
 		evil-want-keybinding nil
 		evil-disable-insert-state-bindings t
-		;; evil-undo-system 'undo-fu)
 		evil-undo-system 'undo-redo)
-  :config
   (evil-mode 1))
 
 (use-package evil-collection
@@ -208,6 +207,7 @@
 ;;evil_end
 
 ;;theme_begin
+(load custom-file)
 (use-package doom-themes
   :straight t
   :init (load-theme 'doom-nord t)
@@ -514,4 +514,3 @@ targets."
 ;;user-config_begin 
 (load (concat user-emacs-directory "userConfig.el"))
 ;;user-config_end 
-(evil-mode 1)
