@@ -175,9 +175,8 @@
 	"gr" '("status"        . magit-refresh))
 
 	(setq magit-diff-refine-hunk t
-				magit-diff-paint-whitespace-lines t))
-																				;magit-diff-highlight-indentation t))
-																				;causes commit process window to crash when evil-mode is on
+				magit-diff-paint-whitespace-lines t
+				magit-diff-highlight-indentation '(("*" . tabs))))
 ;;magit_end
 
 ;;evil_begin
