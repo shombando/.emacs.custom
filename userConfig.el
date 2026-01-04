@@ -64,5 +64,10 @@
 	 :mode (("Caddyfile\\'" . caddyfile-mode)
          ("caddy\\.conf\\'" . caddyfile-mode)))
 
+(defun sb/generate-uuid ()
+	"Generate and insert a UUID string"
+	(interactive)
+	(insert (shell-command-to-string "uuidgen")))
+
 (provide 'userConfig)
 ;;; userConfig.el ends here

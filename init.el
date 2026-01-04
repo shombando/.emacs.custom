@@ -487,6 +487,9 @@ targets."
 	"eb" '("buffer"        . eval-buffer)
 	"er" '("region"        . eval-region)
 
+	"i" '("insert"         . (keymap))
+	"iu" '("uuid"          . sb/generate-uuid)
+
 	"q" '("quit"           . (keymap))
 	"qb" '("buffer"        . kill-current-buffer)
 	"qq" '("save & quit"   . save-buffers-kill-terminal)
