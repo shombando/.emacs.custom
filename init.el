@@ -507,6 +507,7 @@ targets."
   (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C-S-p") 'execute-extended-command)
   (global-set-key (kbd "C-<tab>") #'consult-buffer)
+  (global-set-key (kbd "C-S-M-v") #'yank-from-kill-ring)
   (define-key evil-normal-state-map "gb" 'revert-buffer-quick))
 
 (with-eval-after-load 'evil-collection
