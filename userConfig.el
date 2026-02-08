@@ -16,8 +16,15 @@
   (setq yas-snippet-dirs '("~/.emacs/.custom/snippets"))
   (setq warning-suppress-types (cons 'warning-suppress-types '(yasnippet backquote-change)))
   :config
+	(add-hook 'git-commit-setup-hook
+          (lambda ()
+            (when (derived-mode-p 'text-mode)
+							(yas-activate-extra-mode 'text-mode+git-commit-mode))))
   (yas-global-mode 1)
   (yas-reload-all))
+
+(use-package yasnippet-snippets
+	:straight t)
 ;;yasnippet_end
 
 (use-package yaml-mode
