@@ -306,13 +306,13 @@
   (corfu-quit-no-match t)        ;; Automatically quit if there is no match
   (corfu-preselect-first nil)    ;; Disable candidate preselection
   (corfu-scroll-margin 5)        ;; Use scroll margin
-  (corfu-auto-delay 0.3)
+  (corfu-auto-delay 0.5)
   :bind (:map evil-insert-state-map
 			  ("C-j" . corfu-next)
 			  ("C-k" . corfu-previous)
 			  :map corfu-map
-			  ("<tab>" . corfu-next)
-			  ("<backtab>" . corfu-previous))
+			  ("C-j" . corfu-next)
+			  ("C-k" . corfu-previous))
   :init
   (global-corfu-mode))
 

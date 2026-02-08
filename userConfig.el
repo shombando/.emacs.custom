@@ -76,5 +76,30 @@
 	(interactive)
 	(insert (shell-command-to-string "uuidgen")))
 
+;; (with-eval-after-load 'eglot
+;;   (add-to-list 'eglot-server-programs
+;;                '(go-ts-mode . ("gopls" ""))))
+
+(use-package go-ts-mode
+	:straight t
+	:init
+	(add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
+	:config
+	;; https://jeffbowman.writeas.com/crafted-emacs-example-adding-go
+	;; Optional: install eglot-format-buffer as a save hook.
+	;; The depth of -10 places this before eglot's willSave notification,
+	;; so that that notification reports the actual contents that will be saved.
+	(defun eglot-format-buffer-on-save ()
+		(add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+	(add-hook 'go-ts-mode-hook 'eglot-ensure 10)
+	(add-hook 'go-ts-mode-hook #'eglot-format-buffer-on-save)
+  :bind (:map evil-normal-state-map
+				("C->" . 'eglot-code-actions)))
+
+(use-package eldoc-box
+	:straight t
+  :bind (:map evil-normal-state-map
+				("C-." . 'eldoc-box-help-at-point)))
+
 (provide 'userConfig)
 ;;; userConfig.el ends here
