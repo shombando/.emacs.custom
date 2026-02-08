@@ -84,7 +84,6 @@ I'm using `straight.el` as a package manager with the `use-package` syntax. Stra
 The Emacs GUI is a bit dated, especially the toolbar and menu bar. Also since I'll be customizing my keymaps they're going to be mostly superfluous and take up real-estate. There are a few other preferences relative to how things are displayed here, the rest of the visuals are configured by the theme.
 
 ```emacs-lisp
-(setenv "TERM" "xterm-256color")
 (tool-bar-mode -1)
 (menu-bar-mode 0)
 (setq visible-bell 1)
@@ -303,7 +302,6 @@ Because it's easier to type one letter than a word, let's replace the common yes
 
 (setq-default indent-tabs-mode t)
 (setq-default tab-width 2)
-(setq backward-delete-char-untabify-method nil)
 ```
 
 
@@ -334,9 +332,8 @@ The rest of the functionality is provided by packages, all third-party packages 
   "gr" '("status"        . magit-refresh))
 
   (setq magit-diff-refine-hunk t
-        magit-diff-paint-whitespace-lines t))
-                                        ;magit-diff-highlight-indentation t))
-                                        ;causes commit process window to crash when evil-mode is on
+        magit-diff-paint-whitespace-lines t
+        magit-diff-highlight-indentation '(("*" . tabs))))
 ```
 
 
@@ -504,6 +501,9 @@ However, there are some keybindings I want to have available everywhere and use 
   "eb" '("buffer"        . eval-buffer)
   "er" '("region"        . eval-region)
 
+  "i" '("insert"         . (keymap))
+  "iu" '("uuid"          . sb/generate-uuid)
+
   "q" '("quit"           . (keymap))
   "qb" '("buffer"        . kill-current-buffer)
   "qq" '("save & quit"   . save-buffers-kill-terminal)
@@ -521,6 +521,7 @@ However, there are some keybindings I want to have available everywhere and use 
   (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C-S-p") 'execute-extended-command)
   (global-set-key (kbd "C-<tab>") #'consult-buffer)
+  (global-set-key (kbd "C-S-M-v") #'yank-from-kill-ring)
   (define-key evil-normal-state-map "gb" 'revert-buffer-quick))
 
 (with-eval-after-load 'evil-collection
@@ -607,13 +608,13 @@ All the things that help with completion in various contexts are in this section
   (corfu-quit-no-match t)        ;; Automatically quit if there is no match
   (corfu-preselect-first nil)    ;; Disable candidate preselection
   (corfu-scroll-margin 5)        ;; Use scroll margin
-  (corfu-auto-delay 0.3)
+  (corfu-auto-delay 0.5)
   :bind (:map evil-insert-state-map
         ("C-j" . corfu-next)
         ("C-k" . corfu-previous)
         :map corfu-map
-        ("<tab>" . corfu-next)
-        ("<backtab>" . corfu-previous))
+        ("C-j" . corfu-next)
+        ("C-k" . corfu-previous))
   :init
   (global-corfu-mode))
 
@@ -855,8 +856,15 @@ Yasnippet is a tenplating package, it's autocomplete on steroids. You define tem
   (setq yas-snippet-dirs '("~/.emacs/.custom/snippets"))
   (setq warning-suppress-types (cons 'warning-suppress-types '(yasnippet backquote-change)))
   :config
+  (add-hook 'git-commit-setup-hook
+          (lambda ()
+            (when (derived-mode-p 'text-mode)
+              (yas-activate-extra-mode 'text-mode+git-commit-mode))))
   (yas-global-mode 1)
   (yas-reload-all))
+
+(use-package yasnippet-snippets
+  :straight t)
 ```
 
 
