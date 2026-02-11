@@ -3,3 +3,5 @@
 /etc/
 /elpa/
 /eln-cache/
+/tree-sitter/
+/transient/

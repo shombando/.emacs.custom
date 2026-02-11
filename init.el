@@ -21,6 +21,9 @@
 
 (straight-use-package 'use-package)
 (straight-use-package 'org)
+
+(setq sb/is-termux
+	  (string-suffix-p "Android" (string-trim (shell-command-to-string "uname -a"))))
 ;;setup_end
 
 ;;visual_begin
@@ -216,12 +219,13 @@
 		"td" '("dark"          . sb/load-dark-theme)
 		"tl" '("light"         . sb/load-light-theme)))
 
-(use-package auto-dark
-  :straight t
-	:custom
-	(auto-dark-themes '((doom-nord) (doom-nord-light)))
-	:init
-	(auto-dark-mode))
+(unless sb/is-termux
+	(use-package auto-dark
+		:straight t
+		:custom
+		(auto-dark-themes '((doom-nord) (doom-nord-light)))
+		:init
+		(auto-dark-mode)))
 
 (use-package all-the-icons
   :straight t
@@ -429,9 +433,6 @@ targets."
 
 ;;visualNonPhone_begin
 ;;;https://config.daviwil.com/emacs#system-settings
-(setq sb/is-termux
-	  (string-suffix-p "Android" (string-trim (shell-command-to-string "uname -a"))))
-
 (unless sb/is-termux
   (scroll-bar-mode -1)
   (set-fringe-mode '(20 . 10))
@@ -515,5 +516,6 @@ targets."
 ;;evil-leader_end
 
 ;;user-config_begin 
-(load (concat user-emacs-directory "userConfig.el"))
+(unless sb/is-termux
+	(load (concat user-emacs-directory "userConfig.el")))
 ;;user-config_end 
