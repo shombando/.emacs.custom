@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: type
-# key: type
+# key: t
 # --
-${1:$$(yas-choose-value '("fix" "hotfix" "add" "update" "change" "clean" "disable" "remove" "upgrade" "revert"))} $0
+${1:$$(yas-choose-value '("🚧" "🛠️" "🐛" "📝" "✏️" "♻️" "🔥" "🚀" "📌" "⬇️" "⬆️"))} $0
