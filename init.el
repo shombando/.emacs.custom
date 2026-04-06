@@ -489,6 +489,7 @@ targets."
 	"er" '("region"        . eval-region)
 
 	"i" '("insert"         . (keymap))
+	"ie" '("emoji"         . insert-char)
 	"iu" '("uuid"          . sb/generate-uuid)
 
 	"q" '("quit"           . (keymap))
